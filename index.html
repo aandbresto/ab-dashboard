@@ -705,6 +705,7 @@ body {
                 <th>Due Date</th>
                 <th>Days Out</th>
                 <th>Expected</th>
+                <th>Notes / Updates</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -720,6 +721,7 @@ body {
                 <th>Due Date</th>
                 <th>Days Out</th>
                 <th>Expected</th>
+                <th>Notes / Updates</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1241,7 +1243,7 @@ async function loadAR() {
   const rest = (data || []).filter(r => r.division === 'restoration');
 
   const renderAR = (rows) => {
-    if (!rows.length) return `<tr><td colspan="5" class="empty-state">No data.</td></tr>`;
+    if (!rows.length) return `<tr><td colspan="6" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const days = r.days_outstanding;
       const daysClass = days == null ? '' : days > 45 ? 'days-late' : days > 30 ? 'days-warn' : 'days-ok';
@@ -1250,13 +1252,14 @@ async function loadAR() {
         <td class="mono right">${fmt(r.balance)}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
         <td><span class="days-badge ${daysClass}">${days != null ? days + 'd' : '—'}</span></td>
-        <td class="muted">${fmtDate(r.expected_payment_date) || '—'}</td>
+        <td class="mono muted">${fmtDate(r.expected_payment_date) || '—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes || '—'}</td>
       </tr>`;
     }).join('');
     const total = rows.reduce((s, r) => s + (r.balance || 0), 0);
     return body + `<tr class="total-row">
       <td>Total</td><td class="mono right">${fmt(total)}</td>
-      <td colspan="3"></td></tr>`;
+      <td colspan="4"></td></tr>`;
   };
 
   document.querySelector('#ar-impr-table tbody').innerHTML = renderAR(impr);
