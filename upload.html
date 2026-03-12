@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REV — Upload Daily Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #F7F6F3;
+  --surface:  #FFFFFF;
+  --border:   #E4E2DC;
+  --text-1:   #1A1916;
+  --text-2:   #6B6860;
+  --text-3:   #9C9A96;
+  --accent:   #1A3C5E;
+  --green:    #2D6A4F;
+  --green-bg: #EBF5F0;
+  --red:      #9B2335;
+  --red-bg:   #F9EBED;
+  --amber:    #92580A;
+  --amber-bg: #FEF3E2;
+  --navy:     #1A1916;
+  --radius:   6px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* TOPBAR */
+.topbar {
+  background: var(--navy);
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #F7F6F3;
+  letter-spacing: 0.04em;
+}
+.topbar-sub {
+  font-size: 11px;
+  color: #6B6860;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.view-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: #9C9A96;
+  background: none;
+  border: 1px solid #3A3A36;
+  border-radius: var(--radius);
+  padding: 7px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.view-btn:hover { color: #F7F6F3; border-color: #6B6860; }
+
+/* MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.container {
+  width: 100%;
+  max-width: 580px;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 36px;
+  line-height: 1.5;
+}
+
+/* DATE INPUT */
+.field-label {
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.date-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--text-1);
+  outline: none;
+  margin-bottom: 20px;
+  transition: border-color 0.15s;
+}
+.date-input:focus { border-color: var(--accent); }
+
+/* DROP ZONE */
+.drop-zone {
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 48px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--surface);
+  margin-bottom: 20px;
+  position: relative;
+}
+.drop-zone:hover, .drop-zone.drag-over {
+  border-color: var(--accent);
+  background: #F0F4F8;
+}
+.drop-zone.has-file {
+  border-color: var(--green);
+  background: var(--green-bg);
+}
+
+.drop-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.drop-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-1);
+  margin-bottom: 6px;
+}
+.drop-sub {
+  font-size: 12px;
+  color: var(--text-3);
+}
+.drop-filename {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--green);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+/* UPLOAD BUTTON */
+.upload-btn {
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+}
+.upload-btn:hover:not(:disabled) { background: #2E6B9E; }
+.upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* PROGRESS */
+.progress-wrap {
+  display: none;
+  margin-top: 24px;
+}
+.progress-bar-outer {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* LOG */
+.log {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.log-line { color: #9C9A96; }
+.log-line.ok   { color: #6FCF97; }
+.log-line.err  { color: #EB5757; }
+.log-line.info { color: #56CCF2; }
+.log-line.done { color: #F2C94C; }
+
+/* SUCCESS BANNER */
+.success-banner {
+  display: none;
+  background: var(--green-bg);
+  border: 1px solid #A8D8B9;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-top: 20px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+}
+.success-icon { font-size: 20px; }
+.success-text { font-size: 13px; color: var(--green); }
+.success-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div class="logo">REV</div>
+    <div class="topbar-sub">Daily Upload</div>
+  </div>
+  <a href="index.html" class="view-btn">View Dashboard →</a>
+</div>
+
+<div class="main">
+  <div class="container">
+
+    <div class="page-title">Upload Daily Report</div>
+    <div class="page-sub">
+      Select the report date and drop in your filled Excel workbook.
+      Data goes live on the dashboard instantly — no extra steps.
+    </div>
+
+    <label class="field-label">Report Date</label>
+    <input type="date" class="date-input" id="report-date">
+
+    <label class="field-label">Excel File</label>
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="file-input" accept=".xlsx,.xls" onchange="onFileSelect(event)">
+      <div class="drop-icon" id="drop-icon">📂</div>
+      <div class="drop-title" id="drop-title">Drop your Excel file here</div>
+      <div class="drop-sub">or click to browse — CFO_Master_Workbook.xlsx</div>
+      <div class="drop-filename" id="drop-filename"></div>
+    </div>
+
+    <button class="upload-btn" id="upload-btn" onclick="doUpload()" disabled>
+      Upload to Dashboard
+    </button>
+
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar-outer">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="success-banner" id="success-banner">
+      <div class="success-icon">✓</div>
+      <div>
+        <div class="success-text">Dashboard updated successfully</div>
+        <a href="index.html" class="success-link">Go to dashboard →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://svbmgueornewnasixpnh.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_kdp8f09n4MJKzoQS6amd0A_rVJPnXxf';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let selectedFile = null;
+
+// Set today's date as default
+const today = new Date();
+document.getElementById('report-date').value = today.toISOString().split('T')[0];
+
+function onFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  selectedFile = file;
+  document.getElementById('drop-zone').classList.add('has-file');
+  document.getElementById('drop-icon').textContent = '📊';
+  document.getElementById('drop-title').textContent = 'File ready';
+  document.getElementById('drop-filename').textContent = file.name;
+  document.getElementById('upload-btn').disabled = false;
+}
+
+// Drag and drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    selectedFile = file;
+    document.getElementById('file-input').files = e.dataTransfer.files;
+    dz.classList.add('has-file');
+    document.getElementById('drop-icon').textContent = '📊';
+    document.getElementById('drop-title').textContent = 'File ready';
+    document.getElementById('drop-filename').textContent = file.name;
+    document.getElementById('upload-btn').disabled = false;
+  }
+});
+
+// LOG HELPERS
+let logEl;
+function log(msg, type='') {
+  if (!logEl) logEl = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + type;
+  line.textContent = msg;
+  logEl.appendChild(line);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function setProgress(pct) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+// SAFE VALUE HELPERS
+function safeNum(v) {
+  if (v == null || v === '' || v === undefined) return null;
+  const n = parseFloat(v);
+  return isNaN(n) ? null : n;
+}
+function safeStr(v) {
+  if (v == null || v === '' || v === undefined) return null;
+  const s = String(v).trim();
+  return s === '' ? null : s;
+}
+function safeDate(v) {
+  if (v == null || v === '' || v === undefined) return null;
+  // xlsx gives dates as JS Date objects or strings
+  if (v instanceof Date) {
+    return v.toISOString().split('T')[0];
+  }
+  const s = String(v).trim();
+  if (!s) return null;
+  // Handle MM/DD/YYYY
+  const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (mdy) return `${mdy[3]}-${mdy[1].padStart(2,'0')}-${mdy[2].padStart(2,'0')}`;
+  // Handle YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10);
+  return null;
+}
+
+function getSheet(wb, keyword) {
+  const name = wb.SheetNames.find(n => n.toLowerCase().includes(keyword.toLowerCase()));
+  if (!name) return null;
+  return XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1, defval: null, raw: false, dateNF: 'YYYY-MM-DD' });
+}
+
+function cellVal(sheet, row, col) {
+  if (!sheet || !sheet[row]) return null;
+  return sheet[row][col];
+}
+
+// ── MAIN UPLOAD ────────────────────────────────────────────────────────────
+async function doUpload() {
+  const reportDate = document.getElementById('report-date').value;
+  if (!reportDate) { alert('Please select a report date.'); return; }
+  if (!selectedFile) { alert('Please select a file.'); return; }
+
+  document.getElementById('upload-btn').disabled = true;
+  document.getElementById('progress-wrap').style.display = 'block';
+  document.getElementById('success-banner').style.display = 'none';
+  document.getElementById('log').innerHTML = '';
+  logEl = document.getElementById('log');
+
+  log(`Starting upload for ${reportDate}...`, 'info');
+  setProgress(5);
+
+  try {
+    // Read Excel
+    const buffer = await selectedFile.arrayBuffer();
+    const wb = XLSX.read(buffer, { type: 'array', cellDates: true });
+    log(`✓ File read — sheets: ${wb.SheetNames.join(', ')}`, 'ok');
+    setProgress(15);
+
+    // ── PARSE SHEETS ──────────────────────────────────────────────────────
+    const cp  = getSheet(wb, 'Cash Position');
+    const ar  = getSheet(wb, 'AR Tracker');
+    const ap  = getSheet(wb, 'AP Tracker');
+    const txn = getSheet(wb, 'Daily Transactions');
+
+    // ── DELETE EXISTING DATA FOR THIS DATE ────────────────────────────────
+    log('Clearing existing data for this date...', 'info');
+    await db.from('daily_snapshots').delete().eq('report_date', reportDate);
+    await db.from('ar_items').delete().eq('report_date', reportDate);
+    await db.from('ap_items').delete().eq('report_date', reportDate);
+    await db.from('transactions').delete().eq('report_date', reportDate);
+    setProgress(25);
+
+    // ── SNAPSHOT ──────────────────────────────────────────────────────────
+    log('Uploading cash position snapshot...', 'info');
+    const snap = {
+      report_date:          reportDate,
+      impr_qb_bank:         safeNum(cellVal(cp, 6,  2)),
+      impr_bank_2657:       safeNum(cellVal(cp, 7,  2)),
+      impr_mm_2690:         safeNum(cellVal(cp, 8,  2)),
+      impr_cash:            safeNum(cellVal(cp, 9,  2)),
+      impr_ar:              safeNum(cellVal(cp, 10, 2)),
+      cap_one_construction: safeNum(cellVal(cp, 11, 2)),
+      loc_3705:             safeNum(cellVal(cp, 12, 2)),
+      impr_ap:              safeNum(cellVal(cp, 13, 2)),
+      impr_net:             safeNum(cellVal(cp, 15, 2)),
+      rest_qb_bank:         safeNum(cellVal(cp, 18, 2)),
+      rest_bank_7363:       safeNum(cellVal(cp, 19, 2)),
+      rest_mm_2798:         safeNum(cellVal(cp, 20, 2)),
+      rest_cash:            safeNum(cellVal(cp, 21, 2)),
+      rest_ar:              safeNum(cellVal(cp, 22, 2)),
+      loc_5064:             safeNum(cellVal(cp, 23, 2)),
+      cap_one_restoration:  safeNum(cellVal(cp, 24, 2)),
+      rest_ap:              safeNum(cellVal(cp, 25, 2)),
+      rest_net:             safeNum(cellVal(cp, 27, 2)),
+      total_cash:           safeNum(cellVal(cp, 30, 2)),
+      total_ar:             safeNum(cellVal(cp, 31, 2)),
+      total_ap:             safeNum(cellVal(cp, 32, 2)),
+      credit_debt:          safeNum(cellVal(cp, 33, 2)),
+      net_availability:     safeNum(cellVal(cp, 34, 2)),
+    };
+
+    const { error: snapErr } = await db.from('daily_snapshots').insert(snap);
+    if (snapErr) { log(`✗ Snapshot error: ${snapErr.message}`, 'err'); }
+    else { log('✓ Cash position snapshot saved', 'ok'); }
+    setProgress(40);
+
+    // ── AR ITEMS ──────────────────────────────────────────────────────────
+    log('Uploading AR items...', 'info');
+    const arRows = [];
+    const arSections = [
+      { division: 'improvement', start: 9,  end: 25 },
+      { division: 'restoration', start: 31, end: 56 },
+    ];
+    for (const { division, start, end } of arSections) {
+      for (let i = start; i < end; i++) {
+        const client  = safeStr(cellVal(ar, i, 1));
+        const balance = safeNum(cellVal(ar, i, 2));
+        if (!client || balance == null) continue;
+        if (client.startsWith('[') || client.includes('TOTAL') || client.includes('Client')) continue;
+        arRows.push({
+          report_date:            reportDate,
+          division,
+          client,
+          balance,
+          invoice_date:           safeDate(cellVal(ar, i, 3)),
+          due_date:               safeDate(cellVal(ar, i, 4)),
+          expected_payment_date:  safeDate(cellVal(ar, i, 6)),
+          notes:                  safeStr(cellVal(ar, i, 7)),
+        });
+      }
+    }
+    if (arRows.length) {
+      const { error: arErr } = await db.from('ar_items').insert(arRows);
+      if (arErr) log(`✗ AR error: ${arErr.message}`, 'err');
+      else log(`✓ ${arRows.length} AR items saved`, 'ok');
+    } else {
+      log('— No AR items found', 'log-line');
+    }
+    setProgress(60);
+
+    // ── AP ITEMS ──────────────────────────────────────────────────────────
+    log('Uploading AP items...', 'info');
+    const apRows = [];
+    const apSections = [
+      { division: 'improvement', start: 9,  end: 24 },
+      { division: 'restoration', start: 29, end: 46 },
+    ];
+    for (const { division, start, end } of apSections) {
+      for (let i = start; i < end; i++) {
+        const vendor = safeStr(cellVal(ap, i, 1));
+        const amount = safeNum(cellVal(ap, i, 2));
+        if (!vendor || amount == null) continue;
+        if (vendor.startsWith('[') || vendor.includes('TOTAL') || vendor.includes('Vendor')) continue;
+        apRows.push({
+          report_date:  reportDate,
+          division,
+          vendor,
+          amount,
+          invoice_date: safeDate(cellVal(ap, i, 3)),
+          due_date:     safeDate(cellVal(ap, i, 4)),
+          priority:     safeStr(cellVal(ap, i, 6)) || 'Normal',
+          notes:        safeStr(cellVal(ap, i, 7)),
+        });
+      }
+    }
+    if (apRows.length) {
+      const { error: apErr } = await db.from('ap_items').insert(apRows);
+      if (apErr) log(`✗ AP error: ${apErr.message}`, 'err');
+      else log(`✓ ${apRows.length} AP items saved`, 'ok');
+    } else {
+      log('— No AP items found', '');
+    }
+    setProgress(80);
+
+    // ── TRANSACTIONS ──────────────────────────────────────────────────────
+    log('Uploading transactions...', 'info');
+    const txnRows = [];
+    const txnSections = [
+      { start: 10, end: 18, account: 'cap_one_construction', type: 'credit_card', division: 'improvement', vendorCol: 4, amtCol: 5, explCol: 6, apprCol: 7 },
+      { start: 22, end: 28, account: 'checking_2657',        type: 'bank',        division: 'improvement', vendorCol: 3, amtCol: 4, explCol: 5, apprCol: 6 },
+      { start: 32, end: 36, account: 'mm_2690',              type: 'bank',        division: 'improvement', vendorCol: 3, amtCol: 4, explCol: 5, apprCol: 6 },
+      { start: 41, end: 49, account: 'cap_one_restoration',  type: 'credit_card', division: 'restoration', vendorCol: 4, amtCol: 5, explCol: 6, apprCol: 7 },
+      { start: 53, end: 59, account: 'checking_7363',        type: 'bank',        division: 'restoration', vendorCol: 3, amtCol: 4, explCol: 5, apprCol: 6 },
+      { start: 63, end: 67, account: 'mm_2798',              type: 'bank',        division: 'restoration', vendorCol: 3, amtCol: 4, explCol: 5, apprCol: 6 },
+    ];
+    for (const s of txnSections) {
+      for (let i = s.start; i < s.end; i++) {
+        const vendor = safeStr(cellVal(txn, i, s.vendorCol));
+        const amount = safeNum(cellVal(txn, i, s.amtCol));
+        if (!amount || amount === 0) continue;
+        txnRows.push({
+          report_date:  reportDate,
+          trans_date:   safeDate(cellVal(txn, i, 1)),
+          posted_date:  safeDate(cellVal(txn, i, 2)),
+          account:      s.account,
+          account_type: s.type,
+          division:     s.division,
+          vendor:       vendor || safeStr(cellVal(txn, i, 3)),
+          amount,
+          explanation:  safeStr(cellVal(txn, i, s.explCol)),
+          approved_by:  safeStr(cellVal(txn, i, s.apprCol)),
+        });
+      }
+    }
+    if (txnRows.length) {
+      const { error: txnErr } = await db.from('transactions').insert(txnRows);
+      if (txnErr) log(`✗ Transactions error: ${txnErr.message}`, 'err');
+      else log(`✓ ${txnRows.length} transactions saved`, 'ok');
+    } else {
+      log('— No transactions found', '');
+    }
+    setProgress(100);
+
+    // ── DONE ──────────────────────────────────────────────────────────────
+    log(`\n✅ Dashboard updated for ${reportDate}`, 'done');
+    document.getElementById('success-banner').style.display = 'flex';
+    document.getElementById('upload-btn').disabled = false;
+
+  } catch (err) {
+    log(`✗ Unexpected error: ${err.message}`, 'err');
+    document.getElementById('upload-btn').disabled = false;
+  }
+}
+</script>
+</body>
+</html>
