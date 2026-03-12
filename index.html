@@ -784,24 +784,69 @@ body {
     <!-- ── CASH FLOW PAGE ────────────────────────────────────────────────── -->
     <div class="page" id="page-cashflow">
       <div class="date-bar">
-        <div class="page-title">Cash Flow</div>
+        <div class="date-bar-left"><div class="page-title">Cash Flow</div></div>
+        <select class="date-select" id="cf-date" onchange="loadCashFlow()"></select>
+      </div>
+
+      <div class="three-col mb-24">
+        <div class="kpi-card green">
+          <div class="kpi-label">AR Expected (Next 30d)</div>
+          <div class="kpi-value" id="cf-ar-30">—</div>
+        </div>
+        <div class="kpi-card red">
+          <div class="kpi-label">AP Due (Next 30d)</div>
+          <div class="kpi-value" id="cf-ap-30">—</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-label">Projected Net (Cash + AR - AP)</div>
+          <div class="kpi-value" id="cf-net-30">—</div>
+        </div>
+      </div>
+
+      <div class="two-col mb-24">
+        <div class="card">
+          <div class="card-header"><div class="card-title">AR — Expected Incoming Payments</div></div>
+          <table class="data-table" id="cf-ar-table">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Div</th>
+                <th style="text-align:right">Amount</th>
+                <th>Expected Date</th>
+                <th>Days Away</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">AP — Upcoming Payments Due</div></div>
+          <table class="data-table" id="cf-ap-table">
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th>Div</th>
+                <th style="text-align:right">Amount</th>
+                <th>Due Date</th>
+                <th>Days Until Due</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
 
       <div class="card mb-24">
-        <div class="card-header">
-          <div class="card-title">Cash &amp; AR — Historical Trend</div>
-        </div>
+        <div class="card-header"><div class="card-title">Cash &amp; AR — Historical Trend</div></div>
         <div class="card-body">
-          <div class="chart-container" style="height:280px;">
+          <div class="chart-container" style="height:240px;">
             <canvas id="cashflow-chart"></canvas>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Daily Snapshot History</div>
-        </div>
+        <div class="card-header"><div class="card-title">Daily Snapshot History</div></div>
         <table class="data-table" id="history-table">
           <thead>
             <tr>
@@ -841,7 +886,7 @@ let currentTxnFilter = 'all';
 // ── FORMAT HELPERS ────────────────────────────────────────────────────────
 const fmt = (n) => n == null ? '—' :
   new Intl.NumberFormat('en-US', { style:'currency', currency:'USD',
-    minimumFractionDigits:0, maximumFractionDigits:0 }).format(n);
+    minimumFractionDigits:2, maximumFractionDigits:2 }).format(n);
 
 const fmtChg = (n) => {
   if (n == null) return '';
@@ -882,7 +927,7 @@ async function initDashboard() {
 }
 
 function populateDateSelects() {
-  const selects = ['overview-date','cash-date','txn-date','ar-date','ap-date'];
+  const selects = ['overview-date','cash-date','txn-date','ar-date','ap-date','cf-date'];
   selects.forEach(id => {
     const el = document.getElementById(id);
     el.innerHTML = allDates.map(d =>
@@ -946,7 +991,7 @@ async function loadOverview() {
     'Cap One – Construction': { used: snap.cap_one_construction, limit: 45000 },
     'LOC 3705':               { used: snap.loc_3705,             limit: 100000 },
     'LOC 5064':               { used: snap.loc_5064,             limit: 75000 },
-    'Cap One – Restoration':  { used: snap.cap_one_restoration,  limit: 28000 },
+    'Cap One – Restoration':  { used: snap.cap_one_restoration,  limit: 38000 },
   };
   document.getElementById('credit-bars').innerHTML = Object.entries(limits)
     .map(([name, {used, limit}]) => {
@@ -1222,14 +1267,21 @@ async function loadAP() {
   const renderAP = (rows) => {
     if (!rows.length) return `<tr><td colspan="5" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
-      const days = r.days_until_due;
+      // Calculate days from due_date if days_until_due not stored
+      let days = r.days_until_due;
+      if (days == null && r.due_date) {
+        const due = new Date(r.due_date + 'T00:00:00');
+        const today = new Date(); today.setHours(0,0,0,0);
+        days = Math.round((due - today) / 86400000);
+      }
       const pClass = r.priority === 'Urgent' ? 'red' :
                      r.priority === 'High'   ? 'amber' : 'blue';
+      const daysClass = days == null ? '' : days < 0 ? 'flow-negative' : days <= 7 ? 'flow-negative' : '';
       return `<tr>
         <td>${r.vendor}</td>
         <td class="mono right">${fmt(r.amount)}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
-        <td class="mono right ${days != null && days < 0 ? 'flow-negative' : ''}">${days != null ? days + 'd' : '—'}</td>
+        <td class="mono right ${daysClass}">${days != null ? days + 'd' : '—'}</td>
         <td><span class="badge ${pClass}">${r.priority || 'Normal'}</span></td>
       </tr>`;
     }).join('');
@@ -1245,11 +1297,91 @@ async function loadAP() {
 
 // ── CASH FLOW ─────────────────────────────────────────────────────────────
 async function loadCashFlow() {
-  const data = [...allSnapshots].reverse();
+  const date = document.getElementById('cf-date').value;
 
-  // History table
+  // ── UPCOMING AR PAYMENTS ──────────────────────────────────────────────
+  const { data: arData } = await db.from('ar_items').select('*')
+    .eq('report_date', date).not('expected_payment_date', 'is', null)
+    .order('expected_payment_date');
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in30  = new Date(today); in30.setDate(in30.getDate() + 30);
+
+  const arRows = (arData || []).filter(r => r.expected_payment_date);
+  const arNext30 = arRows.filter(r => {
+    const d = new Date(r.expected_payment_date + 'T00:00:00');
+    return d >= today && d <= in30;
+  });
+
+  document.getElementById('cf-ar-30').textContent =
+    fmt(arNext30.reduce((s,r) => s + (r.balance||0), 0));
+
+  const arTbody = document.querySelector('#cf-ar-table tbody');
+  if (!arRows.length) {
+    arTbody.innerHTML = '<tr><td colspan="5" class="empty-state">No expected payment dates on AR items.</td></tr>';
+  } else {
+    arTbody.innerHTML = arRows.map(r => {
+      const d = new Date(r.expected_payment_date + 'T00:00:00');
+      const days = Math.round((d - today) / 86400000);
+      const dClass = days < 0 ? 'days-late' : days <= 7 ? 'days-warn' : 'days-ok';
+      const divLabel = r.division === 'improvement' ? 'Impr' : 'Rest';
+      return `<tr>
+        <td>${r.client}</td>
+        <td><span class="badge ${r.division==='improvement'?'blue':'green'}">${divLabel}</span></td>
+        <td class="mono right">${fmt(r.balance)}</td>
+        <td class="mono muted">${fmtDate(r.expected_payment_date)}</td>
+        <td><span class="days-badge ${dClass}">${days >= 0 ? days+'d' : 'Overdue'}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── UPCOMING AP PAYMENTS ──────────────────────────────────────────────
+  const { data: apData } = await db.from('ap_items').select('*')
+    .eq('report_date', date).not('due_date', 'is', null)
+    .order('due_date');
+
+  const apRows = (apData || []).filter(r => r.due_date && r.priority !== 'Hold');
+  const apNext30 = apRows.filter(r => {
+    const d = new Date(r.due_date + 'T00:00:00');
+    return d >= today && d <= in30;
+  });
+
+  document.getElementById('cf-ap-30').textContent =
+    fmt(apNext30.reduce((s,r) => s + (r.amount||0), 0));
+
+  // Projected net
+  const arAmt = arNext30.reduce((s,r) => s + (r.balance||0), 0);
+  const apAmt = apNext30.reduce((s,r) => s + (r.amount||0), 0);
+  const snap = allSnapshots.find(s => s.report_date === date);
+  const projNet = (snap ? snap.total_cash : 0) + arAmt - apAmt;
+  const netEl = document.getElementById('cf-net-30');
+  netEl.textContent = fmt(projNet);
+  netEl.style.color = projNet < 0 ? 'var(--red)' : projNet < 25000 ? 'var(--amber)' : 'var(--green)';
+
+  const apTbody = document.querySelector('#cf-ap-table tbody');
+  if (!apRows.length) {
+    apTbody.innerHTML = '<tr><td colspan="5" class="empty-state">No upcoming AP due dates.</td></tr>';
+  } else {
+    apTbody.innerHTML = apRows.map(r => {
+      const d = new Date(r.due_date + 'T00:00:00');
+      const days = Math.round((d - today) / 86400000);
+      const dClass = days < 0 ? 'flow-negative' : days <= 7 ? 'flow-negative' : '';
+      const pClass = r.priority === 'Urgent' ? 'red' : r.priority === 'High' ? 'amber' : 'blue';
+      const divLabel = r.division === 'improvement' ? 'Impr' : 'Rest';
+      return `<tr>
+        <td>${r.vendor}</td>
+        <td><span class="badge ${r.division==='improvement'?'blue':'green'}">${divLabel}</span></td>
+        <td class="mono right">${fmt(r.amount)}</td>
+        <td class="mono muted">${fmtDate(r.due_date)}</td>
+        <td class="mono right ${dClass}">${days !== null ? days+'d' : '—'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── HISTORY TABLE ─────────────────────────────────────────────────────
+  const snapData = [...allSnapshots].reverse();
   const tbody = document.querySelector('#history-table tbody');
-  tbody.innerHTML = [...data].reverse().map((s, i, arr) => {
+  tbody.innerHTML = [...snapData].reverse().map((s, i, arr) => {
     const prev = arr[i + 1];
     const chg  = prev ? s.total_cash - prev.total_cash : null;
     return `<tr>
@@ -1264,12 +1396,12 @@ async function loadCashFlow() {
     </tr>`;
   }).join('');
 
-  // Chart
-  const labels   = data.map(s => { const d = new Date(s.report_date + 'T00:00:00');
+  // ── CHART ─────────────────────────────────────────────────────────────
+  const labels   = snapData.map(s => { const d = new Date(s.report_date + 'T00:00:00');
     return d.toLocaleDateString('en-US', { month:'short', day:'numeric' }); });
-  const cashData = data.map(s => s.total_cash);
-  const arData   = data.map(s => s.total_ar);
-  const netData  = data.map(s => s.net_availability);
+  const cashVals = snapData.map(s => s.total_cash);
+  const arVals   = snapData.map(s => s.total_ar);
+  const netVals  = snapData.map(s => s.net_availability);
 
   if (cashflowChart) cashflowChart.destroy();
   cashflowChart = new Chart(document.getElementById('cashflow-chart'), {
@@ -1277,20 +1409,19 @@ async function loadCashFlow() {
     data: {
       labels,
       datasets: [
-        { label: 'Cash',             data: cashData, borderColor: '#1A3C5E',
+        { label: 'Cash', data: cashVals, borderColor: '#1A3C5E',
           backgroundColor: 'rgba(26,60,94,0.05)', borderWidth: 2,
           pointRadius: 3, tension: 0.3, fill: true },
-        { label: 'AR',               data: arData,   borderColor: '#2D6A4F',
+        { label: 'AR', data: arVals, borderColor: '#2D6A4F',
           borderWidth: 1.5, pointRadius: 2, tension: 0.3, fill: false },
-        { label: 'Net Availability', data: netData,  borderColor: '#92580A',
+        { label: 'Net Availability', data: netVals, borderColor: '#92580A',
           borderDash: [4,3], borderWidth: 1.5, pointRadius: 2, tension: 0.3, fill: false },
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { font: { family: 'DM Sans', size: 11 },
-          color: '#6B6860', boxWidth: 12 } },
+        legend: { labels: { font: { family: 'DM Sans', size: 11 }, color: '#6B6860', boxWidth: 12 } },
         tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed.y) } }
       },
       scales: {
