@@ -639,14 +639,20 @@ body {
       </div>
 
       <div class="card">
-        <div class="filter-bar" id="txn-filters">
-          <div class="filter-chip active" onclick="filterTxn('all',this)">All</div>
-          <div class="filter-chip" onclick="filterTxn('cap_one_construction',this)">Cap One – Construction</div>
-          <div class="filter-chip" onclick="filterTxn('checking_2657',this)">Checking 2657</div>
-          <div class="filter-chip" onclick="filterTxn('mm_2690',this)">MM 2690</div>
-          <div class="filter-chip" onclick="filterTxn('cap_one_restoration',this)">Cap One – Restoration</div>
-          <div class="filter-chip" onclick="filterTxn('checking_7363',this)">Checking 7363</div>
-          <div class="filter-chip" onclick="filterTxn('mm_2798',this)">MM 2798</div>
+        <div id="txn-filters" style="padding:12px 20px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div class="filter-chip active" onclick="filterTxn('all',this)" data-filter="all">All</div>
+            <div style="width:1px;height:20px;background:var(--border);margin:0 4px;"></div>
+            <span style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;">Improvement</span>
+            <div class="filter-chip" onclick="filterTxn('cap_one_construction',this)" data-filter="cap_one_construction">Cap One</div>
+            <div class="filter-chip" onclick="filterTxn('checking_2657',this)" data-filter="checking_2657">Checking 2657</div>
+            <div class="filter-chip" onclick="filterTxn('mm_2690',this)" data-filter="mm_2690">MM 2690</div>
+            <div style="width:1px;height:20px;background:var(--border);margin:0 4px;"></div>
+            <span style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;">Restoration</span>
+            <div class="filter-chip" onclick="filterTxn('cap_one_restoration',this)" data-filter="cap_one_restoration">Cap One</div>
+            <div class="filter-chip" onclick="filterTxn('checking_7363',this)" data-filter="checking_7363">Checking 7363</div>
+            <div class="filter-chip" onclick="filterTxn('mm_2798',this)" data-filter="mm_2798">MM 2798</div>
+          </div>
         </div>
         <table class="data-table" id="txn-table">
           <thead>
@@ -784,14 +790,22 @@ body {
     <div class="page" id="page-cashflow">
       <div class="date-bar">
         <div class="date-bar-left"><div class="page-title">Cash Flow</div></div>
-        <select class="date-select" id="cf-date" onchange="loadCashFlow()"></select>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select class="date-select" id="cf-date" onchange="loadCashFlow()"></select>
+          <div style="display:flex;gap:4px;">
+            <button class="filter-chip" id="cf-btn-7"  onclick="setCFDays(7,this)">7d</button>
+            <button class="filter-chip" id="cf-btn-15" onclick="setCFDays(15,this)">15d</button>
+            <button class="filter-chip active" id="cf-btn-30" onclick="setCFDays(30,this)">30d</button>
+            <button class="filter-chip" id="cf-btn-90" onclick="setCFDays(90,this)">90d</button>
+          </div>
+        </div>
       </div>
 
       <!-- IMPROVEMENT -->
       <div class="division-header impr" style="border-radius:6px 6px 0 0;margin-bottom:0;">🔧 Improvement Division</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
-        <div><div class="kpi-label">AR Expected (Next 30d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-impr-ar-30">—</div></div>
-        <div><div class="kpi-label">AP Due (Next 30d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-impr-ap-30">—</div></div>
+        <div><div class="kpi-label">AR Expected (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-impr-ar-30">—</div></div>
+        <div><div class="kpi-label">AP Due (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-impr-ap-30">—</div></div>
         <div><div class="kpi-label">Projected Net</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;" id="cf-impr-net-30">—</div></div>
       </div>
       <div class="two-col mb-24" style="margin-top:12px;">
@@ -814,8 +828,8 @@ body {
       <!-- RESTORATION -->
       <div class="division-header rest" style="border-radius:6px 6px 0 0;margin-bottom:0;">🏠 Restoration Division</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
-        <div><div class="kpi-label">AR Expected (Next 30d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-rest-ar-30">—</div></div>
-        <div><div class="kpi-label">AP Due (Next 30d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-rest-ap-30">—</div></div>
+        <div><div class="kpi-label">AR Expected (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-rest-ar-30">—</div></div>
+        <div><div class="kpi-label">AP Due (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-rest-ap-30">—</div></div>
         <div><div class="kpi-label">Projected Net</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;" id="cf-rest-net-30">—</div></div>
       </div>
       <div class="two-col mb-24" style="margin-top:12px;">
@@ -877,6 +891,7 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let trendChart = null;
+let cfDays = 30;
 let cashflowChart = null;
 let allDates = [];
 let allSnapshots = [];
@@ -1172,7 +1187,7 @@ async function loadTransactions() {
 
 function filterTxn(filter, el) {
   currentTxnFilter = filter;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#txn-filters .filter-chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   renderTransactions();
 }
@@ -1296,10 +1311,18 @@ async function loadAP() {
 }
 
 // ── CASH FLOW ─────────────────────────────────────────────────────────────
+function setCFDays(days, el) {
+  cfDays = days;
+  document.querySelectorAll('[id^="cf-btn-"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cf-days-label').forEach(el => el.textContent = days);
+  el.classList.add('active');
+  loadCashFlow();
+}
+
 async function loadCashFlow() {
   const date = document.getElementById('cf-date').value;
   const today = new Date(); today.setHours(0,0,0,0);
-  const in30  = new Date(today); in30.setDate(in30.getDate() + 30);
+  const in30  = new Date(today); in30.setDate(in30.getDate() + cfDays);
   const snap  = allSnapshots.find(s => s.report_date === date);
 
   // Fetch AR and AP for selected date
