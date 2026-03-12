@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REV Financial Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+/* ── RESET & BASE ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F7F6F3;
+  --surface:   #FFFFFF;
+  --border:    #E4E2DC;
+  --border-2:  #D0CEC6;
+  --text-1:    #1A1916;
+  --text-2:    #6B6860;
+  --text-3:    #9C9A96;
+  --accent:    #1A3C5E;
+  --accent-2:  #2E6B9E;
+  --green:     #2D6A4F;
+  --green-bg:  #EBF5F0;
+  --red:       #9B2335;
+  --red-bg:    #F9EBED;
+  --amber:     #92580A;
+  --amber-bg:  #FEF3E2;
+  --navy-bg:   #1A1916;
+  --navy-text: #F7F6F3;
+  --radius:    6px;
+  --shadow:    0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+}
+
+html { font-size: 14px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ── MAIN APP ────────────────────────────────────────────────────────────── */
+#app { display: none; }
+
+/* ── TOPBAR ──────────────────────────────────────────────────────────────── */
+.topbar {
+  background: var(--navy-bg);
+  border-bottom: 1px solid #2A2A26;
+  padding: 0 32px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+
+.topbar-left {
+  display: flex; align-items: center; gap: 24px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--navy-text);
+  letter-spacing: 0.04em;
+}
+
+.topbar-divider {
+  width: 1px; height: 20px;
+  background: #3A3A36;
+}
+
+.topbar-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6B6860;
+}
+
+.topbar-right {
+  display: flex; align-items: center; gap: 20px;
+}
+
+.date-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #9C9A96;
+}
+
+.logout-btn {
+  background: none; border: 1px solid #3A3A36;
+  border-radius: var(--radius);
+  color: #9C9A96;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.logout-btn:hover { border-color: #6B6860; color: var(--navy-text); }
+
+/* ── NAV TABS ────────────────────────────────────────────────────────────── */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; gap: 0;
+}
+
+.nav-tab {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--text-2);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.nav-tab:hover { color: var(--text-1); }
+.nav-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── CONTENT ─────────────────────────────────────────────────────────────── */
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── DATE SELECTOR BAR ───────────────────────────────────────────────────── */
+.date-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap; gap: 12px;
+}
+
+.date-bar-left {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-1);
+}
+
+.date-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-1);
+  cursor: pointer;
+  outline: none;
+}
+
+.last-updated {
+  font-size: 11px;
+  color: var(--text-3);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── CARDS ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.card-body { padding: 20px; }
+
+/* ── KPI GRID ────────────────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.kpi-card.blue::before   { background: var(--accent); }
+.kpi-card.green::before  { background: var(--green); }
+.kpi-card.red::before    { background: var(--red); }
+.kpi-card.amber::before  { background: var(--amber); }
+.kpi-card.neutral::before { background: var(--border-2); }
+
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.kpi-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-1);
+  line-height: 1;
+}
+
+.kpi-change {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  margin-top: 8px;
+}
+.kpi-change.pos { color: var(--green); }
+.kpi-change.neg { color: var(--red); }
+.kpi-change.neu { color: var(--text-3); }
+
+/* ── TWO COLUMN LAYOUT ───────────────────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ── DATA TABLE ──────────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-weight: 500;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--text-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-table tr:hover td { background: var(--bg); }
+
+.data-table td.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.data-table td.right { text-align: right; }
+.data-table td.muted { color: var(--text-3); }
+
+.data-table .total-row td {
+  font-weight: 500;
+  border-top: 1px solid var(--border-2);
+  border-bottom: none;
+  color: var(--text-1);
+}
+
+/* ── DIVISION LABEL ──────────────────────────────────────────────────────── */
+.division-header {
+  padding: 8px 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.division-header.impr {
+  background: #EEF2F7;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+.division-header.rest {
+  background: #EBF5F2;
+  color: var(--green);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── CASH FLOW CHART ─────────────────────────────────────────────────────── */
+.chart-container {
+  position: relative;
+  height: 220px;
+}
+
+/* ── TRANSACTION TABLE FILTERS ───────────────────────────────────────────── */
+.filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  transition: all 0.12s;
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ── STATUS BADGES ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.badge.green { background: var(--green-bg); color: var(--green); }
+.badge.red   { background: var(--red-bg); color: var(--red); }
+.badge.amber { background: var(--amber-bg); color: var(--amber); }
+.badge.blue  { background: #EEF2F7; color: var(--accent); }
+
+/* ── PROGRESS BAR ────────────────────────────────────────────────────────── */
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ── SECTION SPACING ─────────────────────────────────────────────────────── */
+.section-gap { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+
+/* ── EMPTY STATE ─────────────────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+/* ── LOADING ─────────────────────────────────────────────────────────────── */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: rgba(247,246,243,0.8);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  display: none;
+}
+.loading-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .content { padding: 20px 16px; }
+}
+
+/* ── AR/AP SECTION ───────────────────────────────────────────────────────── */
+.ar-client-row { cursor: default; }
+.days-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+.days-ok    { background: var(--green-bg); color: var(--green); }
+.days-warn  { background: var(--amber-bg); color: var(--amber); }
+.days-late  { background: var(--red-bg);   color: var(--red); }
+
+/* ── CASH FLOW POSITIVE/NEGATIVE ─────────────────────────────────────────── */
+.flow-positive { color: var(--green); }
+.flow-negative { color: var(--red); }
+
+/* ── TREND INDICATOR ─────────────────────────────────────────────────────── */
+.trend-up   { color: var(--green); font-size: 11px; }
+.trend-down { color: var(--red);   font-size: 11px; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-text">Loading data&hellip;</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:block;">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="logo">REV</div>
+      <div class="topbar-divider"></div>
+      <div class="topbar-label">Financial Dashboard</div>
+    </div>
+    <div class="topbar-right">
+      <div class="date-badge" id="today-badge"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-tab active" onclick="showPage('overview')">Overview</div>
+    <div class="nav-tab" onclick="showPage('cash')">Cash Position</div>
+    <div class="nav-tab" onclick="showPage('transactions')">Transactions</div>
+    <div class="nav-tab" onclick="showPage('receivables')">Receivables</div>
+    <div class="nav-tab" onclick="showPage('payables')">Payables</div>
+    <div class="nav-tab" onclick="showPage('cashflow')">Cash Flow</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ── OVERVIEW PAGE ────────────────────────────────────────────────── -->
+    <div class="page active" id="page-overview">
+      <div class="date-bar">
+        <div class="date-bar-left">
+          <div class="page-title">Overview</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <select class="date-select" id="overview-date" onchange="loadOverview()"></select>
+          <div class="last-updated" id="overview-updated"></div>
+        </div>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card blue">
+          <div class="kpi-label">Total Cash</div>
+          <div class="kpi-value" id="kpi-cash">—</div>
+          <div class="kpi-change neu" id="kpi-cash-chg"></div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">Total AR</div>
+          <div class="kpi-value" id="kpi-ar">—</div>
+          <div class="kpi-change neu" id="kpi-ar-chg"></div>
+        </div>
+        <div class="kpi-card red">
+          <div class="kpi-label">Total AP</div>
+          <div class="kpi-value" id="kpi-ap">—</div>
+          <div class="kpi-change neu" id="kpi-ap-chg"></div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-label">Credit Debt</div>
+          <div class="kpi-value" id="kpi-credit">—</div>
+          <div class="kpi-change neu" id="kpi-credit-chg"></div>
+        </div>
+        <div class="kpi-card neutral">
+          <div class="kpi-label">Net Availability</div>
+          <div class="kpi-value" id="kpi-net">—</div>
+          <div class="kpi-change neu" id="kpi-net-chg"></div>
+        </div>
+      </div>
+
+      <div class="two-col mb-24">
+        <!-- Division Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Division Breakdown</div>
+          </div>
+          <table class="data-table" id="division-table">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th style="text-align:right">Improvement</th>
+                <th style="text-align:right">Restoration</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- 30-Day Cash Trend -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">30-Day Cash Trend</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="trend-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Credit Utilization -->
+      <div class="card section-gap">
+        <div class="card-header">
+          <div class="card-title">Credit Utilization</div>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;" id="credit-bars">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CASH POSITION PAGE ────────────────────────────────────────────── -->
+    <div class="page" id="page-cash">
+      <div class="date-bar">
+        <div class="date-bar-left">
+          <div class="page-title">Cash Position</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <select class="date-select" id="cash-date" onchange="loadCash()"></select>
+        </div>
+      </div>
+
+      <div class="two-col mb-24">
+        <div class="card">
+          <div class="division-header impr">Improvement Division</div>
+          <table class="data-table" id="cash-impr-table">
+            <thead><tr><th>Account</th><th style="text-align:right">Balance</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="division-header rest">Restoration Division</div>
+          <table class="data-table" id="cash-rest-table">
+            <thead><tr><th>Account</th><th style="text-align:right">Balance</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Combined Totals</div></div>
+        <table class="data-table" id="cash-combined-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th style="text-align:right">Improvement</th>
+              <th style="text-align:right">Restoration</th>
+              <th style="text-align:right">Combined</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── TRANSACTIONS PAGE ─────────────────────────────────────────────── -->
+    <div class="page" id="page-transactions">
+      <div class="date-bar">
+        <div class="date-bar-left">
+          <div class="page-title">Daily Transactions</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <select class="date-select" id="txn-date" onchange="loadTransactions()"></select>
+        </div>
+      </div>
+
+      <div class="card mb-24" id="txn-summary-card" style="margin-bottom:16px;">
+        <div class="card-body" style="display:flex;gap:32px;flex-wrap:wrap;">
+          <div>
+            <div class="kpi-label">Total Out Today</div>
+            <div style="font-family:'DM Mono',monospace;font-size:20px;margin-top:6px;" id="txn-total">—</div>
+          </div>
+          <div>
+            <div class="kpi-label">Credit Card</div>
+            <div style="font-family:'DM Mono',monospace;font-size:20px;margin-top:6px;" id="txn-cc">—</div>
+          </div>
+          <div>
+            <div class="kpi-label">Bank Transactions</div>
+            <div style="font-family:'DM Mono',monospace;font-size:20px;margin-top:6px;" id="txn-bank">—</div>
+          </div>
+          <div>
+            <div class="kpi-label">Transaction Count</div>
+            <div style="font-family:'DM Mono',monospace;font-size:20px;margin-top:6px;" id="txn-count">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-bar" id="txn-filters">
+          <div class="filter-chip active" onclick="filterTxn('all',this)">All</div>
+          <div class="filter-chip" onclick="filterTxn('cap_one_construction',this)">Cap One – Construction</div>
+          <div class="filter-chip" onclick="filterTxn('checking_2657',this)">Checking 2657</div>
+          <div class="filter-chip" onclick="filterTxn('mm_2690',this)">MM 2690</div>
+          <div class="filter-chip" onclick="filterTxn('cap_one_restoration',this)">Cap One – Restoration</div>
+          <div class="filter-chip" onclick="filterTxn('checking_7363',this)">Checking 7363</div>
+          <div class="filter-chip" onclick="filterTxn('mm_2798',this)">MM 2798</div>
+        </div>
+        <table class="data-table" id="txn-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Account</th>
+              <th>Vendor / Description</th>
+              <th style="text-align:right">Amount</th>
+              <th>Explanation</th>
+              <th>Approved By</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── RECEIVABLES PAGE ──────────────────────────────────────────────── -->
+    <div class="page" id="page-receivables">
+      <div class="date-bar">
+        <div class="date-bar-left">
+          <div class="page-title">Accounts Receivable</div>
+        </div>
+        <select class="date-select" id="ar-date" onchange="loadAR()"></select>
+      </div>
+
+      <div class="three-col mb-24" id="ar-kpis">
+        <div class="kpi-card green">
+          <div class="kpi-label">Total AR</div>
+          <div class="kpi-value" id="ar-total">—</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-label">Improvement AR</div>
+          <div class="kpi-value" id="ar-impr">—</div>
+        </div>
+        <div class="kpi-card neutral">
+          <div class="kpi-label">Restoration AR</div>
+          <div class="kpi-value" id="ar-rest">—</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="division-header impr">Improvement — Open Invoices</div>
+          <table class="data-table" id="ar-impr-table">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th style="text-align:right">Balance</th>
+                <th>Due Date</th>
+                <th>Days Out</th>
+                <th>Expected</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="division-header rest">Restoration — Open Invoices</div>
+          <table class="data-table" id="ar-rest-table">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th style="text-align:right">Balance</th>
+                <th>Due Date</th>
+                <th>Days Out</th>
+                <th>Expected</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYABLES PAGE ─────────────────────────────────────────────────── -->
+    <div class="page" id="page-payables">
+      <div class="date-bar">
+        <div class="date-bar-left">
+          <div class="page-title">Accounts Payable</div>
+        </div>
+        <select class="date-select" id="ap-date" onchange="loadAP()"></select>
+      </div>
+
+      <div class="three-col mb-24">
+        <div class="kpi-card red">
+          <div class="kpi-label">Total AP</div>
+          <div class="kpi-value" id="ap-total">—</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-label">Improvement AP</div>
+          <div class="kpi-value" id="ap-impr">—</div>
+        </div>
+        <div class="kpi-card neutral">
+          <div class="kpi-label">Restoration AP</div>
+          <div class="kpi-value" id="ap-rest">—</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="division-header impr">Improvement — Open Payables</div>
+          <table class="data-table" id="ap-impr-table">
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th style="text-align:right">Amount</th>
+                <th>Due Date</th>
+                <th>Days Until Due</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="division-header rest">Restoration — Open Payables</div>
+          <table class="data-table" id="ap-rest-table">
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th style="text-align:right">Amount</th>
+                <th>Due Date</th>
+                <th>Days Until Due</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CASH FLOW PAGE ────────────────────────────────────────────────── -->
+    <div class="page" id="page-cashflow">
+      <div class="date-bar">
+        <div class="page-title">Cash Flow</div>
+      </div>
+
+      <div class="card mb-24">
+        <div class="card-header">
+          <div class="card-title">Cash &amp; AR — Historical Trend</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height:280px;">
+            <canvas id="cashflow-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Daily Snapshot History</div>
+        </div>
+        <table class="data-table" id="history-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th style="text-align:right">Total Cash</th>
+              <th style="text-align:right">Total AR</th>
+              <th style="text-align:right">Total AP</th>
+              <th style="text-align:right">Credit Debt</th>
+              <th style="text-align:right">Net Availability</th>
+              <th style="text-align:right">Cash Change</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ── CONFIG — Replace these with your actual values ────────────────────────
+const SUPABASE_URL = 'https://svbmgueornewnasixpnh.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_kdp8f09n4MJKzoQS6amd0A_rVJPnXxf';
+// ─────────────────────────────────────────────────────────────────────────
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let trendChart = null;
+let cashflowChart = null;
+let allDates = [];
+let allSnapshots = [];
+let allTransactions = [];
+let currentTxnFilter = 'all';
+
+// ── FORMAT HELPERS ────────────────────────────────────────────────────────
+const fmt = (n) => n == null ? '—' :
+  new Intl.NumberFormat('en-US', { style:'currency', currency:'USD',
+    minimumFractionDigits:0, maximumFractionDigits:0 }).format(n);
+
+const fmtChg = (n) => {
+  if (n == null) return '';
+  const sign = n >= 0 ? '+' : '';
+  return sign + fmt(n) + ' vs prior';
+};
+
+const fmtDate = (s) => {
+  if (!s) return '—';
+  const d = new Date(s + 'T00:00:00');
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+};
+
+
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+async function initDashboard() {
+  document.getElementById('today-badge').textContent =
+    new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+
+  showLoading(true);
+  try {
+    // Load all snapshots for date lists
+    const { data: snaps } = await db
+      .from('daily_snapshots')
+      .select('*')
+      .order('report_date', { ascending: false });
+
+    allSnapshots = snaps || [];
+    allDates = allSnapshots.map(s => s.report_date);
+
+    populateDateSelects();
+    await Promise.all([loadOverview(), loadCash(), loadTransactions(),
+                       loadAR(), loadAP(), loadCashFlow()]);
+  } finally {
+    showLoading(false);
+  }
+}
+
+function populateDateSelects() {
+  const selects = ['overview-date','cash-date','txn-date','ar-date','ap-date'];
+  selects.forEach(id => {
+    const el = document.getElementById(id);
+    el.innerHTML = allDates.map(d =>
+      `<option value="${d}">${fmtDate(d)}</option>`
+    ).join('');
+  });
+}
+
+function showLoading(v) {
+  document.getElementById('loading').style.display = v ? 'flex' : 'none';
+}
+
+// ── PAGE NAVIGATION ───────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────────────────
+async function loadOverview() {
+  const date = document.getElementById('overview-date').value;
+  const snap = allSnapshots.find(s => s.report_date === date);
+  if (!snap) return;
+
+  const idx = allSnapshots.indexOf(snap);
+  const prev = allSnapshots[idx + 1];
+
+  // KPIs
+  setKPI('kpi-cash',   snap.total_cash,   prev?.total_cash);
+  setKPI('kpi-ar',     snap.total_ar,     prev?.total_ar);
+  setKPI('kpi-ap',     snap.total_ap,     prev?.total_ap);
+  setKPI('kpi-credit', snap.credit_debt,  prev?.credit_debt);
+  setKPI('kpi-net',    snap.net_availability, prev?.net_availability);
+
+  document.getElementById('overview-updated').textContent =
+    `Report date: ${fmtDate(date)}`;
+
+  // Division table
+  const tbody = document.querySelector('#division-table tbody');
+  tbody.innerHTML = [
+    ['Cash in Bank',        snap.impr_cash,   snap.rest_cash],
+    ['Accounts Receivable', snap.impr_ar,     snap.rest_ar],
+    ['Accounts Payable',    snap.impr_ap,     snap.rest_ap],
+    ['Net Total',           snap.impr_net,    snap.rest_net],
+  ].map(([lbl, impr, rest], i) => `
+    <tr class="${i===3?'total-row':''}">
+      <td>${lbl}</td>
+      <td class="mono right">${fmt(impr)}</td>
+      <td class="mono right">${fmt(rest)}</td>
+    </tr>
+  `).join('');
+
+  // Trend chart (last 30 entries)
+  const recent = [...allSnapshots].reverse().slice(-30);
+  buildTrendChart(recent);
+
+  // Credit bars
+  const limits = {
+    'Cap One – Construction': { used: snap.cap_one_construction, limit: 45000 },
+    'LOC 3705':               { used: snap.loc_3705,             limit: 100000 },
+    'LOC 5064':               { used: snap.loc_5064,             limit: 75000 },
+    'Cap One – Restoration':  { used: snap.cap_one_restoration,  limit: 28000 },
+  };
+  document.getElementById('credit-bars').innerHTML = Object.entries(limits)
+    .map(([name, {used, limit}]) => {
+      const pct = used && limit ? Math.min(100, (used/limit)*100) : 0;
+      const color = pct > 80 ? '#9B2335' : pct > 60 ? '#92580A' : '#2D6A4F';
+      return `
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:11px;color:var(--text-2)">${name}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-2)">
+              ${fmt(used)} / ${fmt(limit)}
+            </span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
+          </div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:4px;">${pct.toFixed(0)}% utilized</div>
+        </div>
+      `;
+    }).join('');
+}
+
+function setKPI(id, val, prev) {
+  document.getElementById(id).textContent = fmt(val);
+  const chgEl = document.getElementById(id + '-chg');
+  if (!chgEl) return;
+  if (prev != null && val != null) {
+    const diff = val - prev;
+    chgEl.textContent = fmtChg(diff);
+    chgEl.className = 'kpi-change ' + (diff >= 0 ? 'pos' : 'neg');
+  } else {
+    chgEl.textContent = '';
+    chgEl.className = 'kpi-change neu';
+  }
+}
+
+function buildTrendChart(data) {
+  const labels = data.map(s => {
+    const d = new Date(s.report_date + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  });
+  const cashData = data.map(s => s.total_cash);
+  const arData   = data.map(s => s.total_ar);
+
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(document.getElementById('trend-chart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Cash',
+          data: cashData,
+          borderColor: '#1A3C5E',
+          backgroundColor: 'rgba(26,60,94,0.06)',
+          borderWidth: 1.5,
+          pointRadius: 2,
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: 'AR',
+          data: arData,
+          borderColor: '#2D6A4F',
+          backgroundColor: 'rgba(45,106,79,0.04)',
+          borderWidth: 1.5,
+          pointRadius: 2,
+          tension: 0.3,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { font: { family: 'DM Sans', size: 11 },
+          color: '#6B6860', boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + fmt(ctx.parsed.y)
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#F0EEE8' },
+          ticks: { font: { family: 'DM Mono', size: 10 }, color: '#9C9A96' } },
+        y: { grid: { color: '#F0EEE8' },
+          ticks: { font: { family: 'DM Mono', size: 10 }, color: '#9C9A96',
+            callback: v => '$' + (v/1000).toFixed(0) + 'k' } }
+      }
+    }
+  });
+}
+
+// ── CASH POSITION ─────────────────────────────────────────────────────────
+async function loadCash() {
+  const date = document.getElementById('cash-date').value;
+  const snap = allSnapshots.find(s => s.report_date === date);
+  if (!snap) return;
+
+  const imprRows = [
+    ['QB Bank Balance',           snap.impr_qb_bank],
+    ['Bank Balance – 2657',       snap.impr_bank_2657],
+    ['Money Market – 2690',       snap.impr_mm_2690],
+    ['Total Cash in Bank',        snap.impr_cash, true],
+    ['Accounts Receivable',       snap.impr_ar],
+    ['Cap One (Limit $45K)',      snap.cap_one_construction],
+    ['LOC 3705 (Limit $100K)',    snap.loc_3705],
+    ['Accounts Payable',          snap.impr_ap],
+    ['Net Total',                 snap.impr_net, true],
+  ];
+
+  const restRows = [
+    ['QB Bank Balance',           snap.rest_qb_bank],
+    ['Bank Balance – 7363',       snap.rest_bank_7363],
+    ['Money Market – 2798',       snap.rest_mm_2798],
+    ['Total Cash in Bank',        snap.rest_cash, true],
+    ['Accounts Receivable',       snap.rest_ar],
+    ['LOC 5064 (Limit $75K)',     snap.loc_5064],
+    ['Cap One (Limit $28K)',      snap.cap_one_restoration],
+    ['Accounts Payable',          snap.rest_ap],
+    ['Net Total',                 snap.rest_net, true],
+  ];
+
+  const renderRows = (rows) => rows.map(([lbl, val, bold]) => `
+    <tr class="${bold ? 'total-row' : ''}">
+      <td>${lbl}</td>
+      <td class="mono right">${fmt(val)}</td>
+    </tr>
+  `).join('');
+
+  document.querySelector('#cash-impr-table tbody').innerHTML = renderRows(imprRows);
+  document.querySelector('#cash-rest-table tbody').innerHTML = renderRows(restRows);
+
+  const combined = [
+    ['Total Cash in Bank', snap.impr_cash,    snap.rest_cash,    snap.total_cash],
+    ['Accounts Receivable',snap.impr_ar,      snap.rest_ar,      snap.total_ar],
+    ['Accounts Payable',   snap.impr_ap,      snap.rest_ap,      snap.total_ap],
+    ['Credit Debt',        snap.cap_one_construction + snap.loc_3705,
+                           snap.loc_5064 + snap.cap_one_restoration,  snap.credit_debt],
+    ['Net Availability',   snap.impr_net,     snap.rest_net,     snap.net_availability],
+  ];
+  document.querySelector('#cash-combined-table tbody').innerHTML =
+    combined.map(([lbl, i, r, c], idx) => `
+      <tr class="${idx===4?'total-row':''}">
+        <td>${lbl}</td>
+        <td class="mono right">${fmt(i)}</td>
+        <td class="mono right">${fmt(r)}</td>
+        <td class="mono right" style="font-weight:500">${fmt(c)}</td>
+      </tr>
+    `).join('');
+}
+
+// ── TRANSACTIONS ──────────────────────────────────────────────────────────
+async function loadTransactions() {
+  const date = document.getElementById('txn-date').value;
+  const { data } = await db
+    .from('transactions')
+    .select('*')
+    .eq('report_date', date)
+    .order('account');
+
+  allTransactions = data || [];
+  renderTransactions();
+
+  // Summaries
+  const total = allTransactions.reduce((s, t) => s + (t.amount || 0), 0);
+  const cc    = allTransactions.filter(t => t.account_type === 'credit_card')
+    .reduce((s, t) => s + (t.amount || 0), 0);
+  const bank  = allTransactions.filter(t => t.account_type === 'bank')
+    .reduce((s, t) => s + (t.amount || 0), 0);
+
+  document.getElementById('txn-total').textContent  = fmt(total);
+  document.getElementById('txn-cc').textContent     = fmt(cc);
+  document.getElementById('txn-bank').textContent   = fmt(bank);
+  document.getElementById('txn-count').textContent  = allTransactions.length;
+}
+
+function filterTxn(filter, el) {
+  currentTxnFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderTransactions();
+}
+
+const accountLabels = {
+  cap_one_construction: 'Cap One – Construction',
+  checking_2657:        'Checking 2657',
+  mm_2690:              'MM 2690',
+  cap_one_restoration:  'Cap One – Restoration',
+  checking_7363:        'Checking 7363',
+  mm_2798:              'MM 2798',
+};
+
+function renderTransactions() {
+  const filtered = currentTxnFilter === 'all'
+    ? allTransactions
+    : allTransactions.filter(t => t.account === currentTxnFilter);
+
+  const tbody = document.querySelector('#txn-table tbody');
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No transactions for this selection.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = filtered.map(t => `
+    <tr>
+      <td class="mono muted">${fmtDate(t.trans_date)}</td>
+      <td><span class="badge ${t.account_type==='credit_card'?'amber':'blue'}">
+        ${accountLabels[t.account] || t.account}</span></td>
+      <td>${t.vendor || '—'}</td>
+      <td class="mono right">${fmt(t.amount)}</td>
+      <td class="muted">${t.explanation || '—'}</td>
+      <td class="muted">${t.approved_by || '—'}</td>
+    </tr>
+  `).join('');
+}
+
+// ── AR ────────────────────────────────────────────────────────────────────
+async function loadAR() {
+  const date = document.getElementById('ar-date').value;
+  const snap = allSnapshots.find(s => s.report_date === date);
+  if (snap) {
+    document.getElementById('ar-total').textContent = fmt(snap.total_ar);
+    document.getElementById('ar-impr').textContent  = fmt(snap.impr_ar);
+    document.getElementById('ar-rest').textContent  = fmt(snap.rest_ar);
+  }
+
+  const { data } = await db.from('ar_items').select('*')
+    .eq('report_date', date).order('division').order('balance', { ascending: false });
+
+  const impr = (data || []).filter(r => r.division === 'improvement');
+  const rest = (data || []).filter(r => r.division === 'restoration');
+
+  const renderAR = (rows) => {
+    if (!rows.length) return `<tr><td colspan="5" class="empty-state">No data.</td></tr>`;
+    const body = rows.map(r => {
+      const days = r.days_outstanding;
+      const daysClass = days == null ? '' : days > 45 ? 'days-late' : days > 30 ? 'days-warn' : 'days-ok';
+      return `<tr class="ar-client-row">
+        <td>${r.client}</td>
+        <td class="mono right">${fmt(r.balance)}</td>
+        <td class="mono muted">${fmtDate(r.due_date)}</td>
+        <td><span class="days-badge ${daysClass}">${days != null ? days + 'd' : '—'}</span></td>
+        <td class="muted">${fmtDate(r.expected_payment_date) || '—'}</td>
+      </tr>`;
+    }).join('');
+    const total = rows.reduce((s, r) => s + (r.balance || 0), 0);
+    return body + `<tr class="total-row">
+      <td>Total</td><td class="mono right">${fmt(total)}</td>
+      <td colspan="3"></td></tr>`;
+  };
+
+  document.querySelector('#ar-impr-table tbody').innerHTML = renderAR(impr);
+  document.querySelector('#ar-rest-table tbody').innerHTML = renderAR(rest);
+}
+
+// ── AP ────────────────────────────────────────────────────────────────────
+async function loadAP() {
+  const date = document.getElementById('ap-date').value;
+  const snap = allSnapshots.find(s => s.report_date === date);
+  if (snap) {
+    document.getElementById('ap-total').textContent = fmt(snap.total_ap);
+    document.getElementById('ap-impr').textContent  = fmt(snap.impr_ap);
+    document.getElementById('ap-rest').textContent  = fmt(snap.rest_ap);
+  }
+
+  const { data } = await db.from('ap_items').select('*')
+    .eq('report_date', date).order('division').order('amount', { ascending: false });
+
+  const impr = (data || []).filter(r => r.division === 'improvement');
+  const rest = (data || []).filter(r => r.division === 'restoration');
+
+  const renderAP = (rows) => {
+    if (!rows.length) return `<tr><td colspan="5" class="empty-state">No data.</td></tr>`;
+    const body = rows.map(r => {
+      const days = r.days_until_due;
+      const pClass = r.priority === 'Urgent' ? 'red' :
+                     r.priority === 'High'   ? 'amber' : 'blue';
+      return `<tr>
+        <td>${r.vendor}</td>
+        <td class="mono right">${fmt(r.amount)}</td>
+        <td class="mono muted">${fmtDate(r.due_date)}</td>
+        <td class="mono right ${days != null && days < 0 ? 'flow-negative' : ''}">${days != null ? days + 'd' : '—'}</td>
+        <td><span class="badge ${pClass}">${r.priority || 'Normal'}</span></td>
+      </tr>`;
+    }).join('');
+    const total = rows.reduce((s, r) => s + (r.amount || 0), 0);
+    return body + `<tr class="total-row">
+      <td>Total</td><td class="mono right">${fmt(total)}</td>
+      <td colspan="3"></td></tr>`;
+  };
+
+  document.querySelector('#ap-impr-table tbody').innerHTML = renderAP(impr);
+  document.querySelector('#ap-rest-table tbody').innerHTML = renderAP(rest);
+}
+
+// ── CASH FLOW ─────────────────────────────────────────────────────────────
+async function loadCashFlow() {
+  const data = [...allSnapshots].reverse();
+
+  // History table
+  const tbody = document.querySelector('#history-table tbody');
+  tbody.innerHTML = [...data].reverse().map((s, i, arr) => {
+    const prev = arr[i + 1];
+    const chg  = prev ? s.total_cash - prev.total_cash : null;
+    return `<tr>
+      <td class="mono">${fmtDate(s.report_date)}</td>
+      <td class="mono right">${fmt(s.total_cash)}</td>
+      <td class="mono right">${fmt(s.total_ar)}</td>
+      <td class="mono right">${fmt(s.total_ap)}</td>
+      <td class="mono right">${fmt(s.credit_debt)}</td>
+      <td class="mono right" style="font-weight:500">${fmt(s.net_availability)}</td>
+      <td class="mono right ${chg == null ? '' : chg >= 0 ? 'flow-positive' : 'flow-negative'}">
+        ${chg == null ? '—' : (chg >= 0 ? '+' : '') + fmt(chg)}</td>
+    </tr>`;
+  }).join('');
+
+  // Chart
+  const labels   = data.map(s => { const d = new Date(s.report_date + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month:'short', day:'numeric' }); });
+  const cashData = data.map(s => s.total_cash);
+  const arData   = data.map(s => s.total_ar);
+  const netData  = data.map(s => s.net_availability);
+
+  if (cashflowChart) cashflowChart.destroy();
+  cashflowChart = new Chart(document.getElementById('cashflow-chart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Cash',             data: cashData, borderColor: '#1A3C5E',
+          backgroundColor: 'rgba(26,60,94,0.05)', borderWidth: 2,
+          pointRadius: 3, tension: 0.3, fill: true },
+        { label: 'AR',               data: arData,   borderColor: '#2D6A4F',
+          borderWidth: 1.5, pointRadius: 2, tension: 0.3, fill: false },
+        { label: 'Net Availability', data: netData,  borderColor: '#92580A',
+          borderDash: [4,3], borderWidth: 1.5, pointRadius: 2, tension: 0.3, fill: false },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { font: { family: 'DM Sans', size: 11 },
+          color: '#6B6860', boxWidth: 12 } },
+        tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed.y) } }
+      },
+      scales: {
+        x: { grid: { color: '#F0EEE8' },
+          ticks: { font: { family: 'DM Mono', size: 10 }, color: '#9C9A96' } },
+        y: { grid: { color: '#F0EEE8' },
+          ticks: { font: { family: 'DM Mono', size: 10 }, color: '#9C9A96',
+            callback: v => '$' + (v/1000).toFixed(0) + 'k' } }
+      }
+    }
+  });
+}
+
+// ── INIT ON LOAD ──────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  initDashboard();
+});
+</script>
+</body>
+</html>
