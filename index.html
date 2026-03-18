@@ -805,9 +805,11 @@ body {
 
       <!-- IMPROVEMENT -->
       <div class="division-header impr" style="border-radius:6px 6px 0 0;margin-bottom:0;">🔧 Improvement Division</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
         <div><div class="kpi-label">AR Expected (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-impr-ar-30">—</div></div>
         <div><div class="kpi-label">AP Due (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-impr-ap-30">—</div></div>
+        <div><div class="kpi-label">Biz Expenses Due</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--amber)" id="cf-impr-biz-30">—</div></div>
+        <div><div class="kpi-label">Upcoming Payroll</div><div style="font-family:'DM Mono',monospace;font-size:14px;margin-top:6px;color:var(--amber)" id="cf-impr-payroll">—</div></div>
         <div><div class="kpi-label">Projected Net</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;" id="cf-impr-net-30">—</div></div>
       </div>
       <div class="two-col mb-24" style="margin-top:12px;">
@@ -826,12 +828,37 @@ body {
           </table>
         </div>
       </div>
+      <div class="card mb-24" id="cf-impr-payroll-card">
+        <div class="division-header impr">📅 Upcoming Payroll — Improvement</div>
+        <table class="data-table" id="cf-impr-payroll-table">
+          <thead><tr><th>Payroll</th><th style="text-align:right">Est. Amount</th><th>Date</th><th>Days Away</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card mb-24">
+        <div class="division-header impr">📋 Business Expenses Due — Improvement</div>
+        <table class="data-table" id="cf-impr-biz-table">
+          <thead><tr><th>Expense</th><th>Category</th><th style="text-align:right">Amount</th><th>Due Date</th><th>Days Away</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- ADMIN PAYROLL -->
+      <div class="card mb-24" id="cf-admin-payroll-card">
+        <div class="division-header" style="background:var(--accent);color:#fff;">📅 Upcoming Payroll — Admin</div>
+        <table class="data-table" id="cf-admin-payroll-table">
+          <thead><tr><th>Payroll</th><th style="text-align:right">Est. Amount</th><th>Date</th><th>Days Away</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
       <!-- RESTORATION -->
       <div class="division-header rest" style="border-radius:6px 6px 0 0;margin-bottom:0;">🏠 Restoration Division</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px;margin-bottom:4px;background:var(--surface);border:1px solid var(--border);border-top:none;padding:16px;border-radius:0 0 6px 6px;">
         <div><div class="kpi-label">AR Expected (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--green)" id="cf-rest-ar-30">—</div></div>
         <div><div class="kpi-label">AP Due (Next <span class="cf-days-label">30</span>d)</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--red)" id="cf-rest-ap-30">—</div></div>
+        <div><div class="kpi-label">Biz Expenses Due</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;color:var(--amber)" id="cf-rest-biz-30">—</div></div>
+        <div><div class="kpi-label">Upcoming Payroll</div><div style="font-family:'DM Mono',monospace;font-size:14px;margin-top:6px;color:var(--amber)" id="cf-rest-payroll">—</div></div>
         <div><div class="kpi-label">Projected Net</div><div style="font-family:'DM Mono',monospace;font-size:18px;margin-top:6px;" id="cf-rest-net-30">—</div></div>
       </div>
       <div class="two-col mb-24" style="margin-top:12px;">
@@ -849,6 +876,20 @@ body {
             <tbody></tbody>
           </table>
         </div>
+      </div>
+      <div class="card mb-24" id="cf-rest-payroll-card">
+        <div class="division-header rest">📅 Upcoming Payroll — Restoration</div>
+        <table class="data-table" id="cf-rest-payroll-table">
+          <thead><tr><th>Payroll</th><th style="text-align:right">Est. Amount</th><th>Date</th><th>Days Away</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card mb-24">
+        <div class="division-header rest">📋 Business Expenses Due — Restoration</div>
+        <table class="data-table" id="cf-rest-biz-table">
+          <thead><tr><th>Expense</th><th>Category</th><th style="text-align:right">Amount</th><th>Due Date</th><th>Days Away</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
 
       <!-- CHART + HISTORY -->
@@ -1317,6 +1358,110 @@ async function loadAP() {
 }
 
 // ── CASH FLOW ─────────────────────────────────────────────────────────────
+
+
+// ── BUSINESS EXPENSES CONFIG ─────────────────────────────────────────────
+// Fixed monthly expenses by division — update when amounts change
+const BUSINESS_EXPENSES = [
+  // Improvement
+  { description: 'Auto Owners',                   amount: 585,     dayOfMonth: 17, division: 'improvement', category: 'Car Insurance' },
+  { description: 'Travelers',                      amount: 525,     dayOfMonth: 24, division: 'improvement', category: 'Car Insurance' },
+  { description: 'IFPS',                           amount: 1928,    dayOfMonth: 13, division: 'improvement', category: 'General Liability' },
+  { description: 'AllState',                       amount: 98.79,   dayOfMonth: 16, division: 'improvement', category: 'Health Insurance' },
+  { description: "America's Choice Health",        amount: 949,     dayOfMonth: 23, division: 'improvement', category: 'Health Insurance' },
+  { description: 'Red IT',                         amount: 430.75,  dayOfMonth: 1,  division: 'improvement', category: 'IT Payment' },
+  { description: 'Intuit',                         amount: 275,     dayOfMonth: 3,  division: 'improvement', category: 'Quickbooks' },
+  { description: 'Adobe',                          amount: 19.99,   dayOfMonth: 5,  division: 'improvement', category: 'Subscription' },
+  { description: 'Verizon',                        amount: 575.13,  dayOfMonth: 23, division: 'improvement', category: 'Cellphone' },
+  { description: 'Shared Expenses to Restoration', amount: 2186.24, dayOfMonth: 1,  division: 'improvement', category: 'Shared Expenses' },
+  // Restoration
+  { description: 'Audible',                        amount: 14.95,   dayOfMonth: 23, division: 'restoration', category: 'Subscription' },
+  { description: 'Albi',                           amount: 937,     dayOfMonth: 1,  division: 'restoration', category: 'Subscription' },
+  { description: 'Auto Owners',                    amount: 3410.04, dayOfMonth: 3,  division: 'restoration', category: 'Car Insurance' },
+  { description: 'Auto Owners',                    amount: 1522.01, dayOfMonth: 3,  division: 'restoration', category: 'General Liability' },
+  { description: 'Hyphen Solutions',               amount: 141.25,  dayOfMonth: 9,  division: 'restoration', category: 'Supply Pro' },
+  { description: 'Hyphen Solutions',               amount: 125,     dayOfMonth: 9,  division: 'restoration', category: 'Supply Pro' },
+  { description: 'Asana',                          amount: 134.9,   dayOfMonth: 18, division: 'restoration', category: 'Subscription' },
+  { description: 'Tidio',                          amount: 29,      dayOfMonth: 9,  division: 'restoration', category: 'Subscription' },
+  { description: 'Adobe',                          amount: 19.99,   dayOfMonth: 11, division: 'restoration', category: 'Subscription' },
+  { description: 'Mailchimp',                      amount: 45,      dayOfMonth: 17, division: 'restoration', category: 'Subscription' },
+  { description: 'ChatGPT',                        amount: 20,      dayOfMonth: 2,  division: 'restoration', category: 'Subscription' },
+  { description: 'ChatGPT',                        amount: 20,      dayOfMonth: 20, division: 'restoration', category: 'Subscription' },
+  { description: 'Claude',                         amount: 20,      dayOfMonth: 27, division: 'restoration', category: 'Subscription' },
+  { description: 'Extra Space',                    amount: 239,     dayOfMonth: 16, division: 'restoration', category: 'Parking Space' },
+  { description: 'Midgard',                        amount: 2072.64, dayOfMonth: 1,  division: 'restoration', category: 'Storage Rental' },
+  { description: 'Extra Space',                    amount: 398.04,  dayOfMonth: 22, division: 'restoration', category: 'Parking Space' },
+  { description: 'Ring Central',                   amount: 414.56,  dayOfMonth: 10, division: 'restoration', category: 'Office Line' },
+  { description: 'Intuit',                         amount: 275,     dayOfMonth: 28, division: 'restoration', category: 'Quickbooks' },
+  { description: 'Shared Expenses to Improvement', amount: 4349.06, dayOfMonth: 1,  division: 'restoration', category: 'Shared Expenses' },
+  { description: 'Tesla Payment',                  amount: 920.58,  dayOfMonth: 15, division: 'restoration', category: 'Tesla Payment' },
+  { description: 'Company Cam',                    amount: 99,      dayOfMonth: 5,  division: 'restoration', category: 'Subscription' },
+];
+
+function getUpcomingExpenses(withinDays, division) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const cutoff = new Date(today); cutoff.setDate(cutoff.getDate() + withinDays);
+  const results = [];
+
+  for (const exp of BUSINESS_EXPENSES) {
+    if (exp.division !== division) continue;
+    // Check this month and next month
+    for (let monthOffset = 0; monthOffset <= 2; monthOffset++) {
+      const d = new Date(today.getFullYear(), today.getMonth() + monthOffset, exp.dayOfMonth);
+      if (d >= today && d <= cutoff) {
+        const days = Math.round((d - today) / 86400000);
+        results.push({
+          description: exp.description,
+          amount: exp.amount,
+          category: exp.category,
+          date: d.toISOString().slice(0,10),
+          days: days,
+        });
+      }
+    }
+  }
+  results.sort((a,b) => a.date.localeCompare(b.date));
+  return results;
+}
+
+// ── PAYROLL SCHEDULE CONFIG ───────────────────────────────────────────────
+// Last paid dates — update only if schedule permanently changes
+// Est. amounts — update when payroll changes significantly
+const PAYROLL_SCHEDULES = [
+  { label: 'Improvement Payroll',  lastPaid: '2026-03-13', division: 'improvement', estAmount: 0 },
+  { label: 'Admin Payroll',        lastPaid: '2026-03-13', division: 'admin',        estAmount: 0 },
+  { label: 'Restoration Payroll',  lastPaid: '2026-03-06', division: 'restoration',  estAmount: 0 },
+];
+
+function getUpcomingPayrolls(withinDays) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const cutoff = new Date(today); cutoff.setDate(cutoff.getDate() + withinDays);
+  const upcoming = [];
+
+  for (const p of PAYROLL_SCHEDULES) {
+    const last = new Date(p.lastPaid + 'T00:00:00');
+    // Walk forward every 14 days from last paid until past cutoff
+    let next = new Date(last);
+    next.setDate(next.getDate() + 14);
+    while (next <= cutoff) {
+      if (next >= today) {
+        const days = Math.round((next - today) / 86400000);
+        upcoming.push({
+          label: p.label,
+          division: p.division,
+          date: next.toISOString().slice(0,10),
+          days: days,
+        });
+      }
+      next = new Date(next);
+      next.setDate(next.getDate() + 14);
+    }
+  }
+  // Sort by date
+  upcoming.sort((a,b) => a.date.localeCompare(b.date));
+  return upcoming;
+}
+
 function setCFDays(days, el) {
   cfDays = days;
   document.querySelectorAll('[id^="cf-btn-"]').forEach(b => b.classList.remove('active'));
@@ -1374,6 +1519,23 @@ async function loadCashFlow() {
   };
 
   // Split by division
+  // Render admin payroll separately
+  const adminPayrolls = getUpcomingPayrolls(cfDays).filter(p => p.division === 'admin');
+  const adminTbody = document.querySelector('#cf-admin-payroll-table tbody');
+  if (!adminPayrolls.length) {
+    adminTbody.innerHTML = '<tr><td colspan="4" class="empty-state">No payroll dates in selected window.</td></tr>';
+  } else {
+    adminTbody.innerHTML = adminPayrolls.map(p => {
+      const cls = p.days <= 3 ? 'flow-negative' : '';
+      return `<tr>
+        <td>${p.label}</td>
+        <td class="mono right" style="color:var(--amber)">${p.estAmount ? fmt(p.estAmount) : '—'} <span style="font-size:10px;color:var(--text-muted)">(est.)</span></td>
+        <td class="mono muted">${fmtDate(p.date)}</td>
+        <td class="mono right ${cls}">${p.days === 0 ? 'Today' : p.days + 'd'}</td>
+      </tr>`;
+    }).join('');
+  }
+
   for (const div of ['impr', 'rest']) {
     const divFull = div === 'impr' ? 'improvement' : 'restoration';
     const arRows = (arData || []).filter(r => r.division === divFull);
@@ -1391,7 +1553,36 @@ async function loadCashFlow() {
     }).reduce((s,r) => s + (r.amount||0), 0);
 
     const cash = snap ? (div === 'impr' ? snap.impr_cash : snap.rest_cash) : 0;
-    const net30 = (cash || 0) + ar30 - ap30;
+    const payrollCost = getUpcomingPayrolls(cfDays)
+      .filter(p => p.division === divFull)
+      .reduce((s,p) => s + (p.estAmount || 0), 0);
+
+    // Business expenses
+    const bizExpenses = getUpcomingExpenses(cfDays, divFull);
+    const biz30 = bizExpenses.reduce((s,e) => s + (e.amount || 0), 0);
+    document.getElementById(`cf-${div}-biz-30`).textContent = fmt(biz30);
+
+    const bizTbody = document.querySelector(`#cf-${div}-biz-table tbody`);
+    if (!bizExpenses.length) {
+      bizTbody.innerHTML = '<tr><td colspan="5" class="empty-state">No business expenses due in selected window.</td></tr>';
+    } else {
+      bizTbody.innerHTML = bizExpenses.map(e => {
+        const cls = e.days <= 3 ? 'flow-negative' : '';
+        return `<tr>
+          <td>${e.description}</td>
+          <td class="muted" style="font-size:11px;">${e.category}</td>
+          <td class="mono right">${fmt(e.amount)}</td>
+          <td class="mono muted">${fmtDate(e.date)}</td>
+          <td class="mono right ${cls}">${e.days === 0 ? 'Today' : e.days + 'd'}</td>
+        </tr>`;
+      }).join('') + `<tr class="total-row">
+        <td colspan="2">Total</td>
+        <td class="mono right">${fmt(biz30)}</td>
+        <td colspan="2"></td>
+      </tr>`;
+    }
+
+    const net30 = (cash || 0) + ar30 - ap30 - payrollCost - biz30;
 
     document.getElementById(`cf-${div}-ar-30`).textContent = fmt(ar30);
     document.getElementById(`cf-${div}-ap-30`).textContent = fmt(ap30);
@@ -1401,6 +1592,31 @@ async function loadCashFlow() {
 
     document.querySelector(`#cf-${div}-ar-table tbody`).innerHTML = renderARRows(arRows);
     document.querySelector(`#cf-${div}-ap-table tbody`).innerHTML = renderAPRows(apRows);
+
+    // ── PAYROLL ───────────────────────────────────────────────────────────
+    const payrolls = getUpcomingPayrolls(cfDays).filter(p => p.division === divFull);
+    const payrollEl = document.getElementById(`cf-${div}-payroll`);
+    if (payrolls.length > 0) {
+      const next = payrolls[0];
+      payrollEl.textContent = next.days === 0 ? 'Today' : next.days + 'd — ' + fmtDate(next.date);
+    } else {
+      payrollEl.textContent = 'None in window';
+    }
+
+    const payrollTbody = document.querySelector(`#cf-${div}-payroll-table tbody`);
+    if (!payrolls.length) {
+      payrollTbody.innerHTML = `<tr><td colspan="3" class="empty-state">No payroll dates in selected window.</td></tr>`;
+    } else {
+      payrollTbody.innerHTML = payrolls.map(p => {
+        const cls = p.days <= 3 ? 'flow-negative' : '';
+        return `<tr>
+          <td>${p.label}</td>
+          <td class="mono right" style="color:var(--amber)">${p.estAmount ? fmt(p.estAmount) : '—'} <span style="font-size:10px;color:var(--text-muted)">(est.)</span></td>
+          <td class="mono muted">${fmtDate(p.date)}</td>
+          <td class="mono right ${cls}">${p.days === 0 ? 'Today' : p.days + 'd'}</td>
+        </tr>`;
+      }).join('');
+    }
   }
 
   // History table
