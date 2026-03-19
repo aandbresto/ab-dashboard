@@ -771,14 +771,14 @@ body {
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 4px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 4px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1434,19 +1434,25 @@ async function loadAP() {
   };
 
   const renderFriday = (rows, tableId) => {
-    if (!rows.length) return '<tr><td colspan="4" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
+    if (!rows.length) return '<tr><td colspan="6" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
     const subtotalId = tableId + '-subtotal';
-    const rowsHtml = rows.map(r => `<tr>
+    const rowsHtml = rows.map(r => {
+      const profitPct = r.profit_pct != null ? (r.profit_pct * 100).toFixed(1) + '%' : '—';
+      const profitColor = r.profit_pct == null ? '' : r.profit_pct >= 0.3 ? 'color:var(--green);font-weight:600' : r.profit_pct >= 0.1 ? 'color:var(--amber);font-weight:600' : 'color:var(--red);font-weight:600';
+      return `<tr>
         <td>${r.vendor}</td>
         <td class="mono muted">${r.invoice_number || '—'}</td>
         <td class="mono right">${fmt(r.amount)}</td>
+        <td class="mono right">${r.billed_to_client ? fmt(r.billed_to_client) : '—'}</td>
+        <td class="mono right" style="${profitColor}">${profitPct}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
-      </tr>`).join('');
+      </tr>`;
+    }).join('');
     const total = rows.reduce((s,r)=>s+(r.amount||0),0);
     return rowsHtml + `<tr class="total-row">
       <td colspan="2">Total</td>
       <td class="mono right" id="${subtotalId}">${fmt(total)}</td>
-      <td></td></tr>`;
+      <td colspan="2"></td><td></td></tr>`;
   };
 
   document.querySelector('#ap-friday-impr-table tbody').innerHTML = renderFriday(fridayImpr, 'ap-friday-impr');
