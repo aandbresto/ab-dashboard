@@ -768,14 +768,14 @@ body {
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 4px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
+              <thead><tr><th style="width:32px;text-align:center;">Pay</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 4px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
+              <thead><tr><th style="width:32px;text-align:center;">Pay</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th>Due Date</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1413,21 +1413,51 @@ async function loadAP() {
   document.getElementById('ap-friday-rest').textContent  = fmt(fridayRestTotal);
   document.getElementById('ap-friday-total').textContent = fmt(fridayImprTotal + fridayRestTotal);
 
-  const renderFriday = (rows) => {
-    if (!rows.length) return '<tr><td colspan="4" class="empty-state">No payments due.</td></tr>';
-    return rows.map(r => `<tr>
-      <td>${r.vendor}</td>
-      <td class="mono muted">${r.invoice_number || '—'}</td>
-      <td class="mono right">${fmt(r.amount)}</td>
-      <td class="mono muted">${fmtDate(r.due_date)}</td>
-    </tr>`).join('') + `<tr class="total-row">
-      <td colspan="2">Total</td>
-      <td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td>
+  const updateFridayTotals = () => {
+    let imprTotal = 0, restTotal = 0;
+    document.querySelectorAll('#ap-friday-impr-table tbody input[type=checkbox]:checked').forEach(cb => {
+      imprTotal += parseFloat(cb.dataset.amount || 0);
+    });
+    document.querySelectorAll('#ap-friday-rest-table tbody input[type=checkbox]:checked').forEach(cb => {
+      restTotal += parseFloat(cb.dataset.amount || 0);
+    });
+    document.getElementById('ap-friday-impr').textContent  = fmt(imprTotal);
+    document.getElementById('ap-friday-rest').textContent  = fmt(restTotal);
+    document.getElementById('ap-friday-total').textContent = fmt(imprTotal + restTotal);
+    // Update subtotals inside each table
+    const imprSub = document.getElementById('ap-friday-impr-subtotal');
+    const restSub = document.getElementById('ap-friday-rest-subtotal');
+    if (imprSub) imprSub.textContent = fmt(imprTotal);
+    if (restSub) restSub.textContent = fmt(restTotal);
+  };
+
+  const renderFriday = (rows, tableId) => {
+    if (!rows.length) return '<tr><td colspan="5" class="empty-state">No payments due.</td></tr>';
+    const subtotalId = tableId + '-subtotal';
+    const rowsHtml = rows.map((r,i) => {
+      const cbId = tableId + '-cb-' + i;
+      return `<tr style="cursor:pointer;" onclick="document.getElementById('${cbId}').click()">
+        <td style="text-align:center;" onclick="event.stopPropagation()">
+          <input type="checkbox" id="${cbId}" data-amount="${r.amount || 0}"
+            style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent);"
+            onchange="updateFridayTotals()" checked>
+        </td>
+        <td>${r.vendor}</td>
+        <td class="mono muted">${r.invoice_number || '—'}</td>
+        <td class="mono right">${fmt(r.amount)}</td>
+        <td class="mono muted">${fmtDate(r.due_date)}</td>
+      </tr>`;
+    }).join('');
+    const total = rows.reduce((s,r)=>s+(r.amount||0),0);
+    return rowsHtml + `<tr class="total-row">
+      <td></td><td colspan="2">Selected Total</td>
+      <td class="mono right" id="${subtotalId}">${fmt(total)}</td>
       <td></td></tr>`;
   };
 
-  document.querySelector('#ap-friday-impr-table tbody').innerHTML = renderFriday(fridayImpr);
-  document.querySelector('#ap-friday-rest-table tbody').innerHTML = renderFriday(fridayRest);
+  document.querySelector('#ap-friday-impr-table tbody').innerHTML = renderFriday(fridayImpr, 'ap-friday-impr');
+  document.querySelector('#ap-friday-rest-table tbody').innerHTML = renderFriday(fridayRest, 'ap-friday-rest');
+  updateFridayTotals();
 }
 
 // ── CASH FLOW ─────────────────────────────────────────────────────────────
