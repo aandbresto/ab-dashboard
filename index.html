@@ -1415,16 +1415,15 @@ async function loadAP() {
 
   const updateFridayTotals = () => {
     let imprTotal = 0, restTotal = 0;
-    document.querySelectorAll('#ap-friday-impr-table tbody input[type=checkbox]:checked').forEach(cb => {
-      imprTotal += parseFloat(cb.dataset.amount || 0);
+    document.querySelectorAll('#ap-friday-impr-table tbody input[type=checkbox]').forEach(cb => {
+      if (cb.checked) imprTotal += parseFloat(cb.dataset.amount || 0);
     });
-    document.querySelectorAll('#ap-friday-rest-table tbody input[type=checkbox]:checked').forEach(cb => {
-      restTotal += parseFloat(cb.dataset.amount || 0);
+    document.querySelectorAll('#ap-friday-rest-table tbody input[type=checkbox]').forEach(cb => {
+      if (cb.checked) restTotal += parseFloat(cb.dataset.amount || 0);
     });
     document.getElementById('ap-friday-impr').textContent  = fmt(imprTotal);
     document.getElementById('ap-friday-rest').textContent  = fmt(restTotal);
     document.getElementById('ap-friday-total').textContent = fmt(imprTotal + restTotal);
-    // Update subtotals inside each table
     const imprSub = document.getElementById('ap-friday-impr-subtotal');
     const restSub = document.getElementById('ap-friday-rest-subtotal');
     if (imprSub) imprSub.textContent = fmt(imprTotal);
