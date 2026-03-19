@@ -760,11 +760,15 @@ body {
           <table class="data-table" id="ap-impr-table">
             <thead>
               <tr>
+                <th>Invoice Date</th>
                 <th>Vendor</th>
+                <th>Invoice #</th>
                 <th style="text-align:right">Amount</th>
-                <th>Due Date</th>
-                <th>Days Until Due</th>
+                <th style="text-align:right">Billed to Client</th>
+                <th style="text-align:right">Profit %</th>
                 <th>Approval Status</th>
+                <th style="text-align:right">Job Total</th>
+                <th>Due Date</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -775,11 +779,15 @@ body {
           <table class="data-table" id="ap-rest-table">
             <thead>
               <tr>
+                <th>Invoice Date</th>
                 <th>Vendor</th>
+                <th>Invoice #</th>
                 <th style="text-align:right">Amount</th>
-                <th>Due Date</th>
-                <th>Days Until Due</th>
+                <th style="text-align:right">Billed to Client</th>
+                <th style="text-align:right">Profit %</th>
                 <th>Approval Status</th>
+                <th style="text-align:right">Job Total</th>
+                <th>Due Date</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1327,28 +1335,26 @@ async function loadAP() {
   const rest = (data || []).filter(r => r.division === 'restoration');
 
   const renderAP = (rows) => {
-    if (!rows.length) return `<tr><td colspan="6" class="empty-state">No data.</td></tr>`;
+    if (!rows.length) return `<tr><td colspan="9" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
-      // Calculate days from due_date if days_until_due not stored
-      let days = r.days_until_due;
-      if (days == null && r.due_date) {
-        const due = new Date(r.due_date + 'T00:00:00');
-        const today = new Date(); today.setHours(0,0,0,0);
-        days = Math.round((due - today) / 86400000);
-      }
-      const daysClass = days == null ? '' : days < 0 ? 'flow-negative' : days <= 7 ? 'flow-negative' : '';
+      const profitPct = r.profit_pct != null ? (r.profit_pct * 100).toFixed(1) + '%' : '—';
+      const profitColor = r.profit_pct == null ? '' : r.profit_pct >= 0.3 ? 'color:var(--green)' : r.profit_pct >= 0.1 ? 'color:var(--amber)' : 'color:var(--red)';
       return `<tr>
+        <td class="mono muted">${fmtDate(r.invoice_date)}</td>
         <td>${r.vendor}</td>
+        <td class="mono muted" style="white-space:nowrap;">${r.invoice_number || '—'}</td>
         <td class="mono right">${fmt(r.amount)}</td>
-        <td class="mono muted">${fmtDate(r.due_date)}</td>
-        <td class="mono right ${daysClass}">${days != null ? days + 'd' : '—'}</td>
+        <td class="mono right">${r.billed_to_client ? fmt(r.billed_to_client) : '—'}</td>
+        <td class="mono right" style="${profitColor}">${profitPct}</td>
         <td style="font-size:12px;color:var(--text-muted);">${r.notes || '—'}</td>
+        <td class="mono right">${r.job_total ? fmt(r.job_total) : '—'}</td>
+        <td class="mono muted">${fmtDate(r.due_date)}</td>
       </tr>`;
     }).join('');
     const total = rows.reduce((s, r) => s + (r.amount || 0), 0);
     return body + `<tr class="total-row">
-      <td>Total</td><td class="mono right">${fmt(total)}</td>
-      <td colspan="3"></td></tr>`;
+      <td colspan="3">Total</td><td class="mono right">${fmt(total)}</td>
+      <td colspan="5"></td></tr>`;
   };
 
   document.querySelector('#ap-impr-table tbody').innerHTML = renderAP(impr);
