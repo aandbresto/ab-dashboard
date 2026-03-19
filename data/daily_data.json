@@ -18,13 +18,13 @@
     "rest_ar": 57384.33,
     "loc_5064": 12044.0,
     "cap_one_restoration": 34575.86,
-    "rest_ap": 16162.0,
-    "rest_net": 25437.25,
+    "rest_ap": 151953.0,
+    "rest_net": -110353.75,
     "total_cash": 82622.81,
     "total_ar": 107205.43,
-    "total_ap": 94200.35,
+    "total_ap": 229991.35,
     "credit_debt": 68047.51,
-    "net_availability": 27580.38
+    "net_availability": -108210.62
   },
   "ar_items": [
     {
@@ -292,7 +292,8 @@
       "profit_pct": null,
       "notes": "680934 -",
       "job_total": null,
-      "due_date": "2025-06-06"
+      "due_date": "2025-06-06",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -305,7 +306,8 @@
       "profit_pct": null,
       "notes": "Unit 503, 8084\u00a0Hawkins Rd - Pending - Job was not invoiced at the time",
       "job_total": null,
-      "due_date": "2025-08-28"
+      "due_date": "2025-08-28",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -318,7 +320,8 @@
       "profit_pct": null,
       "notes": "RT Moore:25-0030-REP/Job 680939 LVT",
       "job_total": null,
-      "due_date": "2025-06-27"
+      "due_date": "2025-06-27",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -327,11 +330,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "9925",
       "amount": 5335.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 8536.0,
+      "profit_pct": 0.38,
       "notes": "25-0131-WTR - Approved - Invoice #4217 $11,202.00",
-      "job_total": null,
-      "due_date": "2026-01-15"
+      "job_total": 11202.0,
+      "due_date": "2026-01-15",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -344,7 +348,8 @@
       "profit_pct": null,
       "notes": "Pending",
       "job_total": null,
-      "due_date": "2025-10-23"
+      "due_date": "2025-10-23",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -353,11 +358,12 @@
       "vendor": "Sunshine Granite & Marble",
       "invoice_number": "8763",
       "amount": 780.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 1248.0,
+      "profit_pct": 0.38,
       "notes": "Approved - 25-0180-WTR -  Invoice #4256 $5,385.20 - Client charged $1,248",
-      "job_total": null,
-      "due_date": "2026-03-20"
+      "job_total": 5385.2,
+      "due_date": "2026-03-20",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -366,11 +372,12 @@
       "vendor": "Ryz Construction",
       "invoice_number": "Swiftwater005",
       "amount": 127.1,
-      "billed_to_client": null,
-      "profit_pct": null,
-      "notes": "Approved - 680939 -",
+      "billed_to_client": 157.6,
+      "profit_pct": 0.19,
+      "notes": "Approved - Invoice:  #4266 $10,627.27 - Charged $5849.82",
       "job_total": null,
-      "due_date": "2026-03-05"
+      "due_date": "2026-03-05",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -379,11 +386,12 @@
       "vendor": "Damm Good Plumbing and Air Corp",
       "invoice_number": "9329383314-2",
       "amount": 247.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 395.2,
+      "profit_pct": 0.38,
       "notes": "Approved - 25-0180-WTR -  Invoice #4256 $5,385.20 - Client charged $395.20",
-      "job_total": null,
-      "due_date": "2026-03-20"
+      "job_total": 5385.2,
+      "due_date": "2026-03-20",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -392,11 +400,12 @@
       "vendor": "X-Elent Remodeling, LCC",
       "invoice_number": "576",
       "amount": 10607.19,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 15910.78,
+      "profit_pct": 0.33,
       "notes": "Approved - 681013 -  Invoice #33087 $21,101.23.",
       "job_total": null,
-      "due_date": "2026-03-14"
+      "due_date": "2026-03-14",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -405,11 +414,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "10396",
       "amount": 1930.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 1800.0,
+      "profit_pct": -0.07,
       "notes": "Approved - 26-0044-MLD - Approved - Invoice #4261 $1,800",
-      "job_total": null,
-      "due_date": "2026-03-25"
+      "job_total": 1800.0,
+      "due_date": "2026-03-25",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -418,11 +428,12 @@
       "vendor": "DE Home Solutions LLC",
       "invoice_number": "224",
       "amount": 400.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 640.0,
+      "profit_pct": 0.38,
       "notes": "Approved - 681016 - Invoice #33090 $640.00",
       "job_total": null,
-      "due_date": "2026-03-17"
+      "due_date": "2026-03-17",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -431,11 +442,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "10412",
       "amount": 725.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 1050.0,
+      "profit_pct": 0.31,
       "notes": "Approved - 26-0047-FIRE -  Invoice #4254 $1,050",
-      "job_total": null,
-      "due_date": "2026-03-31"
+      "job_total": 1050.0,
+      "due_date": "2026-03-31",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -444,11 +456,12 @@
       "vendor": "Amir Shoufany",
       "invoice_number": "062",
       "amount": 3602.79,
-      "billed_to_client": null,
-      "profit_pct": null,
-      "notes": "Pending - 680939 -",
+      "billed_to_client": 4467.45,
+      "profit_pct": 0.19,
+      "notes": "Approved - 680939 - Invoice #4266 $10,627.27 - Client charged $4,467.45",
       "job_total": null,
-      "due_date": "2026-03-21"
+      "due_date": "2026-03-21",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -459,9 +472,10 @@
       "amount": 1150.0,
       "billed_to_client": null,
       "profit_pct": null,
-      "notes": "Pendong - 26-0041-MLD -",
+      "notes": "Pending - 26-0041-MLD -",
       "job_total": null,
-      "due_date": "2026-04-01"
+      "due_date": "2026-04-01",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -470,11 +484,12 @@
       "vendor": "X-Elent Remodeling, LCC",
       "invoice_number": "581",
       "amount": 471.83,
-      "billed_to_client": null,
-      "profit_pct": null,
-      "notes": "Pending - 681018 -",
+      "billed_to_client": 754.93,
+      "profit_pct": 0.38,
+      "notes": "Approved - 681018 - Invoice 33094 $754.93",
       "job_total": null,
-      "due_date": "2026-03-21"
+      "due_date": "2026-03-21",
+      "pay_friday": "Yes"
     },
     {
       "report_date": "2026-03-19",
@@ -487,20 +502,22 @@
       "profit_pct": null,
       "notes": "Approved - 26-0002-DMO - Invoice #4269 $11,903.45",
       "job_total": null,
-      "due_date": "2026-04-01"
+      "due_date": "2026-04-01",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
       "division": "improvement",
       "invoice_date": "2026-03-06",
       "vendor": "X-Elent Remodeling, LCC",
-      "invoice_number": "852",
+      "invoice_number": "582",
       "amount": 1735.09,
       "billed_to_client": null,
       "profit_pct": null,
       "notes": "pending -",
       "job_total": null,
-      "due_date": "2026-03-21"
+      "due_date": "2026-03-21",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -513,7 +530,8 @@
       "profit_pct": null,
       "notes": "Approved - 25-0205-STC - Invoice #4253 $6,936.52.",
       "job_total": null,
-      "due_date": "2026-04-01"
+      "due_date": "2026-04-01",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -522,11 +540,12 @@
       "vendor": "BrighLight",
       "invoice_number": "1328",
       "amount": 450.0,
-      "billed_to_client": null,
-      "profit_pct": null,
-      "notes": "Pending - 681013 -",
+      "billed_to_client": 675.0,
+      "profit_pct": 0.33,
+      "notes": "Approved - 681013 - Invoice #33087 $21,101.23",
       "job_total": null,
-      "due_date": "2026-04-03"
+      "due_date": "2026-04-03",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -535,11 +554,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "10416",
       "amount": 475.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 760.0,
+      "profit_pct": 0.38,
       "notes": "Approved - 26-0042-WTR - Invoice #4262 $7,568.48  - $760",
       "job_total": null,
-      "due_date": "2026-04-01"
+      "due_date": "2026-04-01",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -552,7 +572,8 @@
       "profit_pct": null,
       "notes": "Pending -",
       "job_total": null,
-      "due_date": "2026-04-04"
+      "due_date": "2026-04-04",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -561,11 +582,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "10417",
       "amount": 475.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 950.0,
+      "profit_pct": 0.5,
       "notes": "Approved - 26-0018-MLD - Invoice #4257 $950",
       "job_total": null,
-      "due_date": "2026-04-01"
+      "due_date": "2026-04-01",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -574,11 +596,12 @@
       "vendor": "X-Elent Remodeling, LCC",
       "invoice_number": "579",
       "amount": 2267.46,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 3401.19,
+      "profit_pct": 0.33,
       "notes": "Approved - 681013 - Invoice #33092 $11,196.70",
       "job_total": null,
-      "due_date": "2026-03-25"
+      "due_date": "2026-03-25",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -587,11 +610,12 @@
       "vendor": "ECO Mold Testing",
       "invoice_number": "10427",
       "amount": 625.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 890.0,
+      "profit_pct": 0.3,
       "notes": "Approved - 26-0021-MLD - Invoice #4265 $890",
       "job_total": null,
-      "due_date": "2026-04-04"
+      "due_date": "2026-04-04",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -604,7 +628,8 @@
       "profit_pct": null,
       "notes": "Pending - 680939 -",
       "job_total": null,
-      "due_date": "2026-03-31"
+      "due_date": "2026-03-31",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -617,7 +642,8 @@
       "profit_pct": null,
       "notes": "Pending - 26-0053-MLD -",
       "job_total": null,
-      "due_date": "2026-04-04"
+      "due_date": "2026-04-04",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -630,7 +656,8 @@
       "profit_pct": null,
       "notes": "Approved - 680979 - Inv #33080 $12,234 - Pending final payment",
       "job_total": null,
-      "due_date": "2026-04-10"
+      "due_date": "2026-04-10",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -639,11 +666,12 @@
       "vendor": "Air Quality Management Services",
       "invoice_number": "26-028-03",
       "amount": 780.0,
-      "billed_to_client": null,
-      "profit_pct": null,
+      "billed_to_client": 936.0,
+      "profit_pct": 0.17,
       "notes": "Approved - Invoice #4269 $11,903.45 - $936",
       "job_total": null,
-      "due_date": "2026-04-04"
+      "due_date": "2026-04-04",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -656,7 +684,8 @@
       "profit_pct": null,
       "notes": "Pending - 681021 - Job Ongoing",
       "job_total": null,
-      "due_date": "2026-04-10"
+      "due_date": "2026-04-10",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -669,7 +698,8 @@
       "profit_pct": null,
       "notes": "Pending - 26-0041-MLD -",
       "job_total": null,
-      "due_date": "2026-04-09"
+      "due_date": "2026-04-09",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -682,7 +712,8 @@
       "profit_pct": null,
       "notes": "Pending - 681019 -",
       "job_total": null,
-      "due_date": "2026-04-12"
+      "due_date": "2026-04-12",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -695,7 +726,8 @@
       "profit_pct": null,
       "notes": "Pending - 26-0056-MLD -",
       "job_total": null,
-      "due_date": "2026-04-11"
+      "due_date": "2026-04-11",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -708,7 +740,8 @@
       "profit_pct": null,
       "notes": "Pending - 681020 -",
       "job_total": null,
-      "due_date": "2026-04-12"
+      "due_date": "2026-04-12",
+      "pay_friday": "No"
     },
     {
       "report_date": "2026-03-19",
@@ -721,7 +754,8 @@
       "profit_pct": null,
       "notes": "Pending - 681013 -",
       "job_total": null,
-      "due_date": "2026-04-17"
+      "due_date": "2026-04-17",
+      "pay_friday": "No"
     }
   ],
   "transactions": [
