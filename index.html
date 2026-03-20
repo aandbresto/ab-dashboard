@@ -1552,6 +1552,7 @@ function getUpcomingPayrolls(withinDays) {
           division: p.division,
           date: next.toISOString().slice(0,10),
           days: days,
+          estAmount: p.estAmount,
         });
       }
       next = new Date(next);
