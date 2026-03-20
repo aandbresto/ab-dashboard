@@ -60,4 +60,13 @@ print(f"  ✓ {count} AP items")
 count = safe_insert("transactions", payload.get("transactions", []))
 print(f"  ✓ {count} transactions")
 
+# Insert brief if present
+if payload.get("brief"):
+    try:
+        db.table("daily_briefs").delete().eq("report_date", report_date).execute()
+        db.table("daily_briefs").insert({"report_date": report_date, "brief": payload["brief"]}).execute()
+        print(f"  ✓ CFO brief")
+    except Exception as e:
+        print(f"  ✗ Brief failed: {e}")
+
 print(f"\n✅ Dashboard updated for {report_date}")
