@@ -790,14 +790,14 @@ body {
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 4px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th>Approval</th><th>Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 4px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th>Approval</th><th>Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1449,31 +1449,93 @@ async function loadAP() {
     document.getElementById('ap-friday-total').textContent = fmt(imprTotal + restTotal);
   };
 
+  // Load approvals for this date
+  let fridayApprovals = {};
+  try {
+    const date = document.getElementById('ap-date').value;
+    const { data: approvalData } = await db.from('payment_approvals')
+      .select('*').eq('report_date', date);
+    if (approvalData) {
+      approvalData.forEach(a => { fridayApprovals[a.vendor + '_' + (a.invoice_number||'')] = a; });
+    }
+  } catch(e) {}
+
+  const saveFridayApproval = async (vendor, invoiceNum, division, status, comment, date) => {
+    const key = vendor + '_' + (invoiceNum||'');
+    try {
+      await db.from('payment_approvals').upsert({
+        report_date: date, vendor, invoice_number: invoiceNum,
+        division, status, comment,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'vendor,invoice_number,report_date' });
+      fridayApprovals[key] = { status, comment };
+      // Update row UI
+      const row = document.getElementById('friday-row-' + CSS.escape(key));
+      if (row) updateApprovalRowUI(row, status, comment);
+    } catch(e) { console.error('Approval save failed:', e); }
+  };
+
+  const updateApprovalRowUI = (row, status, comment) => {
+    const badge = row.querySelector('.approval-badge');
+    const commentEl = row.querySelector('.approval-comment');
+    if (badge) {
+      badge.textContent = status === 'Approved' ? '✅ Approved' : status === 'Hold' ? '❌ Hold' : '— Pending';
+      badge.style.color = status === 'Approved' ? 'var(--green)' : status === 'Hold' ? 'var(--red)' : 'var(--text-muted)';
+      badge.style.fontWeight = status ? '600' : 'normal';
+    }
+    if (commentEl && comment) commentEl.textContent = comment;
+  };
+
   const renderFriday = (rows, tableId) => {
-    if (!rows.length) return '<tr><td colspan="6" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
+    if (!rows.length) return '<tr><td colspan="8" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
     const subtotalId = tableId + '-subtotal';
+    const date = document.getElementById('ap-date').value;
     const rowsHtml = rows.map(r => {
       const profitPct = r.profit_pct != null ? (r.profit_pct * 100).toFixed(1) + '%' : '—';
       const profitColor = r.profit_pct == null ? '' : r.profit_pct >= 0.3 ? 'color:var(--green);font-weight:600' : r.profit_pct >= 0.1 ? 'color:var(--amber);font-weight:600' : 'color:var(--red);font-weight:600';
-      return `<tr>
+      const key = r.vendor + '_' + (r.invoice_number||'');
+      const approval = fridayApprovals[key] || {};
+      const status = approval.status || '';
+      const comment = approval.comment || '';
+      const badgeColor = status === 'Approved' ? 'var(--green)' : status === 'Hold' ? 'var(--red)' : 'var(--text-muted)';
+      const badgeText = status === 'Approved' ? '✅ Approved' : status === 'Hold' ? '❌ Hold' : '— Pending';
+      const rowBg = status === 'Approved' ? 'background:rgba(34,197,94,0.04);' : status === 'Hold' ? 'background:rgba(239,68,68,0.04);' : '';
+      return `<tr id="friday-row-${CSS.escape(key)}" style="${rowBg}">
         <td>${r.vendor}</td>
         <td class="mono muted">${r.invoice_number || '—'}</td>
         <td class="mono right">${fmt(r.amount)}</td>
         <td class="mono right">${r.billed_to_client ? fmt(r.billed_to_client) : '—'}</td>
         <td class="mono right" style="${profitColor}">${profitPct}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
+        <td style="min-width:120px;">
+          <span class="approval-badge" style="font-size:12px;font-weight:600;color:${badgeColor};">${badgeText}</span>
+          <div style="display:flex;gap:4px;margin-top:4px;">
+            <button onclick="saveFridayApproval('${r.vendor.replace(/'/g,"\'")}','${(r.invoice_number||'').replace(/'/g,"\'")}','${r.division}','Approved','${comment}','${date}')"
+              style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;font-weight:600;">✅</button>
+            <button onclick="saveFridayApproval('${r.vendor.replace(/'/g,"\'")}','${(r.invoice_number||'').replace(/'/g,"\'")}','${r.division}','Hold','${comment}','${date}')"
+              style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--red);color:var(--red);background:none;cursor:pointer;font-weight:600;">❌</button>
+          </div>
+        </td>
+        <td style="min-width:140px;">
+          <input class="approval-comment" type="text" placeholder="Add comment..."
+            value="${comment}"
+            onblur="saveFridayApproval('${r.vendor.replace(/'/g,"\'")}','${(r.invoice_number||'').replace(/'/g,"\'")}','${r.division}','${status}',this.value,'${date}')"
+            style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text-primary);">
+        </td>
       </tr>`;
     }).join('');
     const total = rows.reduce((s,r)=>s+(r.amount||0),0);
     return rowsHtml + `<tr class="total-row">
       <td colspan="2">Total</td>
       <td class="mono right" id="${subtotalId}">${fmt(total)}</td>
-      <td colspan="2"></td><td></td></tr>`;
+      <td colspan="5"></td></tr>`;
   };
 
   document.querySelector('#ap-friday-impr-table tbody').innerHTML = renderFriday(fridayImpr, 'ap-friday-impr');
   document.querySelector('#ap-friday-rest-table tbody').innerHTML = renderFriday(fridayRest, 'ap-friday-rest');
   updateFridayTotals(fridayImpr, fridayRest);
+  // Expose approval function globally for inline button onclick handlers
+  window.saveFridayApproval = saveFridayApproval;
 }
 
 // ── CASH FLOW ─────────────────────────────────────────────────────────────
