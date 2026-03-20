@@ -568,13 +568,10 @@ body {
             <div class="card-title">🤖 CFO Daily Brief</div>
             <div class="kpi-label" id="cfo-brief-date" style="margin-top:2px;"></div>
           </div>
-          <button id="cfo-brief-btn" onclick="generateBrief()"
-            style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;background:var(--accent);color:#fff;">
-            Generate Brief
-          </button>
+          <div style="font-size:11px;color:var(--text-muted);font-style:italic;">Updated daily with your morning upload</div>
         </div>
         <div class="card-body" id="cfo-brief-body" style="padding:16px 20px;min-height:80px;">
-          <div style="color:var(--text-muted);font-size:13px;">Click "Generate Brief" to get AI-powered financial recommendations for this date.</div>
+          <div style="color:var(--text-muted);font-size:13px;">No brief available for this date yet.</div>
         </div>
       </div>
     </div>
@@ -1817,78 +1814,6 @@ async function loadBrief(date) {
   btn.textContent = 'Generate Brief';
 }
 
-async function generateBrief() {
-  const date = document.getElementById('overview-date').value;
-  const snap = allSnapshots.find(s => s.report_date === date);
-  if (!snap) return;
-
-  const btn = document.getElementById('cfo-brief-btn');
-  const briefBody = document.getElementById('cfo-brief-body');
-
-  btn.textContent = 'Generating...';
-  btn.disabled = true;
-  briefBody.innerHTML = '<div style="color:var(--text-muted);font-size:13px;display:flex;align-items:center;gap:8px;"><span>🤖</span> Analyzing financials...</div>';
-
-  // Build prompt with snapshot data
-  const prompt = `You are a CFO advisor for REV Construction & Restoration, a construction and restoration company with two divisions: Improvement and Restoration.
-
-Here is today's financial snapshot for ${date}:
-
-OVERALL:
-- Total Cash in Bank: $${snap.total_cash?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Total AR (Accounts Receivable): $${snap.total_ar?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Total AP (Accounts Payable): $${snap.total_ap?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Credit Debt (Cards + LOCs): $${snap.credit_debt?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Net Cash Availability: $${snap.net_availability?.toLocaleString('en-US', {minimumFractionDigits:2})}
-
-IMPROVEMENT DIVISION:
-- QB Bank Balance: $${snap.impr_qb_bank?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Money Market: $${snap.impr_mm_2690?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- AR: $${snap.impr_ar?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- AP: $${snap.impr_ap?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Cap One Balance: $${snap.cap_one_construction?.toLocaleString('en-US', {minimumFractionDigits:2})} (limit $45K)
-- LOC 3705 Balance: $${snap.loc_3705?.toLocaleString('en-US', {minimumFractionDigits:2})} (limit $100K)
-- Net: $${snap.impr_net?.toLocaleString('en-US', {minimumFractionDigits:2})}
-
-RESTORATION DIVISION:
-- QB Bank Balance: $${snap.rest_qb_bank?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Money Market: $${snap.rest_mm_2798?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- AR: $${snap.rest_ar?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- AP: $${snap.rest_ap?.toLocaleString('en-US', {minimumFractionDigits:2})}
-- Cap One Balance: $${snap.cap_one_restoration?.toLocaleString('en-US', {minimumFractionDigits:2})} (limit $38K)
-- LOC 5064 Balance: $${snap.loc_5064?.toLocaleString('en-US', {minimumFractionDigits:2})} (limit $75K)
-- Net: $${snap.rest_net?.toLocaleString('en-US', {minimumFractionDigits:2})}
-
-Please provide a concise daily CFO brief with 4-5 specific, actionable recommendations. Format your response as a JSON array of objects with "icon", "category", and "message" fields. Use these icons: 💰 for cash, 📥 for AR, 📤 for AP, ⚠️ for warnings, ✅ for positive, 💳 for credit. Be specific with numbers. Keep each message under 2 sentences. Return ONLY the JSON array, no other text.`;
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await response.json();
-    const text = data.content?.[0]?.text || '';
-    const clean = text.replace(/```json|```/g, '').trim();
-    const items = JSON.parse(clean);
-    const brief = JSON.stringify(items);
-
-    // Store in Supabase
-    await db.from('daily_briefs').upsert({ report_date: date, brief: brief });
-
-    renderBrief(brief);
-    btn.textContent = 'Regenerate';
-  } catch(e) {
-    briefBody.innerHTML = '<div style="color:var(--red);font-size:13px;">Failed to generate brief. Please try again.</div>';
-    btn.textContent = 'Generate Brief';
-  }
-  btn.disabled = false;
-}
 
 function renderBrief(briefJson) {
   const briefBody = document.getElementById('cfo-brief-body');
