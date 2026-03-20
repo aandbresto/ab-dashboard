@@ -786,23 +786,22 @@ body {
 
           </div>
         </div>
-        <div class="two-col" style="padding:0 20px 16px;">
-          <div>
-            <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 4px;">🔧 Improvement</div>
+        <div style="padding:0 20px 16px;">
+          <div style="margin-bottom:20px;">
+            <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 6px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th>Approval</th><th>Comment</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
-            <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 4px;">🏠 Restoration</div>
+            <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 6px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th>Approval</th><th>Comment</th></tr></thead>
+              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
-      </div>
 
       <div>
         <div class="card mb-24">
@@ -1483,7 +1482,9 @@ async function loadAP() {
       badge.style.color = status === 'Approved' ? 'var(--green)' : status === 'Hold' ? 'var(--red)' : 'var(--text-muted)';
       badge.style.fontWeight = status ? '600' : 'normal';
     }
-    if (commentEl && comment) commentEl.textContent = comment;
+    if (commentEl) commentEl.value = comment || '';
+    // Update row background
+    row.style.background = status === 'Approved' ? 'rgba(34,197,94,0.04)' : status === 'Hold' ? 'rgba(239,68,68,0.04)' : '';
   };
 
   const renderFriday = (rows, tableId) => {
@@ -1514,6 +1515,8 @@ async function loadAP() {
               style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;font-weight:600;">✅</button>
             <button onclick="saveFridayApproval('${r.vendor.replace(/'/g,"\'")}','${(r.invoice_number||'').replace(/'/g,"\'")}','${r.division}','Hold','${comment}','${date}')"
               style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--red);color:var(--red);background:none;cursor:pointer;font-weight:600;">❌</button>
+            <button onclick="saveFridayApproval('${r.vendor.replace(/'/g,"\'")}','${(r.invoice_number||'').replace(/'/g,"\'")}','${r.division}','','','${date}')"
+              style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
           </div>
         </td>
         <td style="min-width:140px;">
