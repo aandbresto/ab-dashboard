@@ -1675,9 +1675,13 @@ async function loadCashFlow() {
     const cash = snap ? (div === 'impr' ? snap.impr_cash : snap.rest_cash) : 0;
     const cashEl = document.getElementById(`cf-${div}-cash`);
     if (cashEl) cashEl.textContent = fmt(cash || 0);
+    const adminPayrollCost = getUpcomingPayrolls(cfDays)
+      .filter(p => p.division === 'admin')
+      .reduce((s,p) => s + (p.estAmount || 0), 0);
+    const adminShare = divFull === 'improvement' ? adminPayrollCost * 0.25 : adminPayrollCost * 0.75;
     const payrollCost = getUpcomingPayrolls(cfDays)
       .filter(p => p.division === divFull)
-      .reduce((s,p) => s + (p.estAmount || 0), 0);
+      .reduce((s,p) => s + (p.estAmount || 0), 0) + adminShare;
 
     // Business expenses
     const bizExpenses = getUpcomingExpenses(cfDays, divFull);
@@ -1718,8 +1722,8 @@ async function loadCashFlow() {
     // ── PAYROLL ───────────────────────────────────────────────────────────
     const payrolls = getUpcomingPayrolls(cfDays).filter(p => p.division === divFull);
     const payrollEl = document.getElementById(`cf-${div}-payroll`);
-    if (payrolls.length > 0) {
-      const totalPayroll = payrolls.reduce((s,p) => s + (p.estAmount || 0), 0);
+    if (payrolls.length > 0 || adminShare > 0) {
+      const totalPayroll = payrolls.reduce((s,p) => s + (p.estAmount || 0), 0) + adminShare;
       payrollEl.textContent = fmt(totalPayroll);
     } else {
       payrollEl.textContent = 'None in window';
