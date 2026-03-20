@@ -1716,8 +1716,19 @@ async function loadCashFlow() {
     netEl.textContent = fmt(net30);
     netEl.style.color = net30 < 0 ? 'var(--red)' : net30 < 25000 ? 'var(--amber)' : 'var(--green)';
 
-    document.querySelector(`#cf-${div}-ar-table tbody`).innerHTML = renderARRows(arRows);
-    document.querySelector(`#cf-${div}-ap-table tbody`).innerHTML = renderAPRows(apRows);
+    // Filter to selected window
+    const arFiltered = arRows.filter(r => {
+      if (!r.expected_payment_date) return false;
+      const d = new Date(r.expected_payment_date + 'T00:00:00');
+      return d >= today && d <= in30;
+    });
+    const apFiltered = apRows.filter(r => {
+      if (!r.due_date || r.due_date < '2026-01-01') return false;
+      const d = new Date(r.due_date + 'T00:00:00');
+      return d >= today && d <= in30;
+    });
+    document.querySelector(`#cf-${div}-ar-table tbody`).innerHTML = renderARRows(arFiltered);
+    document.querySelector(`#cf-${div}-ap-table tbody`).innerHTML = renderAPRows(apFiltered);
 
     // ── PAYROLL ───────────────────────────────────────────────────────────
     const payrolls = getUpcomingPayrolls(cfDays).filter(p => p.division === divFull);
