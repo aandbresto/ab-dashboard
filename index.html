@@ -721,6 +721,7 @@ body {
           <table class="data-table" id="ar-impr-table">
             <thead>
               <tr>
+                <th>Invoice Date</th>
                 <th>Invoice #</th>
                 <th>Client</th>
                 <th style="text-align:right">Balance</th>
@@ -738,6 +739,7 @@ body {
           <table class="data-table" id="ar-rest-table">
             <thead>
               <tr>
+                <th>Invoice Date</th>
                 <th>Invoice #</th>
                 <th>Client</th>
                 <th style="text-align:right">Balance</th>
@@ -1363,11 +1365,12 @@ async function loadAR() {
   const rest = (data || []).filter(r => r.division === 'restoration');
 
   const renderAR = (rows) => {
-    if (!rows.length) return `<tr><td colspan="7" class="empty-state">No data.</td></tr>`;
+    if (!rows.length) return `<tr><td colspan="8" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const days = r.days_outstanding;
       const daysClass = days == null ? '' : days > 45 ? 'days-late' : days > 30 ? 'days-warn' : 'days-ok';
       return `<tr class="ar-client-row">
+        <td class="mono muted">${fmtDate(r.invoice_date) || '—'}</td>
         <td class="mono muted" style="white-space:nowrap;">${r.invoice_number || '—'}</td>
         <td>${r.client}</td>
         <td class="mono right">${fmt(r.balance)}</td>
@@ -1380,11 +1383,12 @@ async function loadAR() {
     const total = rows.reduce((s, r) => s + (r.balance || 0), 0);
     return body + `<tr class="total-row">
       <td>Total</td><td class="mono right">${fmt(total)}</td>
-      <td colspan="5"></td></tr>`;
+      <td colspan="6"></td></tr>`;
   };
 
-  document.querySelector('#ar-impr-table tbody').innerHTML = renderAR(impr);
-  document.querySelector('#ar-rest-table tbody').innerHTML = renderAR(rest);
+  const sortByInvDate = rows => [...rows].sort((a,b) => (a.invoice_date||'') < (b.invoice_date||'') ? -1 : 1);
+  document.querySelector('#ar-impr-table tbody').innerHTML = renderAR(sortByInvDate(impr));
+  document.querySelector('#ar-rest-table tbody').innerHTML = renderAR(sortByInvDate(rest));
 }
 
 // ── AP ────────────────────────────────────────────────────────────────────
@@ -1426,8 +1430,9 @@ async function loadAP() {
       <td colspan="5"></td></tr>`;
   };
 
-  document.querySelector('#ap-impr-table tbody').innerHTML = renderAP(impr);
-  document.querySelector('#ap-rest-table tbody').innerHTML = renderAP(rest);
+  const sortAPByDate = rows => [...rows].sort((a,b) => (a.invoice_date||'') < (b.invoice_date||'') ? -1 : 1);
+  document.querySelector('#ap-impr-table tbody').innerHTML = renderAP(sortAPByDate(impr));
+  document.querySelector('#ap-rest-table tbody').innerHTML = renderAP(sortAPByDate(rest));
 
   // ── FRIDAY PAYMENTS DUE ─────────────────────────────────────────────────
   const today = new Date(); today.setHours(0,0,0,0);
