@@ -1,288 +1,300 @@
 {
-  "report_date": "2026-03-19",
+  "report_date": "2026-03-20",
   "snapshot": {
-    "report_date": "2026-03-19",
-    "impr_qb_bank": 19040.21,
+    "report_date": "2026-03-20",
+    "impr_qb_bank": 19042.7,
     "impr_bank_2657": 6573.66,
     "impr_mm_2690": 36099.23,
     "impr_cash": 42672.89,
     "impr_ar": 49821.1,
     "cap_one_construction": 16991.88,
-    "loc_3705": 4435.77,
+    "loc_3705": 4436.84,
     "impr_ap": 78038.35,
-    "impr_net": 5494.54,
-    "rest_qb_bank": 5726.61,
-    "rest_bank_7363": 14841.75,
+    "impr_net": 5495.96,
+    "rest_qb_bank": 14360.75,
+    "rest_bank_7363": 16641.75,
     "rest_mm_2798": 25108.17,
-    "rest_cash": 39949.92,
-    "rest_ar": 57384.33,
-    "loc_5064": 12044.0,
-    "cap_one_restoration": 34575.86,
-    "rest_ap": 151953.0,
-    "rest_net": -110353.75,
-    "total_cash": 82622.81,
-    "total_ar": 107205.43,
-    "total_ap": 229991.35,
-    "credit_debt": 68047.51,
-    "net_availability": -108210.62
+    "rest_cash": 41749.92,
+    "rest_ar": 57537.45,
+    "loc_5064": 12046.93,
+    "cap_one_restoration": 36382.67,
+    "rest_ap": 16162.0,
+    "rest_net": 32414.77,
+    "total_cash": 84422.81,
+    "total_ar": 107358.55,
+    "total_ap": 94200.35,
+    "credit_debt": 69858.32,
+    "net_availability": 27722.69
   },
   "ar_items": [
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33080",
       "client": "Custom Craft Homes:680979",
       "balance": 1631.2,
       "invoice_date": "2026-01-13",
       "due_date": "2026-03-27",
-      "days_outstanding": 65,
+      "days_outstanding": 66,
       "expected_payment_date": "2026-03-27",
       "notes": "3/23 Check run"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4120",
       "client": "Yvonne Badger: 25-0133-MLD",
       "balance": 4764.45,
       "invoice_date": "2025-09-19",
       "due_date": "2025-09-22",
-      "days_outstanding": 181,
+      "days_outstanding": 182,
       "expected_payment_date": null,
       "notes": "02/23 - Reached out to Collections company, all information sent to them for collections"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33087",
       "client": "Manatee County.:681013",
       "balance": 21101.23,
       "invoice_date": "2026-02-04",
       "due_date": "2026-03-21",
-      "days_outstanding": 43,
+      "days_outstanding": 44,
       "expected_payment_date": "2026-03-20",
       "notes": "03/10 - work completed"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4201",
       "client": "Kingdom Roofing: 25-0219-MLD",
       "balance": 3730.35,
       "invoice_date": "2025-12-04",
       "due_date": "2025-12-04",
-      "days_outstanding": 105,
+      "days_outstanding": 106,
       "expected_payment_date": null,
       "notes": "03/09 - Emailed Mike with informaion about job"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33092",
       "client": "Manatee County.:681013",
       "balance": 11196.7,
       "invoice_date": "2026-02-27",
       "due_date": "2026-04-13",
-      "days_outstanding": 20,
+      "days_outstanding": 21,
       "expected_payment_date": "2026-03-20",
       "notes": "03/10 - work completed"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4216",
       "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC",
       "balance": 850.0,
       "invoice_date": "2025-12-16",
       "due_date": "2026-01-15",
-      "days_outstanding": 93,
+      "days_outstanding": 94,
       "expected_payment_date": "2026-04-17",
       "notes": "02/10 - Job ongoing, remediation ongoing."
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "4266",
       "client": "RT Moore:25-0030-REP/Job 680939",
       "balance": 10627.27,
       "invoice_date": "2026-03-06",
       "due_date": "2026-04-05",
-      "days_outstanding": 13,
+      "days_outstanding": 14,
       "expected_payment_date": "2026-04-05",
       "notes": null
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4239",
       "client": "Taylor Morrison:9483 Tequila Sunrise Drive-25-0189-MLD",
       "balance": 5603.28,
       "invoice_date": "2026-01-20",
       "due_date": "2026-02-20",
-      "days_outstanding": 58,
+      "days_outstanding": 59,
       "expected_payment_date": "2026-04-10",
       "notes": "02/24 - EPO is attached to Repairs, that are still ongoing"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33097",
       "client": "Taylor Morrison of FL:681019",
       "balance": 627.2,
       "invoice_date": "2026-03-11",
       "due_date": "2026-04-10",
-      "days_outstanding": 8,
+      "days_outstanding": 9,
       "expected_payment_date": "2026-04-11",
       "notes": "03/11 - pending EPO"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4241",
       "client": "Sorrento Luxury Apartments:Unit 3209 -2900 Height Street-26-0007-CLN",
       "balance": 1752.0,
       "invoice_date": "2026-01-22",
       "due_date": "2026-02-21",
-      "days_outstanding": 56,
+      "days_outstanding": 57,
       "expected_payment_date": "2026-03-20",
       "notes": "03/12 - spoke to Tyler payment is approved but check hadnt been released due to netvendor transition, check should arrive next week"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33095",
       "client": "Custom Craft Homes:680979",
       "balance": 712.5,
       "invoice_date": "2026-03-12",
       "due_date": "2026-04-11",
-      "days_outstanding": 7,
+      "days_outstanding": 8,
       "expected_payment_date": "2026-03-27",
       "notes": "03/12 - to be paid 03/23"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4259",
       "client": "Taylor Morrison:16324 San Donato Place-26-0037-CLN",
       "balance": 622.5,
       "invoice_date": "2026-02-24",
       "due_date": "2026-03-26",
-      "days_outstanding": 23,
+      "days_outstanding": 24,
       "expected_payment_date": "2026-03-27",
       "notes": "03/12 - Called and Texted Robert, EPO still pending"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_number": "33096",
       "client": "Solea Wellen Park:681020",
       "balance": 3925.0,
       "invoice_date": "2026-03-13",
       "due_date": "2026-04-12",
-      "days_outstanding": 6,
+      "days_outstanding": 7,
       "expected_payment_date": "2026-04-12",
       "notes": null
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4261",
       "client": "BHL Federal:602 Elpaso Avenue-26-0044-MLD",
       "balance": 1800.0,
       "invoice_date": "2026-02-26",
       "due_date": "2026-02-26",
-      "days_outstanding": 21,
+      "days_outstanding": 22,
       "expected_payment_date": "2026-03-27",
       "notes": "03/05 - invoiced approved and sent to billing for payment"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4264",
       "client": "Taylor Morrison:10523 Eclipse Street-26-0054-ESR",
       "balance": 1922.06,
       "invoice_date": "2026-03-03",
       "due_date": "2026-04-02",
-      "days_outstanding": 16,
+      "days_outstanding": 17,
       "expected_payment_date": "2026-04-02",
       "notes": "3/12 work ongoing"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4269",
       "client": "Taylor Morrison:4719 Motta Court-26-0002-DMO",
       "balance": 11665.38,
       "invoice_date": "2026-03-12",
       "due_date": "2026-04-11",
-      "days_outstanding": 7,
+      "days_outstanding": 8,
       "expected_payment_date": "2026-04-11",
       "notes": "03/12 - email AP requesting receipt confirmation"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4253",
       "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC",
       "balance": 6936.52,
       "invoice_date": "2026-03-13",
       "due_date": "2026-04-17",
-      "days_outstanding": 6,
+      "days_outstanding": 7,
       "expected_payment_date": "2026-04-17",
       "notes": "Invoice not sent yet"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4270",
       "client": "Stringer Management:1650 Pine Tree Lane-26-0062-ESR",
-      "balance": 3192.54,
+      "balance": 2670.66,
       "invoice_date": "2026-03-16",
       "due_date": "2026-04-15",
-      "days_outstanding": 3,
+      "days_outstanding": 4,
       "expected_payment_date": "2026-04-15",
       "notes": null
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4271",
       "client": "Taylor Morrison:16419 Star Grass Circle-26-0064-WTR",
       "balance": 299.0,
       "invoice_date": "2026-03-16",
       "due_date": "2026-04-15",
-      "days_outstanding": 3,
+      "days_outstanding": 4,
       "expected_payment_date": "2026-04-15",
       "notes": null
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4272",
       "client": "Manatee County  - Customer:1401 99th Street Northwest-26-0041-MLD",
       "balance": 7696.54,
       "invoice_date": "2026-03-17",
       "due_date": "2026-04-16",
-      "days_outstanding": 2,
+      "days_outstanding": 3,
       "expected_payment_date": "2026-04-16",
       "notes": null
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_number": "4273",
       "client": "Mechanical One:15198 Aqua Bella Drive-26-0063-WTR",
       "balance": 6549.71,
       "invoice_date": "2026-03-18",
       "due_date": "2026-04-17",
-      "days_outstanding": 1,
+      "days_outstanding": 2,
       "expected_payment_date": "2026-04-17",
+      "notes": null
+    },
+    {
+      "report_date": "2026-03-20",
+      "division": "restoration",
+      "invoice_number": "4274",
+      "client": "Pulte Homes Corporation:Lot 011 - 18825 Indian Rock Place-26-0050-STC",
+      "balance": 675.0,
+      "invoice_date": "2026-03-19",
+      "due_date": "2026-04-18",
+      "days_outstanding": 1,
+      "expected_payment_date": "2026-04-18",
       "notes": null
     }
   ],
   "ap_items": [
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2025-05-07",
       "vendor": "Kingdom Restoration",
@@ -296,7 +308,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2025-07-29",
       "vendor": "ECO Mold Testing",
@@ -310,7 +322,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2025-05-28",
       "vendor": "Empire Today LLC",
@@ -324,7 +336,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2025-12-16",
       "vendor": "ECO Mold Testing",
@@ -338,7 +350,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2025-10-07",
       "vendor": "X-Elent Remodeling, LCC",
@@ -352,7 +364,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-02-18",
       "vendor": "Sunshine Granite & Marble",
@@ -366,7 +378,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-02-03",
       "vendor": "Ryz Construction",
@@ -380,7 +392,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-02-18",
       "vendor": "Damm Good Plumbing and Air Corp",
@@ -394,7 +406,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-02-27",
       "vendor": "X-Elent Remodeling, LCC",
@@ -408,7 +420,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-02-23",
       "vendor": "ECO Mold Testing",
@@ -422,7 +434,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-02-15",
       "vendor": "DE Home Solutions LLC",
@@ -436,7 +448,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-01",
       "vendor": "ECO Mold Testing",
@@ -450,7 +462,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-06",
       "vendor": "Amir Shoufany",
@@ -464,7 +476,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-02",
       "vendor": "Clean Sweep Duct Cleaning",
@@ -478,7 +490,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-06",
       "vendor": "X-Elent Remodeling, LCC",
@@ -492,7 +504,7 @@
       "pay_friday": "Yes"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-02",
       "vendor": "Clean Sweep Duct Cleaning",
@@ -506,7 +518,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-06",
       "vendor": "X-Elent Remodeling, LCC",
@@ -520,7 +532,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-02",
       "vendor": "ECO Mold Testing",
@@ -534,7 +546,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-04",
       "vendor": "BrighLight",
@@ -548,7 +560,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-02",
       "vendor": "ECO Mold Testing",
@@ -562,7 +574,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-05",
       "vendor": "DE Home Solutions LLC",
@@ -576,7 +588,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-02",
       "vendor": "ECO Mold Testing",
@@ -590,7 +602,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-10",
       "vendor": "X-Elent Remodeling, LCC",
@@ -604,7 +616,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-05",
       "vendor": "ECO Mold Testing",
@@ -618,7 +630,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-16",
       "vendor": "Amir Shoufany",
@@ -632,7 +644,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-05",
       "vendor": "ECO Mold Testing",
@@ -646,7 +658,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-11",
       "vendor": "Harold Bronson Construction",
@@ -660,7 +672,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-05",
       "vendor": "Air Quality Management Services",
@@ -674,7 +686,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-11",
       "vendor": "Harold Bronson Construction",
@@ -688,7 +700,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-10",
       "vendor": "ECO Mold Testing",
@@ -702,7 +714,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-13",
       "vendor": "Sarasota Marble Restoration, LLC",
@@ -716,7 +728,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "restoration",
       "invoice_date": "2026-03-12",
       "vendor": "ECO Mold Testing",
@@ -730,7 +742,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-13",
       "vendor": "DE Home Solutions LLC",
@@ -744,7 +756,7 @@
       "pay_friday": "No"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "division": "improvement",
       "invoice_date": "2026-03-18",
       "vendor": "BrighLight",
@@ -760,67 +772,80 @@
   ],
   "transactions": [
     {
-      "report_date": "2026-03-19",
-      "trans_date": "2026-03-17",
-      "posted_date": "2026-03-18",
-      "account": "cap_one_restoration",
-      "account_type": "credit_card",
-      "division": "restoration",
-      "vendor": "Asana",
-      "amount": 134.9,
-      "explanation": "Subscription",
+      "report_date": "2026-03-20",
+      "trans_date": "2026-03-19",
+      "posted_date": "2026-03-19",
+      "account": "checking_2657",
+      "account_type": "bank",
+      "division": "improvement",
+      "vendor": "INVOICE CERTIPAY PEO 031926",
+      "amount": 1658.7,
+      "explanation": "Payroll",
       "approved_by": null,
       "txn_type": "Debit"
     },
     {
-      "report_date": "2026-03-19",
-      "trans_date": "2026-03-17",
-      "posted_date": "2026-03-18",
+      "report_date": "2026-03-20",
+      "trans_date": "2026-03-18",
+      "posted_date": "2026-03-19",
       "account": "cap_one_restoration",
       "account_type": "credit_card",
       "division": "restoration",
-      "vendor": "Signs4Times",
-      "amount": 806.25,
-      "explanation": "Car Wrap",
-      "approved_by": null,
-      "txn_type": "Debit"
-    },
-    {
-      "report_date": "2026-03-19",
-      "trans_date": "2026-03-17",
-      "posted_date": "2026-03-18",
-      "account": "cap_one_restoration",
-      "account_type": "credit_card",
-      "division": "restoration",
-      "vendor": "Community Associaton",
-      "amount": 685.0,
+      "vendor": "PlacidaWindowTreatment",
+      "amount": 85.6,
       "explanation": null,
       "approved_by": null,
       "txn_type": "Debit"
     },
     {
-      "report_date": "2026-03-19",
+      "report_date": "2026-03-20",
       "trans_date": "2026-03-18",
-      "posted_date": "2026-03-18",
+      "posted_date": "2026-03-19",
       "account": "cap_one_restoration",
       "account_type": "credit_card",
       "division": "restoration",
-      "vendor": "BadAss Coffee",
-      "amount": 6.24,
+      "vendor": "Mavis",
+      "amount": 1707.45,
+      "explanation": "Car Repair",
+      "approved_by": null,
+      "txn_type": "Debit"
+    },
+    {
+      "report_date": "2026-03-20",
+      "trans_date": "2026-03-18",
+      "posted_date": "2026-03-19",
+      "account": "cap_one_restoration",
+      "account_type": "credit_card",
+      "division": "restoration",
+      "vendor": "Starbucks",
+      "amount": 13.77,
       "explanation": "Coffee",
       "approved_by": null,
       "txn_type": "Debit"
     },
     {
-      "report_date": "2026-03-19",
-      "trans_date": "2026-03-17",
-      "posted_date": "2026-03-17",
+      "report_date": "2026-03-20",
+      "trans_date": "2026-03-19",
+      "posted_date": "2026-03-19",
       "account": "checking_7363",
       "account_type": "bank",
       "division": "restoration",
-      "vendor": "ONLINE PMT CAPITAL ONE 031826",
-      "amount": 3000.0,
-      "explanation": "Capital One Payment",
+      "vendor": "PAYMENT FL1 PMD 031926",
+      "amount": 4771.43,
+      "explanation": "Client Payment - TM",
+      "approved_by": null,
+      "txn_type": "Credit"
+    },
+    {
+      "report_date": "2026-03-20",
+      "trans_date": "2026-03-19",
+      "posted_date": "2026-03-19",
+      "account": "checking_7363",
+      "account_type": "bank",
+      "division": "restoration",
+      "vendor": "FLEET DEBI WRIGHT EXPRESS 031926",
+      "amount": 1842.36,
+      "explanation": "Shell Payment",
       "approved_by": null,
       "txn_type": "Debit"
     }
