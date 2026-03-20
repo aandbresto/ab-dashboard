@@ -795,14 +795,14 @@ body {
           <div style="margin-bottom:20px;">
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 6px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 6px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1515,7 +1515,7 @@ async function loadAP() {
   };
 
   const renderFriday = (rows, tableId) => {
-    if (!rows.length) return '<tr><td colspan="8" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
+    if (!rows.length) return '<tr><td colspan="9" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
     const subtotalId = tableId + '-subtotal';
     const date = document.getElementById('ap-date').value;
     const rowsHtml = rows.map(r => {
@@ -1529,6 +1529,7 @@ async function loadAP() {
       const badgeText = status === 'Approved' ? '✅ Approved' : status === 'Hold' ? '❌ Hold' : '— Pending';
       const rowBg = status === 'Approved' ? 'background:rgba(34,197,94,0.04);' : status === 'Hold' ? 'background:rgba(239,68,68,0.04);' : '';
       return `<tr id="friday-row-${CSS.escape(key)}" style="${rowBg}">
+        <td class="mono muted">${fmtDate(r.invoice_date) || '—'}</td>
         <td>${r.vendor}</td>
         <td class="mono muted">${r.invoice_number || '—'}</td>
         <td class="mono right">${fmt(r.amount)}</td>
@@ -1556,7 +1557,7 @@ async function loadAP() {
     }).join('');
     const total = rows.reduce((s,r)=>s+(r.amount||0),0);
     return rowsHtml + `<tr class="total-row">
-      <td colspan="2">Total</td>
+      <td colspan="3">Total</td>
       <td class="mono right" id="${subtotalId}">${fmt(total)}</td>
       <td colspan="5"></td></tr>`;
   };
