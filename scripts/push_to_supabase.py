@@ -18,20 +18,18 @@ print(f"Pushing data for {report_date}...")
 
 # Clear existing data for this date
 for table in ["daily_snapshots", "ar_items", "ap_items", "transactions"]:
-    result = db.table(table).delete().eq("report_date", report_date).execute()
-    print(f"  Cleared {table}: {result}")
+    db.table(table).delete().eq("report_date", report_date).execute()
+    print(f"  Cleared {table}")
 
 def safe_insert(table, rows):
     if not rows:
-        print(f"  No rows to insert into {table}")
+        print(f"  No rows for {table}")
         return 0
-    print(f"  Attempting to insert {len(rows)} rows into {table}...")
     try:
-        result = db.table(table).insert(rows).execute()
-        print(f"  ✓ Inserted {len(rows)} rows into {table}: {result}")
+        db.table(table).insert(rows).execute()
         return len(rows)
     except Exception as e:
-        print(f"  ✗ Batch insert FAILED for {table}: {e}")
+        print(f"  ⚠ Batch insert failed for {table}: {e}")
         success = 0
         for row in rows:
             try:
@@ -39,8 +37,24 @@ def safe_insert(table, rows):
                 success += 1
             except Exception as row_err:
                 print(f"    Skipped row: {row_err}")
-        print(f"  Row-by-row: {success}/{len(rows)} succeeded")
         return success
+
+def to_int(v):
+    """Convert float like 69.0 to int 69, or None if null."""
+    if v is None:
+        return None
+    try:
+        return int(float(v))
+    except:
+        return None
+
+def get_account_type(account):
+    if not account:
+        return None
+    a = account.lower()
+    if "capital one" in a or "cap one" in a:
+        return "credit_card"
+    return "bank"
 
 # ── Snapshot ──────────────────────────────────────────────────────────────────
 cash = payload["cash_position"]
@@ -76,13 +90,16 @@ snapshot = {
 }
 
 try:
-    result = db.table("daily_snapshots").insert(snapshot).execute()
-    print(f"  ✓ Snapshot: {result}")
+    db.table("daily_snapshots").insert(snapshot).execute()
+    print(f"  ✓ Snapshot")
 except Exception as e:
     print(f"  ✗ Snapshot failed: {e}")
     sys.exit(1)
 
 # ── AR ────────────────────────────────────────────────────────────────────────
+# days_outstanding must be int (not float)
+# Supabase columns: report_date, invoice_number, client, balance, invoice_date,
+#                   due_date, days_outstanding, expected_payment_date, notes, division
 ar_rows = []
 for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
     ar_rows.append({
@@ -92,7 +109,7 @@ for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
         "balance":               row.get("balance"),
         "invoice_date":          row.get("invoice_date"),
         "due_date":              row.get("due_date"),
-        "days_outstanding":      row.get("days_out"),
+        "days_outstanding":      to_int(row.get("days_out")),
         "expected_payment_date": row.get("expected_payment"),
         "notes":                 row.get("last_update"),
         "division":              row.get("division"),
@@ -123,21 +140,21 @@ count = safe_insert("ap_items", ap_rows)
 print(f"  ✓ {count} AP items")
 
 # ── Transactions ──────────────────────────────────────────────────────────────
+# Supabase columns: report_date, account_type, division, card_no, vendor,
+#                   amount, explanation, approved_by, txn_type
 txn_rows = []
 for row in payload.get("transactions", []):
     account = row.get("account")
     txn_rows.append({
-        "report_date": report_date,
-        "trans_date":  row.get("trans_date"),
-        "posted_date": row.get("posted_date"),
-        "card_desc":   row.get("card_desc"),
-        "vendor":      row.get("vendor"),
-        "amount":      row.get("amount"),
-        "explanation": row.get("explanation"),
-        "approved_by": row.get("approved_by"),
-        "txn_type":    row.get("txn_type"),
-        "account":     account,
-        "division":    row.get("division"),
+        "report_date":  report_date,
+        "card_no":      row.get("card_desc"),
+        "vendor":       row.get("vendor"),
+        "amount":       row.get("amount"),
+        "explanation":  row.get("explanation"),
+        "approved_by":  row.get("approved_by"),
+        "txn_type":     row.get("txn_type"),
+        "account_type": get_account_type(account),
+        "division":     row.get("division"),
     })
 
 count = safe_insert("transactions", txn_rows)
