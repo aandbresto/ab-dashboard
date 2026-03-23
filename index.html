@@ -1288,13 +1288,14 @@ async function loadTransactions() {
   allTransactions = data || [];
   renderTransactions();
 
-  // Summaries — Debits only for out totals, Credits shown separately
-  const debits  = allTransactions.filter(t => t.txn_type !== 'Credit');
-  const credits = allTransactions.filter(t => t.txn_type === 'Credit');
-  const total   = debits.reduce((s, t) => s + (t.amount || 0), 0);
-  const cc      = debits.filter(t => t.account_type === 'credit_card')
+  // Summaries — exclude transfers, Debits only for out totals
+  const nonTransfers = allTransactions.filter(t => t.txn_type?.toLowerCase() !== 'transfer');
+  const debits       = nonTransfers.filter(t => !['credit'].includes(t.txn_type?.toLowerCase()));
+  const credits      = nonTransfers.filter(t => t.txn_type?.toLowerCase() === 'credit');
+  const total        = debits.reduce((s, t) => s + (t.amount || 0), 0);
+  const cc           = debits.filter(t => t.account_type === 'credit_card')
     .reduce((s, t) => s + (t.amount || 0), 0);
-  const bank    = debits.filter(t => t.account_type === 'bank')
+  const bank         = debits.filter(t => t.account_type === 'bank')
     .reduce((s, t) => s + (t.amount || 0), 0);
   const creditsTotal = credits.reduce((s, t) => s + (t.amount || 0), 0);
 
