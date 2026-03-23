@@ -22,7 +22,6 @@ for table in ["daily_snapshots", "ar_items", "ap_items", "transactions"]:
     print(f"  Cleared {table}")
 
 def safe_insert(table, rows):
-    """Insert rows, retrying row by row if batch fails."""
     if not rows:
         return 0
     try:
@@ -40,7 +39,6 @@ def safe_insert(table, rows):
         return success
 
 def get_account_type(account):
-    """Classify account as credit_card or bank based on name."""
     if not account:
         return None
     a = account.lower()
@@ -48,8 +46,7 @@ def get_account_type(account):
         return "credit_card"
     return "bank"
 
-# ── Build snapshot from cash_position ────────────────────────────────────────
-# Column names match exactly what index.html reads (snap.impr_cash, snap.rest_cash, etc.)
+# ── Snapshot ──────────────────────────────────────────────────────────────────
 cash = payload["cash_position"]
 impr = cash["improvement"]
 rest = cash["restoration"]
@@ -57,7 +54,6 @@ comb = cash["combined"]
 
 snapshot = {
     "report_date":          report_date,
-    # Improvement
     "impr_qb_bank":         impr.get("qb_bank_balance"),
     "impr_bank_2657":       impr.get("bank_balance_2657"),
     "impr_mm_2690":         impr.get("money_market_2690"),
@@ -67,7 +63,6 @@ snapshot = {
     "loc_3705":             impr.get("loc_3705"),
     "impr_ap":              impr.get("accounts_payable"),
     "impr_net":             impr.get("net_total"),
-    # Restoration
     "rest_qb_bank":         rest.get("qb_bank_balance"),
     "rest_bank_7363":       rest.get("bank_balance_7363"),
     "rest_mm_2798":         rest.get("money_market_2798"),
@@ -77,7 +72,6 @@ snapshot = {
     "cap_one_restoration":  rest.get("cap_one_cc"),
     "rest_ap":              rest.get("accounts_payable"),
     "rest_net":             rest.get("net_total"),
-    # Combined
     "total_cash":           comb.get("total_cash_in_bank"),
     "total_ar":             comb.get("total_ar"),
     "total_ap":             comb.get("total_ap"),
@@ -92,9 +86,7 @@ except Exception as e:
     print(f"  ✗ Snapshot failed: {e}")
     sys.exit(1)
 
-# ── AR items ─────────────────────────────────────────────────────────────────
-# Column names match what loadAR() reads: r.client, r.balance, r.days_outstanding,
-# r.expected_payment_date, r.notes, r.invoice_number, r.invoice_date, r.due_date
+# ── AR ────────────────────────────────────────────────────────────────────────
 ar_rows = []
 for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
     ar_rows.append({
@@ -113,9 +105,7 @@ for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
 count = safe_insert("ar_items", ar_rows)
 print(f"  ✓ {count} AR items")
 
-# ── AP items ──────────────────────────────────────────────────────────────────
-# Column names match what loadAP() reads: r.vendor, r.invoice_number, r.amount,
-# r.billed_to_client, r.profit_pct, r.notes, r.job_total, r.due_date, r.pay_friday
+# ── AP ────────────────────────────────────────────────────────────────────────
 ap_rows = []
 for row in payload["ap"]["improvement"] + payload["ap"]["restoration"]:
     ap_rows.append({
@@ -137,17 +127,8 @@ count = safe_insert("ap_items", ap_rows)
 print(f"  ✓ {count} AP items")
 
 # ── Transactions ──────────────────────────────────────────────────────────────
-# account stored as the filter key (e.g. "checking_7363") so dashboard chips work
-# account_type set to "credit_card" or "bank" so CC vs bank split works
-ACCOUNT_FILTER_KEYS = {
-    "Capital One – Construction (2897)": "cap_one_construction",
-    "Construction Checking – 2657":      "checking_2657",
-    "Construction MM – 2690":            "mm_2690",
-    "Capital One – Restoration":         "cap_one_restoration",
-    "Restoration Checking – 7363":       "checking_7363",
-    "Restoration MM – 2798":             "mm_2798",
-}
-
+# Store full account name so dashboard filter chips work with existing index.html
+# account_type added so CC vs bank summary split works correctly
 txn_rows = []
 for row in payload.get("transactions", []):
     account = row.get("account")
@@ -161,15 +142,15 @@ for row in payload.get("transactions", []):
         "explanation":  row.get("explanation"),
         "approved_by":  row.get("approved_by"),
         "txn_type":     row.get("txn_type"),
-        "account":      ACCOUNT_FILTER_KEYS.get(account, account),
-        "account_type": get_account_type(account),
+        "account":      account,           # full name e.g. "Restoration Checking – 7363"
+        "account_type": get_account_type(account),  # "credit_card" or "bank"
         "division":     row.get("division"),
     })
 
 count = safe_insert("transactions", txn_rows)
 print(f"  ✓ {count} transactions")
 
-# ── Optional brief ────────────────────────────────────────────────────────────
+# ── Brief ─────────────────────────────────────────────────────────────────────
 if payload.get("brief"):
     try:
         db.table("daily_briefs").delete().eq("report_date", report_date).execute()
