@@ -1686,6 +1686,7 @@ function setCFDays(days, el) {
 }
 
 async function loadCashFlow() {
+  try {
   const date = document.getElementById('cf-date').value;
   const today = new Date(); today.setHours(0,0,0,0);
   const in30  = new Date(today); in30.setDate(in30.getDate() + cfDays);
@@ -1782,7 +1783,8 @@ async function loadCashFlow() {
     // Business expenses
     const bizExpenses = getUpcomingExpenses(cfDays, divFull);
     const biz30 = bizExpenses.reduce((s,e) => s + (e.amount || 0), 0);
-    document.getElementById(`cf-${div}-biz-30`).textContent = fmt(biz30);
+    const bizEl = document.getElementById(`cf-${div}-biz-30`);
+    if (bizEl) bizEl.textContent = fmt(biz30);
 
     const bizTbody = document.querySelector(`#cf-${div}-biz-table tbody`);
     if (!bizExpenses.length) {
@@ -1806,11 +1808,15 @@ async function loadCashFlow() {
 
     const net30 = (cash || 0) + ar30 - ap30 - payrollCost - biz30;
 
-    document.getElementById(`cf-${div}-ar-30`).textContent = fmt(ar30);
-    document.getElementById(`cf-${div}-ap-30`).textContent = fmt(ap30);
+    const arEl = document.getElementById(`cf-${div}-ar-30`);
+    const apEl = document.getElementById(`cf-${div}-ap-30`);
+    if (arEl) arEl.textContent = fmt(ar30);
+    if (apEl) apEl.textContent = fmt(ap30);
     const netEl = document.getElementById(`cf-${div}-net-30`);
-    netEl.textContent = fmt(net30);
-    netEl.style.color = net30 < 0 ? 'var(--red)' : net30 < 25000 ? 'var(--amber)' : 'var(--green)';
+    if (netEl) {
+      netEl.textContent = fmt(net30);
+      netEl.style.color = net30 < 0 ? 'var(--red)' : net30 < 25000 ? 'var(--amber)' : 'var(--green)';
+    }
 
     // Filter to selected window
     const arFiltered = arRows.filter(r => {
@@ -1850,6 +1856,10 @@ async function loadCashFlow() {
         </tr>`;
       }).join('');
     }
+  }
+
+  } catch(err) {
+    console.error('loadCashFlow error:', err);
   }
 
   // History table
