@@ -1,11 +1,13 @@
 """
 REV Dashboard — Supabase Push Script
+Runs automatically via GitHub Actions when daily_data.json is updated.
 """
 import json, os, sys
 from supabase import create_client
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_KEY = os.environ["SUPABASE_KEY"]
+
 db = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 with open("data/daily_data.json", "r") as f:
@@ -45,61 +47,49 @@ def get_account_type(account):
     return "credit_card" if "capital one" in account.lower() else "bank"
 
 def get_account_key(account):
-    keys = {
-        "Capital One": "cap_one_construction",
-        "Construction Checking": "checking_2657",
-        "Construction MM": "mm_2690",
-        "Restoration": "cap_one_restoration",
-        "Restoration Checking": "checking_7363",
-        "Restoration MM": "mm_2798",
-    }
-    if not account: return account
-    for k, v in keys.items():
-        if k in account:
-            if "Capital One" in account and "Restoration" in account:
-                return "cap_one_restoration"
-            if "Checking" in account and "2657" in account:
-                return "checking_2657"
-            if "MM" in account and "2690" in account:
-                return "mm_2690"
-            if "Checking" in account and "7363" in account:
-                return "checking_7363"
-            if "MM" in account and "2798" in account:
-                return "mm_2798"
-            if "Capital One" in account:
-                return "cap_one_construction"
-    return account
+    """Convert full account name to filter key using substring matching.
+    Avoids em dash encoding issues by checking account number instead."""
+    if not account: return None
+    a = account.lower()
+    if "capital one" in a and "restoration" in a: return "cap_one_restoration"
+    if "capital one" in a: return "cap_one_construction"
+    if "2657" in a: return "checking_2657"
+    if "2690" in a: return "mm_2690"
+    if "7363" in a: return "checking_7363"
+    if "2798" in a: return "mm_2798"
+    return None
 
+# ── Snapshot ──────────────────────────────────────────────────────────────────
 cash = payload["cash_position"]
 impr = cash["improvement"]
 rest = cash["restoration"]
 comb = cash["combined"]
 
 snapshot = {
-    "report_date": report_date,
-    "impr_qb_bank": impr.get("qb_bank_balance"),
-    "impr_bank_2657": impr.get("bank_balance_2657"),
-    "impr_mm_2690": impr.get("money_market_2690"),
-    "impr_cash": impr.get("total_cash_in_bank"),
-    "impr_ar": impr.get("accounts_receivable"),
+    "report_date":          report_date,
+    "impr_qb_bank":         impr.get("qb_bank_balance"),
+    "impr_bank_2657":       impr.get("bank_balance_2657"),
+    "impr_mm_2690":         impr.get("money_market_2690"),
+    "impr_cash":            impr.get("total_cash_in_bank"),
+    "impr_ar":              impr.get("accounts_receivable"),
     "cap_one_construction": impr.get("cap_one_cc"),
-    "loc_3705": impr.get("loc_3705"),
-    "impr_ap": impr.get("accounts_payable"),
-    "impr_net": impr.get("net_total"),
-    "rest_qb_bank": rest.get("qb_bank_balance"),
-    "rest_bank_7363": rest.get("bank_balance_7363"),
-    "rest_mm_2798": rest.get("money_market_2798"),
-    "rest_cash": rest.get("total_cash_in_bank"),
-    "rest_ar": rest.get("accounts_receivable"),
-    "loc_5064": rest.get("loc_5064"),
-    "cap_one_restoration": rest.get("cap_one_cc"),
-    "rest_ap": rest.get("accounts_payable"),
-    "rest_net": rest.get("net_total"),
-    "total_cash": comb.get("total_cash_in_bank"),
-    "total_ar": comb.get("total_ar"),
-    "total_ap": comb.get("total_ap"),
-    "credit_debt": comb.get("credit_debt"),
-    "net_availability": comb.get("net_cash_availability"),
+    "loc_3705":             impr.get("loc_3705"),
+    "impr_ap":              impr.get("accounts_payable"),
+    "impr_net":             impr.get("net_total"),
+    "rest_qb_bank":         rest.get("qb_bank_balance"),
+    "rest_bank_7363":       rest.get("bank_balance_7363"),
+    "rest_mm_2798":         rest.get("money_market_2798"),
+    "rest_cash":            rest.get("total_cash_in_bank"),
+    "rest_ar":              rest.get("accounts_receivable"),
+    "loc_5064":             rest.get("loc_5064"),
+    "cap_one_restoration":  rest.get("cap_one_cc"),
+    "rest_ap":              rest.get("accounts_payable"),
+    "rest_net":             rest.get("net_total"),
+    "total_cash":           comb.get("total_cash_in_bank"),
+    "total_ar":             comb.get("total_ar"),
+    "total_ap":             comb.get("total_ap"),
+    "credit_debt":          comb.get("credit_debt"),
+    "net_availability":     comb.get("net_cash_availability"),
 }
 
 try:
@@ -109,63 +99,70 @@ except Exception as e:
     print(f"  Snapshot failed: {e}")
     sys.exit(1)
 
+# ── AR ────────────────────────────────────────────────────────────────────────
 ar_rows = []
 for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
     ar_rows.append({
-        "report_date": report_date,
-        "invoice_number": row.get("invoice_num"),
-        "client": row.get("client_job"),
-        "balance": row.get("balance"),
-        "invoice_date": row.get("invoice_date"),
-        "due_date": row.get("due_date"),
-        "days_outstanding": to_int(row.get("days_out")),
+        "report_date":           report_date,
+        "invoice_number":        row.get("invoice_num"),
+        "client":                row.get("client_job"),
+        "balance":               row.get("balance"),
+        "invoice_date":          row.get("invoice_date"),
+        "due_date":              row.get("due_date"),
+        "days_outstanding":      to_int(row.get("days_out")),
         "expected_payment_date": row.get("expected_payment"),
-        "notes": row.get("last_update"),
-        "division": row.get("division"),
+        "notes":                 row.get("last_update"),
+        "division":              row.get("division"),
     })
 print(f"  {safe_insert('ar_items', ar_rows)} AR items")
 
+# ── AP ────────────────────────────────────────────────────────────────────────
 ap_rows = []
 for row in payload["ap"]["improvement"] + payload["ap"]["restoration"]:
     ap_rows.append({
-        "report_date": report_date,
-        "invoice_date": row.get("inv_date"),
-        "vendor": row.get("vendor"),
-        "invoice_number": row.get("invoice_num"),
-        "amount": row.get("amount"),
+        "report_date":      report_date,
+        "invoice_date":     row.get("inv_date"),
+        "vendor":           row.get("vendor"),
+        "invoice_number":   row.get("invoice_num"),
+        "amount":           row.get("amount"),
         "billed_to_client": row.get("billed"),
-        "profit_pct": row.get("profit_pct"),
-        "notes": row.get("approval_status"),
-        "job_total": row.get("job_total"),
-        "due_date": row.get("due_date"),
-        "pay_friday": row.get("pay_friday"),
-        "division": row.get("division"),
+        "profit_pct":       row.get("profit_pct"),
+        "notes":            row.get("approval_status"),
+        "job_total":        row.get("job_total"),
+        "due_date":         row.get("due_date"),
+        "pay_friday":       row.get("pay_friday"),
+        "division":         row.get("division"),
     })
 print(f"  {safe_insert('ap_items', ap_rows)} AP items")
 
+# ── Transactions ──────────────────────────────────────────────────────────────
 txn_rows = []
 for row in payload.get("transactions", []):
     account = row.get("account")
     txn_rows.append({
-        "report_date": report_date,
-        "trans_date": row.get("trans_date"),
-        "posted_date": row.get("posted_date"),
-        "account": get_account_key(account),
+        "report_date":  report_date,
+        "trans_date":   row.get("trans_date"),
+        "posted_date":  row.get("posted_date"),
+        "account":      get_account_key(account),
         "account_type": get_account_type(account),
-        "division": row.get("division"),
-        "card_no": row.get("card_desc"),
-        "vendor": row.get("vendor"),
-        "amount": row.get("amount"),
-        "explanation": row.get("explanation"),
-        "approved_by": row.get("approved_by"),
-        "txn_type": row.get("txn_type"),
+        "division":     row.get("division"),
+        "card_no":      row.get("card_desc"),
+        "vendor":       row.get("vendor"),
+        "amount":       row.get("amount"),
+        "explanation":  row.get("explanation"),
+        "approved_by":  row.get("approved_by"),
+        "txn_type":     row.get("txn_type"),
     })
 print(f"  {safe_insert('transactions', txn_rows)} transactions")
 
+# ── Brief ─────────────────────────────────────────────────────────────────────
 if payload.get("brief"):
     try:
         db.table("daily_briefs").delete().eq("report_date", report_date).execute()
-        db.table("daily_briefs").insert({"report_date": report_date, "brief": payload["brief"]}).execute()
+        db.table("daily_briefs").insert({
+            "report_date": report_date,
+            "brief": payload["brief"]
+        }).execute()
         print("  CFO brief OK")
     except Exception as e:
         print(f"  Brief failed: {e}")
