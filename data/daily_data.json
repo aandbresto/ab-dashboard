@@ -1,20 +1,20 @@
 {
   "date": "2026-03-27",
-  "generated_at": "2026-03-27T16:09:23Z",
+  "generated_at": "2026-03-27T16:42:18Z",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 37504.17,
       "bank_balance_2657": 31389.86,
       "money_market_2690": 34651.5,
       "total_cash_in_bank": 66041.36,
-      "accounts_receivable": 2970.8999999999996,
+      "accounts_receivable": 7206.049999999999,
       "cap_one_cc": 16518.6,
       "loc_3705": 4411.88,
       "accounts_payable": 66966.74999999999,
-      "net_total": -12770.659999999989
+      "net_total": -8535.50999999998
     },
     "restoration": {
-      "qb_bank_balance": 16970.52,
+      "qb_bank_balance": 18500.89,
       "bank_balance_7363": 18630.52,
       "money_market_2798": 25108.17,
       "total_cash_in_bank": 43738.69,
@@ -22,19 +22,19 @@
       "loc_5064": 12064.48,
       "cap_one_cc": 35288.35,
       "accounts_payable": 15135.0,
-      "net_total": 41062.469999999994
+      "net_total": 42592.83999999999
     },
     "combined": {
       "total_cash_in_bank": 109780.05,
-      "total_ar": 64442.509999999995,
+      "total_ar": 68677.65999999999,
       "total_ap": 82101.74999999999,
       "credit_debt": 68283.31,
-      "net_cash_availability": 23837.500000000015
+      "net_cash_availability": 28072.65000000001
     }
   },
   "ar": {
     "totals": {
-      "total_ar": 64442.509999999995,
+      "total_ar": 68677.65999999999,
       "impr_ar": null,
       "rest_ar": null
     },
@@ -70,6 +70,17 @@
         "days_out": 16.0,
         "expected_payment": "2026-04-11",
         "last_update": "03/20 - fully approved",
+        "division": "improvement"
+      },
+      {
+        "invoice_num": "33098",
+        "client_job": "Custom Craft Homes:681021",
+        "balance": 4235.15,
+        "invoice_date": "2026-03-26",
+        "due_date": "2026-04-10",
+        "days_out": 1.0,
+        "expected_payment": null,
+        "last_update": "3/26 Invoice sent",
         "division": "improvement"
       }
     ],
@@ -741,7 +752,7 @@
     {
       "icon": "\u2705",
       "category": "Healthy Position",
-      "message": "Net availability of $23,837.50 is solid. Keep an eye on AP obligations to maintain this buffer."
+      "message": "Net availability of $28,072.65 is solid. Keep an eye on AP obligations to maintain this buffer."
     },
     {
       "icon": "\ud83d\udea8",
@@ -751,17 +762,17 @@
     {
       "icon": "\ud83d\udce4",
       "category": "Payments Due This Week",
-      "message": "8 invoices totaling $9,885.00 due within 7 days. Vendors: ECO Mold Testing, Amir Shoufany, BrighLight. Confirm approvals and fund accounts."
+      "message": "8 invoices totaling $9,885.00 due within 7 days. Vendors: Amir Shoufany, ECO Mold Testing, BrighLight. Confirm approvals and fund accounts."
     },
     {
       "icon": "\ud83d\udd27",
       "category": "Improvement Division Watch",
-      "message": "Improvement net position is $-12,770.66 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
+      "message": "Improvement net position is $-8,535.51 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
     },
     {
       "icon": "\ud83d\udca1",
       "category": "AP/AR Gap",
-      "message": "Payables exceed receivables by $17,659.24. Focus on collecting outstanding invoices to close this gap before end of month."
+      "message": "Payables exceed receivables by $13,424.09. Focus on collecting outstanding invoices to close this gap before end of month."
     }
   ]
 }
