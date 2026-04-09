@@ -1,17 +1,17 @@
 {
   "date": "2026-04-09",
-  "generated_at": "2026-04-09T16:35:29Z",
+  "generated_at": "2026-04-09T18:07:53Z",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 29933.32,
+      "qb_bank_balance": 29460.82,
       "bank_balance_2657": 23767.57,
       "money_market_2690": 34732.99,
       "total_cash_in_bank": 58500.56,
       "accounts_receivable": 17835.68,
       "cap_one_cc": 15406.93,
       "loc_3705": 4426.86,
-      "accounts_payable": 78555.90999999999,
-      "net_total": -15887.709999999992
+      "accounts_payable": 81305.90999999999,
+      "net_total": -19110.209999999992
     },
     "restoration": {
       "qb_bank_balance": 5975.88,
@@ -27,9 +27,9 @@
     "combined": {
       "total_cash_in_bank": 83377.70999999999,
       "total_ar": 83541.10999999999,
-      "total_ap": 90975.90999999999,
+      "total_ap": 93725.90999999999,
       "credit_debt": 66170.63,
-      "net_cash_availability": 9772.279999999984
+      "net_cash_availability": 7022.279999999984
     }
   },
   "ar": {
@@ -309,8 +309,8 @@
   },
   "ap": {
     "totals": {
-      "total_ap": 90975.90999999999,
-      "impr_ap": 78555.90999999999,
+      "total_ap": 93725.90999999999,
+      "impr_ap": 81305.90999999999,
       "rest_ap": 12420.0
     },
     "improvement": [
@@ -363,7 +363,7 @@
         "approval_status": "681022 -  Invoice #33099 $3,256.00",
         "job_total": 3256.0,
         "due_date": "2026-04-04",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "improvement"
       },
       {
@@ -480,7 +480,7 @@
         "approval_status": "681023 - Invoice 33101 $7,814.11",
         "job_total": 7814.11,
         "due_date": "2026-04-04",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "improvement"
       },
       {
@@ -576,7 +576,7 @@
       },
       {
         "inv_date": "2026-04-03",
-        "vendor": "2026-04-03 00:00:00",
+        "vendor": "X-Elent Remodeling, LCC",
         "invoice_num": "584",
         "amount": 2438.52,
         "billed": 3901.63,
@@ -584,6 +584,19 @@
         "approval_status": "Approved - 681026 - Invoice #33092 $3,901.63",
         "job_total": 3901.63,
         "due_date": "2026-04-18",
+        "pay_friday": "No",
+        "division": "improvement"
+      },
+      {
+        "inv_date": "2026-04-09",
+        "vendor": "Sunshine and Granite",
+        "invoice_num": "8831",
+        "amount": 2750.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 681025 -",
+        "job_total": null,
+        "due_date": "2026-05-09",
         "pay_friday": "No",
         "division": "improvement"
       }
@@ -677,7 +690,7 @@
         "approval_status": "26-0041-MLD - Invoice #4272 $7,696.54",
         "job_total": 7696.54,
         "due_date": "2026-04-09",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -690,7 +703,7 @@
         "approval_status": "26-0056-MLD - Invoice #4279 $950",
         "job_total": 950.0,
         "due_date": "2026-04-11",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -798,7 +811,7 @@
     {
       "icon": "\u26a0\ufe0f",
       "category": "Cash Alert",
-      "message": "Net availability is $9,772.28 \u2014 tighter than ideal. Prioritize collections and delay non-critical payments if possible."
+      "message": "Net availability is $7,022.28 \u2014 tighter than ideal. Prioritize collections and delay non-critical payments if possible."
     },
     {
       "icon": "\ud83d\udea8",
@@ -808,17 +821,17 @@
     {
       "icon": "\ud83d\udce4",
       "category": "Payments Due This Week",
-      "message": "8 invoices totaling $14,115.13 due within 7 days. Vendors: DE Home Solutions LLC, Harold Bronson Construction. Confirm approvals and fund accounts."
+      "message": "8 invoices totaling $14,115.13 due within 7 days. Vendors: Harold Bronson Construction, DE Home Solutions LLC. Confirm approvals and fund accounts."
     },
     {
       "icon": "\ud83d\udd27",
       "category": "Improvement Division Watch",
-      "message": "Improvement net position is $-15,887.71 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
+      "message": "Improvement net position is $-19,110.21 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
     },
     {
       "icon": "\ud83d\udca1",
       "category": "AP/AR Gap",
-      "message": "Payables exceed receivables by $7,434.80. Focus on collecting outstanding invoices to close this gap before end of month."
+      "message": "Payables exceed receivables by $10,184.80. Focus on collecting outstanding invoices to close this gap before end of month."
     }
   ]
 }
