@@ -1164,10 +1164,10 @@ async function loadAP() {
             <button onclick="window._saveAppr('${v}','${inv}','${r.division}','','','${date}')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
           </div>
         </td>
-        <td style="min-width:220px;">
-          <textarea placeholder="Add comment..." rows="2"
+        <td style="min-width:140px;">
+          <input type="text" placeholder="Add comment..." value="${cm}"
             onblur="window._saveAppr('${v}','${inv}','${r.division}','${st}',this.value,'${date}')"
-            style="font-size:12px;width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text-1);resize:vertical;font-family:inherit;line-height:1.4;">${cm}</textarea>
+            style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
         </td>
       </tr>`;
     }).join('') + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td><td colspan="5"></td></tr>`;
@@ -1472,7 +1472,7 @@ async function loadMonthlySnapshot() {
 
 function frPopulateMonthSelect(rows) {
   // Get unique months in descending order
-  const months = [...new Set(rows.map(r => r.report_month))].sort().reverse();
+  const months = [...new Set(rows.map(r => (r.report_month || '').slice(0,10)))].sort().reverse();
   const sel = document.getElementById('fr-month-select');
   if (!sel) return;
   sel.innerHTML = months.map(m =>
@@ -1488,7 +1488,7 @@ function frSelectMonth(month) {
 
 function frLoadMonth(month) {
   frData = {};
-  frAllRows.filter(r => r.report_month === month).forEach(r => { frData[r.division] = r; });
+  frAllRows.filter(r => (r.report_month || '').slice(0,10) === (month || '').slice(0,10)).forEach(r => { frData[r.division] = r; });
   frRender();
   frLoadSummary();
 }
