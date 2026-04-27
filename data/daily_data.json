@@ -1,6 +1,6 @@
 {
   "date": "2026-04-27",
-  "generated_at": "2026-04-27T14:05:01Z",
+  "generated_at": "2026-04-27T14:09:58Z",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 26879.44,
@@ -692,7 +692,7 @@
       "card_desc": "2897",
       "vendor": "Amazon",
       "amount": 150.0,
-      "explanation": null,
+      "explanation": "Gift Card for Robert Kester",
       "approved_by": null,
       "txn_type": "Debit",
       "account": "Capital One \u2013 Restoration",
@@ -766,7 +766,7 @@
     {
       "icon": "\ud83d\udce4",
       "category": "Payments Due This Week",
-      "message": "9 invoices totaling $9,004.29 due within 7 days. Vendors: Damm Good Plumbing, DE Home Solutions LLC. Confirm approvals and fund accounts."
+      "message": "9 invoices totaling $9,004.29 due within 7 days. Vendors: DE Home Solutions LLC, Damm Good Plumbing. Confirm approvals and fund accounts."
     }
   ]
 }
