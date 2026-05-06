@@ -1,17 +1,17 @@
 {
   "date": "2026-05-06",
-  "generated_at": "2026-05-06T16:30:19Z",
+  "generated_at": "2026-05-06T17:26:42Z",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 9839.29,
       "bank_balance_2657": 4380.76,
       "money_market_2690": 17806.03,
       "total_cash_in_bank": 22186.79,
-      "accounts_receivable": 60363.92,
+      "accounts_receivable": 55573.84,
       "cap_one_cc": 8220.36,
       "loc_3705": 14439.59,
       "accounts_payable": 61673.49,
-      "net_total": 3675.7999999999956
+      "net_total": -1114.2799999999916
     },
     "restoration": {
       "qb_bank_balance": 27440.27,
@@ -26,30 +26,19 @@
     },
     "combined": {
       "total_cash_in_bank": 65903.58,
-      "total_ar": 127919.24,
+      "total_ar": 123129.16,
       "total_ap": 73936.31,
       "credit_debt": 76138.94,
-      "net_cash_availability": 43747.57000000001
+      "net_cash_availability": 38957.48999999999
     }
   },
   "ar": {
     "totals": {
-      "total_ar": 127919.24,
+      "total_ar": 123129.16,
       "impr_ar": null,
       "rest_ar": null
     },
     "improvement": [
-      {
-        "invoice_num": "33099",
-        "client_job": "Taylor Morrison of FL:681022",
-        "balance": 1754.48,
-        "invoice_date": "2026-03-30",
-        "due_date": "2026-04-29",
-        "days_out": 37.0,
-        "expected_payment": "2026-05-01",
-        "last_update": "04/02 - EPO Fully approved - 14285202_014516",
-        "division": "improvement"
-      },
       {
         "invoice_num": "4297",
         "client_job": "RT Moore:25-0030-REP/Job 680939",
@@ -69,18 +58,7 @@
         "due_date": "2026-05-17",
         "days_out": 19.0,
         "expected_payment": "2026-05-17",
-        "last_update": "4/27  - EPO in Future orders",
-        "division": "improvement"
-      },
-      {
-        "invoice_num": "33107",
-        "client_job": "Taylor Morrison of FL:681030",
-        "balance": 627.2,
-        "invoice_date": "2026-04-27",
-        "due_date": "2026-05-27",
-        "days_out": 9.0,
-        "expected_payment": "2026-05-27",
-        "last_update": "4/28 - EPO fully approved",
+        "last_update": "5/5  - EPO in Future orders\nAmir working still",
         "division": "improvement"
       },
       {
@@ -108,18 +86,7 @@
       {
         "invoice_num": "33112",
         "client_job": "Taylor Morrison of FL:681033",
-        "balance": 1323.0,
-        "invoice_date": "2026-04-30",
-        "due_date": "2026-05-30",
-        "days_out": 6.0,
-        "expected_payment": "2026-05-30",
-        "last_update": "5/1 Partial Payment recieved",
-        "division": "improvement"
-      },
-      {
-        "invoice_num": "33113",
-        "client_job": "Taylor Morrison of FL:681034",
-        "balance": 1205.4,
+        "balance": 120.0,
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
         "days_out": 6.0,
@@ -135,7 +102,7 @@
         "due_date": "2026-05-30",
         "days_out": 6.0,
         "expected_payment": "2026-05-30",
-        "last_update": "4/30 Invoice created",
+        "last_update": "05/01 - EPO requested",
         "division": "improvement"
       },
       {
@@ -203,7 +170,7 @@
         "due_date": "2026-05-01",
         "days_out": 50.0,
         "expected_payment": null,
-        "last_update": "05/04 - Called and texted Molly again, no response after invoice was resent.",
+        "last_update": "05/06 - follow up email sent, left VM again.",
         "division": "restoration"
       },
       {
@@ -214,7 +181,7 @@
         "due_date": "2026-04-24",
         "days_out": 42.0,
         "expected_payment": null,
-        "last_update": "05/04 - spoke to Alyson, EPO is fully approved but no check number has been assigned, she requested this to be checked by accounting, will call me back once she hears back.",
+        "last_update": "05/05 - spoke to Alyson, EPO is fully approved but no check number has been assigned, she requested this to be checked by accounting, will call me back once she hears back.",
         "division": "restoration"
       },
       {
@@ -225,7 +192,7 @@
         "due_date": "2026-04-03",
         "days_out": 33.0,
         "expected_payment": null,
-        "last_update": "04/23 - Called Brett to follow up on insurance, no response, left VM",
+        "last_update": "05/06 - Called Gail, she received the check from the insurance and cleared and she will be mailing  check for us today",
         "division": "restoration"
       },
       {
@@ -802,7 +769,7 @@
     {
       "icon": "\u2705",
       "category": "Healthy Position",
-      "message": "Net availability of $43,747.57 is solid. Keep an eye on AP obligations to maintain this buffer."
+      "message": "Net availability of $38,957.49 is solid. Keep an eye on AP obligations to maintain this buffer."
     },
     {
       "icon": "\ud83d\udea8",
@@ -817,12 +784,7 @@
     {
       "icon": "\ud83d\udd27",
       "category": "Improvement Division Watch",
-      "message": "Improvement net position is $3,675.80 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
-    },
-    {
-      "icon": "\ud83c\udfe0",
-      "category": "Restoration Performing Well",
-      "message": "Restoration net position of $38,829.38 is strong. Good job keeping payables manageable."
+      "message": "Improvement net position is $-1,114.28 \u2014 very tight. Consider transferring from MM or accelerating AR collections."
     }
   ]
 }
