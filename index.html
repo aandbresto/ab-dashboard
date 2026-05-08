@@ -344,14 +344,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Invoices</div>
         <table class="data-table" id="ar-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Overdue</th><th>Expected</th><th>Last Update</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Invoices</div>
         <table class="data-table" id="ar-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Overdue</th><th>Expected</th><th>Last Update</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1028,14 +1028,15 @@ async function loadAR() {
     if (!rows.length) return `<tr><td colspan="8" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const days  = r.days_outstanding;
-      const cls   = days==null?'':days>45?'days-late':days>30?'days-warn':'days-ok';
+      const cls   = days==null?'':days>60?'days-late':days>30?'days-warn':days>0?'days-warn':'days-ok';
+      const daysLabel = days==null?'—':days<=0?`Current (due ${fmtDate(r.due_date)})`:`${days}d overdue`;
       return `<tr>
         <td class="mono muted">${fmtDate(r.invoice_date)||'—'}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
         <td>${r.client||'—'}</td>
         <td class="mono right">${fmt(r.balance)}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
-        <td><span class="days-badge ${cls}">${days!=null?days+'d':'—'}</span></td>
+        <td><span class="days-badge ${cls}">${days==null?'—':days<=0?'Current':days+'d overdue'}</span></td>
         <td class="mono muted">${fmtDate(r.expected_payment_date)||'—'}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
       </tr>`;
@@ -1459,9 +1460,10 @@ async function loadMonthlySnapshot() {
       .select('*')
       .order('report_month', { ascending: false });
     if (!rows || !rows.length) return;
-    frAllRows = rows.map(r => ({ ...r, _month: (r.report_month||'').slice(0,10) }));
-    frPopulateMonthSelect(frAllRows);
-    const latest = frAllRows[0]._month;
+    frAllRows = rows;
+    frPopulateMonthSelect(rows);
+    // Default to most recent month
+    const latest = rows[0].report_month;
     frSelMonth = latest;
     frLoadMonth(latest);
   } catch (e) {
@@ -1470,7 +1472,8 @@ async function loadMonthlySnapshot() {
 }
 
 function frPopulateMonthSelect(rows) {
-  const months = [...new Set(rows.map(r => r._month))].sort().reverse();
+  // Get unique months in descending order
+  const months = [...new Set(rows.map(r => r.report_month))].sort().reverse();
   const sel = document.getElementById('fr-month-select');
   if (!sel) return;
   sel.innerHTML = months.map(m =>
@@ -1486,7 +1489,7 @@ function frSelectMonth(month) {
 
 function frLoadMonth(month) {
   frData = {};
-  frAllRows.filter(r => r._month === month).forEach(r => { frData[r.division] = r; });
+  frAllRows.filter(r => r.report_month === month).forEach(r => { frData[r.division] = r; });
   frRender();
   frLoadSummary();
 }
