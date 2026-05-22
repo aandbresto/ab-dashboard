@@ -1,35 +1,35 @@
 {
   "date": "2026-05-21",
-  "generated_at": "2026-05-21T14:22:19Z",
+  "generated_at": "2026-05-22T16:10:04Z",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 38961.08,
+      "qb_bank_balance": 38344.46,
       "bank_balance_2657": 16291.42,
       "money_market_2690": 17730.18,
       "total_cash_in_bank": 34021.6,
       "accounts_receivable": 52625.99999999999,
       "cap_one_cc": 10781.54,
-      "loc_3705": 14416.25,
+      "loc_3705": 14419.75,
       "accounts_payable": 66584.69,
-      "net_total": 17534.78
+      "net_total": 16914.659999999974
     },
     "restoration": {
-      "qb_bank_balance": 42102.68,
-      "bank_balance_7363": 38816.05,
+      "qb_bank_balance": 38816.05,
+      "bank_balance_7363": 24190.46,
       "money_market_2798": 9875.6,
-      "total_cash_in_bank": 48691.65,
+      "total_cash_in_bank": 34066.06,
       "accounts_receivable": 39706.09,
-      "loc_5064": 32053.72,
-      "cap_one_cc": 32069.3,
-      "accounts_payable": 14020.0,
-      "net_total": 13541.349999999995
+      "loc_5064": 32077.09,
+      "cap_one_cc": 29440.27,
+      "accounts_payable": 16530.0,
+      "net_total": 10350.379999999994
     },
     "combined": {
-      "total_cash_in_bank": 82713.25,
+      "total_cash_in_bank": 68087.66,
       "total_ar": 92332.09,
-      "total_ap": 80604.69,
-      "credit_debt": 89320.81,
-      "net_cash_availability": 5119.8399999999965
+      "total_ap": 83114.69,
+      "credit_debt": 86718.65000000001,
+      "net_cash_availability": -9413.590000000011
     }
   },
   "ar": {
@@ -58,7 +58,7 @@
         "due_date": "2026-05-17",
         "days_out": 4,
         "expected_payment": "2026-05-22",
-        "last_update": "5/20 - Robert texted me back, he is still working on it with corporate",
+        "last_update": "5/21 - EPOs Received, fully approved",
         "division": "improvement"
       },
       {
@@ -370,14 +370,25 @@
         "expected_payment": "2026-06-19",
         "last_update": "5/20/2026 invoice created",
         "division": "restoration"
+      },
+      {
+        "invoice_num": "4336",
+        "client_job": "Taylor Morrison:10523 Eclipse Street-26-0054-ESR",
+        "balance": 7684.18,
+        "invoice_date": "2026-05-21",
+        "due_date": "2026-06-20",
+        "days_out": -30,
+        "expected_payment": "2026-06-20",
+        "last_update": "5/21/2026 invoice created",
+        "division": "restoration"
       }
     ]
   },
   "ap": {
     "totals": {
-      "total_ap": 80604.69,
+      "total_ap": 83114.69,
       "impr_ap": 66584.69,
-      "rest_ap": 14020.0
+      "rest_ap": 16530.0
     },
     "improvement": [
       {
@@ -836,52 +847,137 @@
         "due_date": "2026-06-12",
         "pay_friday": "No",
         "division": "restoration"
+      },
+      {
+        "inv_date": "2026-05-21",
+        "vendor": "Clean Sweep",
+        "invoice_num": "15492",
+        "amount": 2510.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 26-0100-CLN",
+        "job_total": null,
+        "due_date": "2026-06-20",
+        "pay_friday": "No",
+        "division": "restoration"
       }
     ]
   },
   "transactions": [
     {
-      "trans_date": "2026-05-20",
-      "posted_date": "2026-05-02",
-      "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 7363",
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
+      "card_desc": "DEPOSIT INTUIT 55048323 052126\nOLB XFER FROM 7363",
       "vendor": null,
-      "amount": 365.0,
-      "explanation": "Client Payment - DreamFinders",
+      "amount": 2132.9,
+      "explanation": "Client Payment - Joseph Noto",
       "approved_by": null,
       "txn_type": "Credit",
       "account": "Construction Checking \u2013 2657",
       "division": "improvement"
     },
     {
-      "trans_date": "2026-05-20",
-      "posted_date": "2026-05-20",
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
       "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 7363",
       "vendor": null,
-      "amount": 3724.0,
-      "explanation": "Client Payment - TM",
+      "amount": 3286.63,
+      "explanation": "Transfer from Resto - TM Payment",
       "approved_by": null,
       "txn_type": "Credit",
       "account": "Construction Checking \u2013 2657",
       "division": "improvement"
     },
     {
-      "trans_date": "2026-05-20",
-      "posted_date": "2026-05-20",
-      "card_desc": "TRANSFER DEBIT\nOLB XFER TO 2657",
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
+      "card_desc": "TRANSFER DEBIT\nOLB XFER TO 7363",
       "vendor": null,
-      "amount": 365.0,
-      "explanation": "Transfer to Cons - DreamFinders Payment",
+      "amount": 3286.63,
+      "explanation": "Transfer to Resto - Pulte/Meritage Payment",
       "approved_by": null,
       "txn_type": "Transfer",
-      "account": "Restoration Checking \u2013 7363",
+      "account": "Construction Checking \u2013 2657",
+      "division": "improvement"
+    },
+    {
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
+      "card_desc": "TRAN FEE INTUIT 58352823 052126",
+      "vendor": null,
+      "amount": 20.0,
+      "explanation": "QB Payment Fee",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Construction Checking \u2013 2657",
+      "division": "improvement"
+    },
+    {
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
+      "card_desc": "PAYMENTS VERIZON WIRELESS 052126",
+      "vendor": null,
+      "amount": 616.62,
+      "explanation": "Cellphone Payment",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Construction Checking \u2013 2657",
+      "division": "improvement"
+    },
+    {
+      "trans_date": "2026-05-20",
+      "posted_date": "2026-05-21",
+      "card_desc": "2897",
+      "vendor": "Amazon",
+      "amount": 29.95,
+      "explanation": "Supplies",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Restoration",
       "division": "restoration"
     },
     {
       "trans_date": "2026-05-20",
-      "posted_date": "2026-05-02",
+      "posted_date": "2026-05-21",
+      "card_desc": "2897",
+      "vendor": "ChatGPT",
+      "amount": 20.0,
+      "explanation": "Subscription",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration"
+    },
+    {
+      "trans_date": "2026-05-20",
+      "posted_date": "2026-05-21",
+      "card_desc": "2897",
+      "vendor": "Publix",
+      "amount": 12.48,
+      "explanation": "Neal Communities Visit - Cakes",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration"
+    },
+    {
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
+      "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 2657\nOLB XFER TO 2657",
+      "vendor": null,
+      "amount": 3286.63,
+      "explanation": "Transfer from Cons - Pulte/Meritage Payment",
+      "approved_by": null,
+      "txn_type": "Credit",
+      "account": "Restoration Checking \u2013 7363",
+      "division": "restoration"
+    },
+    {
+      "trans_date": "2026-05-21",
+      "posted_date": "2026-05-21",
       "card_desc": "TRANSFER DEBIT\nOLB XFER TO 2657",
       "vendor": null,
-      "amount": 3724.0,
+      "amount": 3286.63,
       "explanation": "Transfer to Cons - TM Payment",
       "approved_by": null,
       "txn_type": "Transfer",
@@ -905,12 +1001,12 @@
     {
       "icon": "\u26a0\ufe0f",
       "category": "Cash Alert",
-      "message": "Net availability is $5,119.84 \u2014 tighter than ideal. Prioritize collections and delay non-critical payments if possible."
+      "message": "Net availability is $-9,413.59 \u2014 tighter than ideal. Prioritize collections and delay non-critical payments if possible."
     },
     {
       "icon": "\ud83d\udce5",
       "category": "Collections",
-      "message": "$4,389.00 received today. Continue following up on open invoices to accelerate cash flow."
+      "message": "$9,006.16 received today. Continue following up on open invoices to accelerate cash flow."
     },
     {
       "icon": "\ud83d\udea8",
