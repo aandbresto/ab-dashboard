@@ -7,7 +7,7 @@
       "bank_balance_2657": 11438.22,
       "money_market_2690": 49606.64,
       "total_cash_in_bank": 61044.86,
-      "accounts_receivable": 20092.730000000003,
+      "accounts_receivable": 20092.73,
       "cap_one_cc": 11292.13,
       "loc_3705": 14437.26,
       "accounts_payable": 61731.49,
@@ -18,7 +18,7 @@
       "bank_balance_7363": 28421.23,
       "money_market_2798": 9875.6,
       "total_cash_in_bank": 38296.83,
-      "accounts_receivable": 61453.72,
+      "accounts_receivable": 80682.06,
       "loc_5064": 32116.02,
       "cap_one_cc": 28145.16,
       "accounts_payable": 16930.0,
@@ -26,17 +26,17 @@
     },
     "combined": {
       "total_cash_in_bank": 99341.69,
-      "total_ar": 81546.45000000001,
+      "total_ar": 100774.79,
       "total_ap": 78661.48999999999,
       "credit_debt": 85990.57,
-      "net_cash_availability": 16236.080000000016
+      "net_cash_availability": 35464.419999999984
     }
   },
   "ar": {
     "totals": {
-      "total_ar": 81546.45000000001,
-      "impr_ar": null,
-      "rest_ar": null
+      "total_ar": 100774.79,
+      "impr_ar": 20092.73,
+      "rest_ar": 80682.06
     },
     "improvement": [
       {
@@ -351,7 +351,7 @@
       },
       {
         "invoice_num": "4338",
-        "client_job": null,
+        "client_job": "Taylor Morrison:3429 Santa Caterina Boulevard-26-0125-WTR",
         "balance": 2260.0,
         "invoice_date": "2026-05-27",
         "due_date": "2026-06-26",
@@ -362,7 +362,7 @@
       },
       {
         "invoice_num": "4339",
-        "client_job": null,
+        "client_job": "RT Moore:1200 Loveland Boulevard-26-0123-WTR",
         "balance": 16968.34,
         "invoice_date": "2026-05-27",
         "due_date": "2026-06-26",
