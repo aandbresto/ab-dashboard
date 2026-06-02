@@ -799,7 +799,21 @@ async function loadOverview() {
   `).join('');
 
   buildTrendChart([...allSnapshots].reverse().slice(-30));
-  buildDebtRecommendation(snap);
+  // Load AP items to calculate weekly obligations per division
+  const debtDate = snap.report_date;
+  db.from('ap_items').select('amount,due_date,pay_friday,division').eq('report_date', debtDate).then(({ data: apItems }) => {
+    if (apItems) {
+      const today7 = new Date(); today7.setHours(0,0,0,0);
+      const week7  = new Date(today7); week7.setDate(week7.getDate()+7);
+      const todayStr = today7.toISOString().slice(0,10);
+      const weekStr  = week7.toISOString().slice(0,10);
+      snap._imprFridayAP = apItems.filter(r => r.division==='improvement' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
+      snap._restFridayAP = apItems.filter(r => r.division==='restoration' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
+      snap._imprWeekAP   = apItems.filter(r => r.division==='improvement' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr).reduce((s,r)=>s+(r.amount||0),0);
+      snap._restWeekAP   = apItems.filter(r => r.division==='restoration' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr).reduce((s,r)=>s+(r.amount||0),0);
+    }
+    buildDebtRecommendation(snap);
+  });
 
   // Credit utilization
   const limits = {
@@ -1242,9 +1256,9 @@ function getUpcomingExpenses(withinDays, division) {
 
 // ── PAYROLL ───────────────────────────────────────────────────────────────
 const PAYROLL_SCHEDULES = [
-  { label:'Improvement Payroll', lastPaid:'2026-03-06', division:'improvement', estAmount:1658.70 },
-  { label:'Admin Payroll',       lastPaid:'2026-03-06', division:'admin',        estAmount:3119.00 },
-  { label:'Restoration Payroll', lastPaid:'2026-03-13', division:'restoration',  estAmount:15500.00 },
+  { label:'Improvement Payroll', lastPaid:'2026-05-29', division:'improvement', estAmount:3500.00 },
+  { label:'Admin Payroll',       lastPaid:'2026-05-29', division:'admin',        estAmount:3500.00 },
+  { label:'Restoration Payroll', lastPaid:'2026-05-22', division:'restoration',  estAmount:15500.00 },
 ];
 
 function getUpcomingPayrolls(withinDays) {
@@ -1392,60 +1406,79 @@ function buildDebtRecommendation(snap) {
   const el = document.getElementById('debt-rec-body');
   if (!el) return;
 
-  // ── Per-division figures ──────────────────────────────────────────────────
-  const imprCash    = snap.impr_cash          || 0;
-  const restCash    = snap.rest_cash          || 0;
-  const capOneC     = snap.cap_one_construction || 0;
-  const loc3705     = snap.loc_3705           || 0;
-  const capOneR     = snap.cap_one_restoration  || 0;
-  const loc5064     = snap.loc_5064           || 0;
-  const imprAP      = snap.impr_ap            || 0;
-  const restAP      = snap.rest_ap            || 0;
-
-  // ── Estimated obligations per division ───────────────────────────────────
-  const imprPayroll   = 3500;   // Construction payroll estimate
-  const restPayroll   = 15500;  // Restoration payroll estimate
-  const imprOverhead  = 3000;   // Construction overhead share
-  const restOverhead  = 6000;   // Restoration overhead share
-  const imprReserve   = 12000;  // Minimum operating reserve - Construction
-  const restReserve   = 15000;  // Minimum operating reserve - Restoration
-
-  const imprObligations = imprPayroll + imprOverhead + imprReserve;
-  const restObligations = restPayroll + restOverhead + restReserve;
-
-  const imprAvailable = imprCash - imprObligations;
-  const restAvailable = restCash - restObligations;
-
+  const imprCash  = snap.impr_cash             || 0;
+  const restCash  = snap.rest_cash             || 0;
+  const capOneC   = snap.cap_one_construction  || 0;
+  const loc3705   = snap.loc_3705              || 0;
+  const capOneR   = snap.cap_one_restoration   || 0;
+  const loc5064   = snap.loc_5064              || 0;
   const totalDebt = capOneC + loc3705 + capOneR + loc5064;
+
   if (totalDebt === 0) {
     el.innerHTML = '<div style="color:var(--success);font-size:13px;font-weight:600;">✅ No credit debt outstanding — excellent position!</div>';
     return;
   }
 
-  function divisionBlock(divName, cash, obligations, available, debts) {
+  // ── Payroll due within 7 days per division ────────────────────────────────
+  const payrollNext7 = getUpcomingPayrolls(7);
+  const imprPayroll  = payrollNext7.filter(p => p.division === 'improvement').reduce((s,p) => s + p.estAmount, 0);
+  const adminPayroll = payrollNext7.filter(p => p.division === 'admin').reduce((s,p) => s + p.estAmount, 0);
+  const restPayroll  = payrollNext7.filter(p => p.division === 'restoration').reduce((s,p) => s + p.estAmount, 0);
+  // Admin payroll split 50/50 between divisions
+  const imprPayrollTotal = imprPayroll + (adminPayroll / 2);
+  const restPayrollTotal = restPayroll + (adminPayroll / 2);
+
+  // ── AP due within 7 days — need from Supabase (already loaded in snap context)
+  // We'll use the AP data from the current date's ap_items
+  // For now pull from allSnapshots data — impr_ap and rest_ap are totals
+  // Better: use Friday AP + due this week from already-loaded data
+  // We pass these in via the snap object extended below in loadOverview
+  const imprFridayAP = snap._imprFridayAP || 0;
+  const restFridayAP = snap._restFridayAP || 0;
+  const imprWeekAP   = snap._imprWeekAP   || 0;
+  const restWeekAP   = snap._restWeekAP   || 0;
+
+  const imprReserve  = 10000;
+  const restReserve  = 12000;
+
+  const imprObligations = imprPayrollTotal + imprFridayAP + imprWeekAP + imprReserve;
+  const restObligations = restPayrollTotal + restFridayAP + restWeekAP + restReserve;
+  const imprAvailable   = imprCash - imprObligations;
+  const restAvailable   = restCash - restObligations;
+
+  function obligationDetail(payroll, fridayAP, weekAP, reserve) {
+    const lines = [];
+    if (payroll > 0)   lines.push(`Payroll: ${fmt(payroll)}`);
+    if (fridayAP > 0)  lines.push(`Friday AP: ${fmt(fridayAP)}`);
+    if (weekAP > 0)    lines.push(`AP due this week: ${fmt(weekAP)}`);
+    lines.push(`Reserve: ${fmt(reserve)}`);
+    return lines.join(' · ');
+  }
+
+  function divisionBlock(divName, cash, obligations, available, payroll, fridayAP, weekAP, reserve, debts) {
     const color = available > 5000 ? 'var(--success)' : available > 0 ? '#92580A' : 'var(--danger)';
     const icon  = available > 5000 ? '✅' : available > 0 ? '⚠️' : '🚫';
 
     let block = `<div style="margin-bottom:20px;">
       <div style="font-size:12px;font-weight:700;color:var(--text-1);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">${divName}</div>
-      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:10px;padding:10px 14px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;padding:10px 14px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
         <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Cash in Bank</div><div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">${fmt(cash)}</div></div>
-        <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Obligations Est.</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(obligations)}</div></div>
+        <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Obligations</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(obligations)}</div></div>
         <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Available for Debt</div><div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${color};">${icon} ${fmt(Math.max(0, available))}</div></div>
-      </div>`;
+      </div>
+      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">${obligationDetail(payroll, fridayAP, weekAP, reserve)}</div>`;
 
     const activeDebts = debts.filter(d => d.balance > 0);
     if (activeDebts.length === 0) {
       block += `<div style="font-size:12px;color:var(--success);padding:6px 0;">✅ No debt in this division.</div>`;
-    } else if (available <= 0) {
-      block += `<div style="font-size:12px;color:var(--text-2);padding:6px 0;">
-        <strong style="color:var(--danger);">Not recommended this cycle.</strong>
-        Cash needed for payroll, overhead, and operating reserve. Focus on collecting AR first.
+    } else if (available <= 500) {
+      block += `<div style="font-size:12px;color:var(--text-2);padding:6px 0 8px;">
+        <strong style="color:var(--danger);">Not recommended this week.</strong>
+        ${available < 0 ? 'Cash is insufficient after obligations.' : 'Insufficient surplus after obligations.'} Focus on collecting AR first.
       </div>`;
-      // Still show balances
       block += `<div style="display:flex;flex-direction:column;gap:6px;">`;
       activeDebts.forEach(d => {
-        block += `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-2);border-radius:6px;border:1px solid var(--border);opacity:0.6;">
+        block += `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-2);border-radius:6px;border:1px solid var(--border);opacity:0.55;">
           <div><span style="font-size:12px;color:var(--text-2);">${d.name}</span><div style="font-size:11px;color:var(--text-3);">${d.rate} · Balance: ${fmt(d.balance)}</div></div>
           <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);">${fmt(d.balance)}</div>
         </div>`;
@@ -1474,50 +1507,45 @@ function buildDebtRecommendation(snap) {
       });
       block += `</div>`;
       if (remaining > 100) {
-        block += `<div style="font-size:11px;color:var(--text-3);margin-top:6px;">+${fmt(remaining)} left after full payoff — keep as additional reserve.</div>`;
+        block += `<div style="font-size:11px;color:var(--text-3);margin-top:6px;">+${fmt(remaining)} remaining after full payoff — keep as additional reserve.</div>`;
       }
     }
-
     block += `</div>`;
     return block;
   }
 
-  let html = '';
+  let out = '';
 
   // Summary header
-  html += `<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
+  out += `<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
     <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Total Credit Debt</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--danger);">${fmt(totalDebt)}</div></div>
-    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Construction</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneC + loc3705)}</div></div>
-    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Restoration</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneR + loc5064)}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Construction Debt</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneC + loc3705)}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Restoration Debt</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneR + loc5064)}</div></div>
+    ${imprPayrollTotal > 0 || restPayrollTotal > 0 ? `<div><div style="font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;">⚠️ Payroll This Week</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--amber);">${fmt(imprPayrollTotal + restPayrollTotal)}</div></div>` : '<div><div style="font-size:10px;color:var(--success);text-transform:uppercase;letter-spacing:.5px;">✅ No Payroll This Week</div></div>'}
   </div>
   <div style="height:1px;background:var(--border);margin-bottom:16px;"></div>`;
 
-  // Construction block
-  html += divisionBlock(
-    '🔧 Construction (Improvement)',
-    imprCash, imprObligations, imprAvailable,
+  out += divisionBlock('🔧 Construction', imprCash, imprObligations, imprAvailable,
+    imprPayrollTotal, imprFridayAP, imprWeekAP, imprReserve,
     [
       { name: 'Cap One Construction CC', balance: capOneC, rate: '~29% APR' },
       { name: 'LOC 3705',                balance: loc3705, rate: 'Prime+2%'  },
     ]
   );
 
-  // Restoration block
-  html += divisionBlock(
-    '🏠 Restoration',
-    restCash, restObligations, restAvailable,
+  out += divisionBlock('🏠 Restoration', restCash, restObligations, restAvailable,
+    restPayrollTotal, restFridayAP, restWeekAP, restReserve,
     [
       { name: 'Cap One Restoration CC', balance: capOneR, rate: '~29% APR' },
       { name: 'LOC 5064',               balance: loc5064, rate: 'Prime+2%'  },
     ]
   );
 
-  html += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
-    * Construction obligations est: payroll ~${fmt(imprPayroll)} + overhead ~${fmt(imprOverhead)} + ${fmt(imprReserve)} reserve.
-    Restoration obligations est: payroll ~${fmt(restPayroll)} + overhead ~${fmt(restOverhead)} + ${fmt(restReserve)} reserve. Actual amounts may vary.
+  out += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
+    * Payroll pulled from Cash Flow schedule. AP includes Friday payments + invoices due within 7 days. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
   </div>`;
 
-  el.innerHTML = html;
+  el.innerHTML = out;
 }
 
 // ── CFO BRIEF ─────────────────────────────────────────────────────────────
