@@ -809,8 +809,8 @@ async function loadOverview() {
       const weekStr  = week7.toISOString().slice(0,10);
       snap._imprFridayAP = apItems.filter(r => r.division==='improvement' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
       snap._restFridayAP = apItems.filter(r => r.division==='restoration' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
-      snap._imprWeekAP   = apItems.filter(r => r.division==='improvement' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr).reduce((s,r)=>s+(r.amount||0),0);
-      snap._restWeekAP   = apItems.filter(r => r.division==='restoration' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr).reduce((s,r)=>s+(r.amount||0),0);
+      snap._imprWeekAP   = apItems.filter(r => r.division==='improvement' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+(r.amount||0),0);
+      snap._restWeekAP   = apItems.filter(r => r.division==='restoration' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+(r.amount||0),0);
     }
     buildDebtRecommendation(snap);
   });
@@ -1428,6 +1428,11 @@ function buildDebtRecommendation(snap) {
   const imprPayrollTotal = imprPayroll + (adminPayroll / 2);
   const restPayrollTotal = restPayroll + (adminPayroll / 2);
 
+  // ── Business expenses due within 7 days per division ─────────────────────
+  const bizNext7     = getUpcomingExpenses(7, 'improvement');
+  const imprBizTotal = bizNext7.reduce((s,e) => s + (e.amount||0), 0);
+  const restBizTotal = getUpcomingExpenses(7, 'restoration').reduce((s,e) => s + (e.amount||0), 0);
+
   // ── AP due within 7 days — need from Supabase (already loaded in snap context)
   // We'll use the AP data from the current date's ap_items
   // For now pull from allSnapshots data — impr_ap and rest_ap are totals
@@ -1441,21 +1446,22 @@ function buildDebtRecommendation(snap) {
   const imprReserve  = 10000;
   const restReserve  = 12000;
 
-  const imprObligations = imprPayrollTotal + imprFridayAP + imprWeekAP + imprReserve;
-  const restObligations = restPayrollTotal + restFridayAP + restWeekAP + restReserve;
+  const imprObligations = imprPayrollTotal + imprFridayAP + imprWeekAP + imprBizTotal + imprReserve;
+  const restObligations = restPayrollTotal + restFridayAP + restWeekAP + restBizTotal + restReserve;
   const imprAvailable   = imprCash - imprObligations;
   const restAvailable   = restCash - restObligations;
 
-  function obligationDetail(payroll, fridayAP, weekAP, reserve) {
+  function obligationDetail(payroll, fridayAP, weekAP, biz, reserve) {
     const lines = [];
     if (payroll > 0)   lines.push(`Payroll: ${fmt(payroll)}`);
     if (fridayAP > 0)  lines.push(`Friday AP: ${fmt(fridayAP)}`);
     if (weekAP > 0)    lines.push(`AP due this week: ${fmt(weekAP)}`);
+    if (biz > 0)       lines.push(`Business expenses: ${fmt(biz)}`);
     lines.push(`Reserve: ${fmt(reserve)}`);
     return lines.join(' · ');
   }
 
-  function divisionBlock(divName, cash, obligations, available, payroll, fridayAP, weekAP, reserve, debts) {
+  function divisionBlock(divName, cash, obligations, available, payroll, fridayAP, weekAP, biz, reserve, debts) {
     const color = available > 5000 ? 'var(--success)' : available > 0 ? '#92580A' : 'var(--danger)';
     const icon  = available > 5000 ? '✅' : available > 0 ? '⚠️' : '🚫';
 
@@ -1466,7 +1472,7 @@ function buildDebtRecommendation(snap) {
         <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Obligations</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(obligations)}</div></div>
         <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Available for Debt</div><div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${color};">${icon} ${fmt(Math.max(0, available))}</div></div>
       </div>
-      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">${obligationDetail(payroll, fridayAP, weekAP, reserve)}</div>`;
+      <div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">${obligationDetail(payroll, fridayAP, weekAP, biz, reserve)}</div>`;
 
     const activeDebts = debts.filter(d => d.balance > 0);
     if (activeDebts.length === 0) {
@@ -1526,7 +1532,7 @@ function buildDebtRecommendation(snap) {
   <div style="height:1px;background:var(--border);margin-bottom:16px;"></div>`;
 
   out += divisionBlock('🔧 Construction', imprCash, imprObligations, imprAvailable,
-    imprPayrollTotal, imprFridayAP, imprWeekAP, imprReserve,
+    imprPayrollTotal, imprFridayAP, imprWeekAP, imprBizTotal, imprReserve,
     [
       { name: 'Cap One Construction CC', balance: capOneC, rate: '~29% APR' },
       { name: 'LOC 3705',                balance: loc3705, rate: 'Prime+2%'  },
@@ -1534,7 +1540,7 @@ function buildDebtRecommendation(snap) {
   );
 
   out += divisionBlock('🏠 Restoration', restCash, restObligations, restAvailable,
-    restPayrollTotal, restFridayAP, restWeekAP, restReserve,
+    restPayrollTotal, restFridayAP, restWeekAP, restBizTotal, restReserve,
     [
       { name: 'Cap One Restoration CC', balance: capOneR, rate: '~29% APR' },
       { name: 'LOC 5064',               balance: loc5064, rate: 'Prime+2%'  },
@@ -1542,7 +1548,7 @@ function buildDebtRecommendation(snap) {
   );
 
   out += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
-    * Payroll pulled from Cash Flow schedule. AP includes Friday payments + invoices due within 7 days. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
+    * Payroll pulled from Cash Flow schedule. AP includes Friday payments + invoices due within 7 days. Business expenses from Cash Flow tab. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
   </div>`;
 
   el.innerHTML = out;
