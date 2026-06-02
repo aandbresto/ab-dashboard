@@ -1392,93 +1392,129 @@ function buildDebtRecommendation(snap) {
   const el = document.getElementById('debt-rec-body');
   if (!el) return;
 
-  const cash        = snap.total_cash        || 0;
+  // ── Per-division figures ──────────────────────────────────────────────────
+  const imprCash    = snap.impr_cash          || 0;
+  const restCash    = snap.rest_cash          || 0;
   const capOneC     = snap.cap_one_construction || 0;
-  const capOneR     = snap.cap_one_restoration  || 0;
   const loc3705     = snap.loc_3705           || 0;
+  const capOneR     = snap.cap_one_restoration  || 0;
   const loc5064     = snap.loc_5064           || 0;
-  const totalDebt   = capOneC + capOneR + loc3705 + loc5064;
-  const totalAP     = snap.total_ap           || 0;
+  const imprAP      = snap.impr_ap            || 0;
+  const restAP      = snap.rest_ap            || 0;
 
-  // Estimated fixed obligations
-  const estimatedPayroll  = 19000;   // conservative biweekly estimate both divisions
-  const estimatedOverhead = 9000;    // phones, insurance, software, storage, etc
-  const minReserve        = 25000;   // minimum operating buffer
+  // ── Estimated obligations per division ───────────────────────────────────
+  const imprPayroll   = 3500;   // Construction payroll estimate
+  const restPayroll   = 15500;  // Restoration payroll estimate
+  const imprOverhead  = 3000;   // Construction overhead share
+  const restOverhead  = 6000;   // Restoration overhead share
+  const imprReserve   = 12000;  // Minimum operating reserve - Construction
+  const restReserve   = 15000;  // Minimum operating reserve - Restoration
 
-  const totalObligations  = estimatedPayroll + estimatedOverhead + minReserve;
-  const available         = cash - totalObligations;
+  const imprObligations = imprPayroll + imprOverhead + imprReserve;
+  const restObligations = restPayroll + restOverhead + restReserve;
 
-  // Build debt priority list (credit cards first = highest interest ~29% APR)
-  const debts = [
-    { name: 'Cap One Restoration CC', balance: capOneR, type: 'cc',  rate: '~29% APR' },
-    { name: 'Cap One Construction CC', balance: capOneC, type: 'cc',  rate: '~29% APR' },
-    { name: 'LOC 5064',                balance: loc5064, type: 'loc', rate: 'Prime+2%'  },
-    { name: 'LOC 3705',                balance: loc3705, type: 'loc', rate: 'Prime+2%'  },
-  ].filter(d => d.balance > 0);
+  const imprAvailable = imprCash - imprObligations;
+  const restAvailable = restCash - restObligations;
 
+  const totalDebt = capOneC + loc3705 + capOneR + loc5064;
   if (totalDebt === 0) {
     el.innerHTML = '<div style="color:var(--success);font-size:13px;font-weight:600;">✅ No credit debt outstanding — excellent position!</div>';
     return;
   }
 
-  let html = '';
+  function divisionBlock(divName, cash, obligations, available, debts) {
+    const color = available > 5000 ? 'var(--success)' : available > 0 ? '#92580A' : 'var(--danger)';
+    const icon  = available > 5000 ? '✅' : available > 0 ? '⚠️' : '🚫';
 
-  // Status bar
-  const statusColor = available > 10000 ? 'var(--success)' : available > 0 ? '#92580A' : 'var(--danger)';
-  const statusIcon  = available > 10000 ? '✅' : available > 0 ? '⚠️' : '🚫';
-  html += `<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
-    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Total Credit Debt</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--danger);">${fmt(totalDebt)}</div></div>
-    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Cash After Obligations</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:${statusColor};">${statusIcon} ${fmt(Math.max(0, available))}</div></div>
-    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Obligations Est.</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(totalObligations)}</div></div>
-  </div>`;
+    let block = `<div style="margin-bottom:20px;">
+      <div style="font-size:12px;font-weight:700;color:var(--text-1);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">${divName}</div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:10px;padding:10px 14px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
+        <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Cash in Bank</div><div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">${fmt(cash)}</div></div>
+        <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Obligations Est.</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(obligations)}</div></div>
+        <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;">Available for Debt</div><div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${color};">${icon} ${fmt(Math.max(0, available))}</div></div>
+      </div>`;
 
-  if (available <= 0) {
-    html += `<div style="font-size:13px;color:var(--text-2);padding:8px 0;">
-      <strong style="color:var(--danger);">Not recommended to pay down debt this cycle.</strong>
-      Cash on hand is needed to cover payroll (~${fmt(estimatedPayroll)}), overhead (~${fmt(estimatedOverhead)}), and a ${fmt(minReserve)} operating reserve.
-      Focus on collecting outstanding AR to build cash before making additional debt payments.
-    </div>`;
-  } else {
-    // Allocate available cash to debts in priority order
-    let remaining = available;
-    const payments = [];
-    for (const d of debts) {
-      if (remaining <= 0) break;
-      const pay = Math.min(remaining, d.balance);
-      if (pay > 100) {
+    const activeDebts = debts.filter(d => d.balance > 0);
+    if (activeDebts.length === 0) {
+      block += `<div style="font-size:12px;color:var(--success);padding:6px 0;">✅ No debt in this division.</div>`;
+    } else if (available <= 0) {
+      block += `<div style="font-size:12px;color:var(--text-2);padding:6px 0;">
+        <strong style="color:var(--danger);">Not recommended this cycle.</strong>
+        Cash needed for payroll, overhead, and operating reserve. Focus on collecting AR first.
+      </div>`;
+      // Still show balances
+      block += `<div style="display:flex;flex-direction:column;gap:6px;">`;
+      activeDebts.forEach(d => {
+        block += `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg-2);border-radius:6px;border:1px solid var(--border);opacity:0.6;">
+          <div><span style="font-size:12px;color:var(--text-2);">${d.name}</span><div style="font-size:11px;color:var(--text-3);">${d.rate} · Balance: ${fmt(d.balance)}</div></div>
+          <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);">${fmt(d.balance)}</div>
+        </div>`;
+      });
+      block += `</div>`;
+    } else {
+      let remaining = available;
+      const payments = [];
+      for (const d of activeDebts) {
+        if (remaining <= 100) break;
+        const pay = Math.min(remaining, d.balance);
         payments.push({ ...d, pay });
         remaining -= pay;
       }
+      block += `<div style="display:flex;flex-direction:column;gap:6px;">`;
+      payments.forEach((p, i) => {
+        const isFullPayoff = p.pay >= p.balance - 1;
+        const badge = isFullPayoff
+          ? `<span style="font-size:10px;background:#2D6A4F;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">FULL PAYOFF</span>`
+          : `<span style="font-size:10px;background:#92580A;color:white;padding:2px 6px;border-radius:10px;margin-left:6px;">PARTIAL</span>`;
+        block += `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-2);border-radius:7px;border:1px solid var(--border);">
+          <div><span style="font-size:12px;font-weight:600;color:var(--text-1);">${i+1}. ${p.name}</span>${badge}
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${p.rate} · Balance: ${fmt(p.balance)}</div></div>
+          <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--success);">Pay ${fmt(p.pay)}</div>
+        </div>`;
+      });
+      block += `</div>`;
+      if (remaining > 100) {
+        block += `<div style="font-size:11px;color:var(--text-3);margin-top:6px;">+${fmt(remaining)} left after full payoff — keep as additional reserve.</div>`;
+      }
     }
 
-    html += `<div style="font-size:12px;color:var(--text-3);margin-bottom:10px;">
-      Based on current cash less estimated payroll (${fmt(estimatedPayroll)}), overhead (${fmt(estimatedOverhead)}), and ${fmt(minReserve)} reserve:
-    </div>`;
-
-    html += `<div style="display:flex;flex-direction:column;gap:8px;">`;
-    payments.forEach((p, i) => {
-      const isFullPayoff = p.pay >= p.balance - 1;
-      const badge = isFullPayoff
-        ? `<span style="font-size:10px;background:#2D6A4F;color:white;padding:2px 7px;border-radius:10px;margin-left:8px;">FULL PAYOFF</span>`
-        : `<span style="font-size:10px;background:#92580A;color:white;padding:2px 7px;border-radius:10px;margin-left:8px;">PARTIAL</span>`;
-      html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-2);border-radius:7px;border:1px solid var(--border);">
-        <div>
-          <span style="font-size:12px;font-weight:600;color:var(--text-1);">${i+1}. ${p.name}</span>
-          ${badge}
-          <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${p.rate} · Balance: ${fmt(p.balance)}</div>
-        </div>
-        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--success);">Pay ${fmt(p.pay)}</div>
-      </div>`;
-    });
-    html += `</div>`;
-
-    if (remaining > 100) {
-      html += `<div style="font-size:12px;color:var(--text-3);margin-top:10px;">Remaining after all debt payoff: ${fmt(remaining)} — keep as additional cash reserve.</div>`;
-    }
+    block += `</div>`;
+    return block;
   }
 
-  html += `<div style="font-size:10px;color:var(--text-3);margin-top:12px;border-top:1px solid var(--border);padding-top:8px;">
-    * Obligations estimate: payroll ~${fmt(estimatedPayroll)} + overhead ~${fmt(estimatedOverhead)} + ${fmt(minReserve)} reserve. Actual payroll and expenses may vary.
+  let html = '';
+
+  // Summary header
+  html += `<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Total Credit Debt</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--danger);">${fmt(totalDebt)}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Construction</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneC + loc3705)}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Restoration</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(capOneR + loc5064)}</div></div>
+  </div>
+  <div style="height:1px;background:var(--border);margin-bottom:16px;"></div>`;
+
+  // Construction block
+  html += divisionBlock(
+    '🔧 Construction (Improvement)',
+    imprCash, imprObligations, imprAvailable,
+    [
+      { name: 'Cap One Construction CC', balance: capOneC, rate: '~29% APR' },
+      { name: 'LOC 3705',                balance: loc3705, rate: 'Prime+2%'  },
+    ]
+  );
+
+  // Restoration block
+  html += divisionBlock(
+    '🏠 Restoration',
+    restCash, restObligations, restAvailable,
+    [
+      { name: 'Cap One Restoration CC', balance: capOneR, rate: '~29% APR' },
+      { name: 'LOC 5064',               balance: loc5064, rate: 'Prime+2%'  },
+    ]
+  );
+
+  html += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
+    * Construction obligations est: payroll ~${fmt(imprPayroll)} + overhead ~${fmt(imprOverhead)} + ${fmt(imprReserve)} reserve.
+    Restoration obligations est: payroll ~${fmt(restPayroll)} + overhead ~${fmt(restOverhead)} + ${fmt(restReserve)} reserve. Actual amounts may vary.
   </div>`;
 
   el.innerHTML = html;
