@@ -252,6 +252,16 @@ body {
       </div>
     </div>
 
+      <!-- Debt Paydown Recommendation -->
+      <div class="card section-gap" id="debt-rec-card">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="card-title">💳 Debt Paydown Recommendation</div>
+        </div>
+        <div class="card-body" id="debt-rec-body" style="padding:16px 20px;min-height:60px;">
+          <div style="color:var(--text-muted);font-size:13px;">Loading...</div>
+        </div>
+      </div>
+
     <!-- CASH POSITION -->
     <div class="page" id="page-cash">
       <div class="date-bar">
@@ -344,14 +354,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Invoices</div>
         <table class="data-table" id="ar-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Overdue</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Invoices</div>
         <table class="data-table" id="ar-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Overdue</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -789,6 +799,7 @@ async function loadOverview() {
   `).join('');
 
   buildTrendChart([...allSnapshots].reverse().slice(-30));
+  buildDebtRecommendation(snap);
 
   // Credit utilization
   const limits = {
@@ -1028,15 +1039,14 @@ async function loadAR() {
     if (!rows.length) return `<tr><td colspan="8" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const days  = r.days_outstanding;
-      const cls   = days==null?'':days>60?'days-late':days>30?'days-warn':days>0?'days-warn':'days-ok';
-      const daysLabel = days==null?'—':days<=0?`Current (due ${fmtDate(r.due_date)})`:`${days}d overdue`;
+      const cls   = days==null?'':days>45?'days-late':days>30?'days-warn':'days-ok';
       return `<tr>
         <td class="mono muted">${fmtDate(r.invoice_date)||'—'}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
         <td>${r.client||'—'}</td>
         <td class="mono right">${fmt(r.balance)}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
-        <td><span class="days-badge ${cls}">${days==null?'—':days<=0?'Current':days+'d overdue'}</span></td>
+        <td><span class="days-badge ${cls}">${days!=null?days+'d':'—'}</span></td>
         <td class="mono muted">${fmtDate(r.expected_payment_date)||'—'}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
       </tr>`;
@@ -1375,6 +1385,103 @@ async function loadCashFlow() {
       }
     });
   } catch(err) { console.error('loadCashFlow error:', err); }
+}
+
+// ── DEBT PAYDOWN RECOMMENDATION ───────────────────────────────────────────
+function buildDebtRecommendation(snap) {
+  const el = document.getElementById('debt-rec-body');
+  if (!el) return;
+
+  const cash        = snap.total_cash        || 0;
+  const capOneC     = snap.cap_one_construction || 0;
+  const capOneR     = snap.cap_one_restoration  || 0;
+  const loc3705     = snap.loc_3705           || 0;
+  const loc5064     = snap.loc_5064           || 0;
+  const totalDebt   = capOneC + capOneR + loc3705 + loc5064;
+  const totalAP     = snap.total_ap           || 0;
+
+  // Estimated fixed obligations
+  const estimatedPayroll  = 19000;   // conservative biweekly estimate both divisions
+  const estimatedOverhead = 9000;    // phones, insurance, software, storage, etc
+  const minReserve        = 25000;   // minimum operating buffer
+
+  const totalObligations  = estimatedPayroll + estimatedOverhead + minReserve;
+  const available         = cash - totalObligations;
+
+  // Build debt priority list (credit cards first = highest interest ~29% APR)
+  const debts = [
+    { name: 'Cap One Restoration CC', balance: capOneR, type: 'cc',  rate: '~29% APR' },
+    { name: 'Cap One Construction CC', balance: capOneC, type: 'cc',  rate: '~29% APR' },
+    { name: 'LOC 5064',                balance: loc5064, type: 'loc', rate: 'Prime+2%'  },
+    { name: 'LOC 3705',                balance: loc3705, type: 'loc', rate: 'Prime+2%'  },
+  ].filter(d => d.balance > 0);
+
+  if (totalDebt === 0) {
+    el.innerHTML = '<div style="color:var(--success);font-size:13px;font-weight:600;">✅ No credit debt outstanding — excellent position!</div>';
+    return;
+  }
+
+  let html = '';
+
+  // Status bar
+  const statusColor = available > 10000 ? 'var(--success)' : available > 0 ? '#92580A' : 'var(--danger)';
+  const statusIcon  = available > 10000 ? '✅' : available > 0 ? '⚠️' : '🚫';
+  html += `<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--bg-2);border-radius:8px;border:1px solid var(--border);">
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Total Credit Debt</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--danger);">${fmt(totalDebt)}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Cash After Obligations</div><div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:${statusColor};">${statusIcon} ${fmt(Math.max(0, available))}</div></div>
+    <div><div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">Obligations Est.</div><div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text-2);">${fmt(totalObligations)}</div></div>
+  </div>`;
+
+  if (available <= 0) {
+    html += `<div style="font-size:13px;color:var(--text-2);padding:8px 0;">
+      <strong style="color:var(--danger);">Not recommended to pay down debt this cycle.</strong>
+      Cash on hand is needed to cover payroll (~${fmt(estimatedPayroll)}), overhead (~${fmt(estimatedOverhead)}), and a ${fmt(minReserve)} operating reserve.
+      Focus on collecting outstanding AR to build cash before making additional debt payments.
+    </div>`;
+  } else {
+    // Allocate available cash to debts in priority order
+    let remaining = available;
+    const payments = [];
+    for (const d of debts) {
+      if (remaining <= 0) break;
+      const pay = Math.min(remaining, d.balance);
+      if (pay > 100) {
+        payments.push({ ...d, pay });
+        remaining -= pay;
+      }
+    }
+
+    html += `<div style="font-size:12px;color:var(--text-3);margin-bottom:10px;">
+      Based on current cash less estimated payroll (${fmt(estimatedPayroll)}), overhead (${fmt(estimatedOverhead)}), and ${fmt(minReserve)} reserve:
+    </div>`;
+
+    html += `<div style="display:flex;flex-direction:column;gap:8px;">`;
+    payments.forEach((p, i) => {
+      const isFullPayoff = p.pay >= p.balance - 1;
+      const badge = isFullPayoff
+        ? `<span style="font-size:10px;background:#2D6A4F;color:white;padding:2px 7px;border-radius:10px;margin-left:8px;">FULL PAYOFF</span>`
+        : `<span style="font-size:10px;background:#92580A;color:white;padding:2px 7px;border-radius:10px;margin-left:8px;">PARTIAL</span>`;
+      html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-2);border-radius:7px;border:1px solid var(--border);">
+        <div>
+          <span style="font-size:12px;font-weight:600;color:var(--text-1);">${i+1}. ${p.name}</span>
+          ${badge}
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${p.rate} · Balance: ${fmt(p.balance)}</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--success);">Pay ${fmt(p.pay)}</div>
+      </div>`;
+    });
+    html += `</div>`;
+
+    if (remaining > 100) {
+      html += `<div style="font-size:12px;color:var(--text-3);margin-top:10px;">Remaining after all debt payoff: ${fmt(remaining)} — keep as additional cash reserve.</div>`;
+    }
+  }
+
+  html += `<div style="font-size:10px;color:var(--text-3);margin-top:12px;border-top:1px solid var(--border);padding-top:8px;">
+    * Obligations estimate: payroll ~${fmt(estimatedPayroll)} + overhead ~${fmt(estimatedOverhead)} + ${fmt(minReserve)} reserve. Actual payroll and expenses may vary.
+  </div>`;
+
+  el.innerHTML = html;
 }
 
 // ── CFO BRIEF ─────────────────────────────────────────────────────────────
