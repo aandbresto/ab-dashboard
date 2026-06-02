@@ -1,6 +1,6 @@
 {
   "date": "2026-06-02",
-  "generated_at": "2026-06-02T16:50:30Z",
+  "generated_at": "2026-06-02T17:24:01Z",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 23011.23,
@@ -705,7 +705,7 @@
         "approval_status": "26-0066-MLD - Invoice #4305 $5,250 - Invoice #12,250",
         "job_total": 17500.0,
         "due_date": "2026-06-03",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -881,7 +881,7 @@
     {
       "icon": "\ud83d\udce4",
       "category": "Payments Due This Week",
-      "message": "2 invoices totaling $2,150.00 due within 7 days. Vendors: DE Home Solutions LLC, Clean Sweep. Confirm approvals and fund accounts."
+      "message": "2 invoices totaling $2,150.00 due within 7 days. Vendors: Clean Sweep, DE Home Solutions LLC. Confirm approvals and fund accounts."
     },
     {
       "icon": "\ud83c\udfe0",
