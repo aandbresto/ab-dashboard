@@ -1446,16 +1446,15 @@ function buildDebtRecommendation(snap) {
   const imprReserve  = 10000;
   const restReserve  = 12000;
 
-  const imprObligations = imprPayrollTotal + imprFridayAP + imprWeekAP + imprBizTotal + imprReserve;
-  const restObligations = restPayrollTotal + restFridayAP + restWeekAP + restBizTotal + restReserve;
+  const imprObligations = imprPayrollTotal + imprFridayAP + imprBizTotal + imprReserve;
+  const restObligations = restPayrollTotal + restFridayAP + restBizTotal + restReserve;
   const imprAvailable   = imprCash - imprObligations;
   const restAvailable   = restCash - restObligations;
 
   function obligationDetail(payroll, fridayAP, weekAP, biz, reserve) {
     const lines = [];
     if (payroll > 0)   lines.push(`Payroll: ${fmt(payroll)}`);
-    if (fridayAP > 0)  lines.push(`Friday AP: ${fmt(fridayAP)}`);
-    if (weekAP > 0)    lines.push(`AP due this week: ${fmt(weekAP)}`);
+    if (fridayAP > 0)  lines.push(`Friday AP (approved): ${fmt(fridayAP)}`);
     if (biz > 0)       lines.push(`Business expenses: ${fmt(biz)}`);
     lines.push(`Reserve: ${fmt(reserve)}`);
     return lines.join(' · ');
