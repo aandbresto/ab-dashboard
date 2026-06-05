@@ -1425,8 +1425,8 @@ function buildDebtRecommendation(snap) {
   const adminPayroll = payrollNext7.filter(p => p.division === 'admin').reduce((s,p) => s + p.estAmount, 0);
   const restPayroll  = payrollNext7.filter(p => p.division === 'restoration').reduce((s,p) => s + p.estAmount, 0);
   // Admin payroll split 50/50 between divisions
-  const imprPayrollTotal = imprPayroll + (adminPayroll / 2);
-  const restPayrollTotal = restPayroll + (adminPayroll / 2);
+  const imprPayrollTotal = imprPayroll + adminPayroll;
+  const restPayrollTotal = restPayroll;
 
   // ── Business expenses due within 7 days per division ─────────────────────
   const bizNext7     = getUpcomingExpenses(7, 'improvement');
@@ -1454,7 +1454,7 @@ function buildDebtRecommendation(snap) {
   function obligationDetail(payroll, fridayAP, weekAP, biz, reserve) {
     const lines = [];
     if (payroll > 0)   lines.push(`Payroll: ${fmt(payroll)}`);
-    if (fridayAP > 0)  lines.push(`Friday AP (approved): ${fmt(fridayAP)}`);
+    if (fridayAP > 0)  lines.push(`Friday AP (pending approval): ${fmt(fridayAP)}`);
     if (biz > 0)       lines.push(`Business expenses: ${fmt(biz)}`);
     lines.push(`Reserve: ${fmt(reserve)}`);
     return lines.join(' · ');
