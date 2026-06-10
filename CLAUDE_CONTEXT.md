@@ -1,13 +1,11 @@
 # REV / A&B Dashboard — Claude Context File
 > Paste the raw URL of this file at the start of every new chat to restore full project context instantly.
-> URL: https://raw.githubusercontent.com/aandbresto/ab-dashboard/refs/heads/main/CLAUDE_CONTEXT.md
 
 ---
 
 ## Project Overview
-Daily financial dashboard for **REV Construction & Restoration** (A&B), two divisions: Improvement and Restoration.
+Daily financial dashboard for **REV Construction & Restoration** (two divisions: Improvement and Restoration).
 Every morning a CFO master workbook is uploaded, parsed into `daily_data.json`, pushed to Supabase, and displayed on a GitHub Pages dashboard.
-Monthly P&L PDFs are uploaded to generate the Monthly Financial Report tab.
 
 ---
 
@@ -22,47 +20,58 @@ Monthly P&L PDFs are uploaded to generate the Monthly Financial Report tab.
 ## Repo Structure
 ```
 ab-dashboard/
-├── index.html                  # Full dashboard frontend (single file — DO NOT MODIFY)
+├── index.html                  # Full dashboard frontend (single file)
 ├── data/
 │   └── daily_data.json         # Generated daily from workbook, triggers Action
 ├── scripts/
 │   └── push_to_supabase.py     # Parses daily_data.json → inserts into Supabase
 └── .github/workflows/
-    └── upload.yml              # Triggers on data/daily_data.json push + workflow_dispatch
+    └── upload.yml              # Triggers on data/daily_data.json push
 ```
 
 ---
 
 ## Daily Workflow
 1. User uploads `CFO_Master_Workbook.xlsx` to Claude
-2. Claude runs the parser (Python) → generates `daily_data.json` dated **today's actual date** (always use today regardless of transaction dates)
+2. Claude runs the parser (Python) → generates `data/daily_data.json`
 3. User commits `daily_data.json` to GitHub repo under `data/`
 4. GitHub Action triggers automatically → runs `scripts/push_to_supabase.py`
 5. Dashboard at GitHub Pages reads from Supabase and displays data
 
-**Manual trigger**: Go to Actions tab → Upload to Supabase → Run workflow
+**To trigger the Action manually**: Edit `data/daily_data.json` → change `generated_at` timestamp by 1 second → commit
 
 ---
 
-## Monthly Workflow
-1. User uploads monthly P&L PDFs (Construction ABPI + Restoration ABPR) to Claude
-2. Claude parses the PDFs and generates monthly report data
-3. Data is pushed to Supabase `monthly_snapshots` table
-4. Monthly Financial Report tab on dashboard updates automatically
+## Parser — Critical Rules
 
-**P&L data is YTD (cumulative from January through the report month)**
-- January report = January only
-- February report = January + February cumulative
-- Label as "YTD through [Month]"
+### AR Totals — ALWAYS sum from individual rows
+⚠️ **NEVER trust the workbook formula cell for AR totals.** The workbook formula has a hardcoded range that misses new rows. Always calculate:
+```python
+rest_ar_total = sum(r.get('balance', 0) or 0 for r in rest_ar)
+impr_ar_total = sum(r.get('balance', 0) or 0 for r in impr_ar)
+total_ar = rest_ar_total + impr_ar_total
+```
+Then override the cash_position totals:
+```python
+cash_position['combined']['total_ar'] = total_ar
+cash_position['restoration']['accounts_receivable'] = rest_ar_total
+cash_position['improvement']['accounts_receivable'] = impr_ar_total
+```
 
----
+### Net Availability — Recalculate always
+```python
+net = total_cash + total_ar - total_ap - credit_debt
+cash_position['combined']['net_cash_availability'] = net
+```
+Formula: **Cash + AR - AP - Credit Debt** (credit debt = CC balances + LOC balances)
 
-## CRITICAL RULES — DO NOT CHANGE
-- **index.html is stable and complete — never modify it**
-- **Always use today's actual date as report_date** regardless of transaction dates in workbook
-- **Transaction dates (trans_date, posted_date) stay as-is from workbook**
-- **Never ask user to edit code manually** — always provide the complete file to upload
-- **File upload method for GitHub**: delete old file first, then upload new one
+### Overdue Days — Calculate from due_date vs today
+```python
+def calc_overdue(due_date_str):
+    due = datetime.strptime(due_date_str, '%Y-%m-%d')
+    return (today_dt - due).days  # positive = overdue, negative = current
+```
+Positive = overdue, negative = days until due.
 
 ---
 
@@ -80,56 +89,28 @@ ab-dashboard/
 
 Header rows (skipped): 9, 33, 57, 82, 106, 130
 Columns (0-indexed): `col[1]=trans_date, col[2]=posted_date, col[3]=card_desc, col[4]=vendor, col[5]=amount, col[6]=explanation, col[7]=approved_by, col[8]=txn_type`
-txn_type values: `Credit`, `Debit`, `Transfer` (capitalized)
 
 ### Sheet: `📥 AR Tracker`
-- Improvement: offset col 1 → `invoice_num, client_job, balance, invoice_date, due_date, days_out, expected_payment, last_update`
-- Restoration: offset col 10 → same fields
-- Data rows: 8 to end. Skip null / 'Invoice #' / 'TOTAL'
+- **Improvement AR**: offset col 1 → `invoice_num, client_job, balance, invoice_date, due_date, days_out, expected_payment, last_update`
+- **Restoration AR**: offset col 10 → same fields
+- Data rows: 8 to end. Skip null/`'Invoice #'`/`'TOTAL'`
 
 ### Sheet: `📤 AP Tracker`
-- Improvement: offset col 1 → `inv_date, vendor, invoice_num, amount, billed, profit_pct, approval_status, job_total, due_date, pay_friday`
-- Restoration: offset col 12 → same fields
-- Data rows: 8 to end
+- **Improvement AP**: offset col 1 → `inv_date, vendor, invoice_num, amount, billed, profit_pct, approval_status, job_total, due_date, pay_friday`
+- **Restoration AP**: offset col 12 → same fields
 
 ### Sheet: `💰 Cash Position`
-Column index 2, 0-indexed rows:
-- 6=impr_qb_bank, 7=impr_bank_2657, 8=impr_mm_2690, 9=impr_total_cash, 10=impr_ar, 11=impr_cap_one_cc, 12=impr_loc_3705, 13=impr_ap, 15=impr_net
-- 18=rest_qb_bank, 19=rest_bank_7363, 20=rest_mm_2798, 21=rest_total_cash, 22=rest_ar, 23=rest_loc_5064, 24=rest_cap_one_cc, 25=rest_ap, 27=rest_net
-- 30=combined_total_cash, 31=combined_total_ar, 32=combined_total_ap, 33=combined_credit_debt, 34=combined_net_availability
-
----
-
-## daily_data.json Schema
-```json
-{
-  "date": "2026-03-26",
-  "generated_at": "2026-03-26T00:00:00Z",
-  "cash_position": { "improvement": {}, "restoration": {}, "combined": {} },
-  "ar": { "totals": {}, "improvement": [], "restoration": [] },
-  "ap": { "totals": {}, "improvement": [], "restoration": [] },
-  "transactions": [
-    {"trans_date": "2026-03-24", "posted_date": "2026-03-24",
-     "card_desc": "2671", "vendor": "Vendor", "amount": 0.0,
-     "explanation": "", "approved_by": null, "txn_type": "Debit",
-     "account": "Capital One – Construction (2897)", "division": "improvement"}
-  ],
-  "brief": [
-    {"icon": "✅", "category": "Healthy Position", "message": "Net availability of $X is solid."}
-  ]
-}
+Column index 2, rows 0-indexed:
 ```
-
----
-
-## CFO Daily Brief — Auto-Generated Logic
-Generated automatically by the parser. Smart insights, not just raw numbers:
-- Net cash: 🌟 Strong (>$50K) / ✅ Healthy ($20-50K) / ⚠️ Alert (<$20K)
-- Collections: 🎉 Great (>$30K credits) / 📥 Normal
-- AR: 🚨 60+ days overdue (escalate named clients) / ⏰ 30+ days (send reminders)
-- AP: 📤 Payments due this week with vendor names
-- Division: 🔧 Improvement watch if net < $5K / 🏠 Restoration praise if strong
-- Gap: 💡 When AP exceeds AR
+row[6]=impr QB bank, row[7]=impr bank 2657, row[8]=impr MM 2690, row[9]=impr total cash
+row[10]=impr AR (DO NOT USE — sum from rows instead)
+row[11]=impr Cap One CC, row[12]=impr LOC 3705, row[13]=impr AP, row[15]=impr net total
+row[18]=rest QB bank, row[19]=rest bank 7363, row[20]=rest MM 2798, row[21]=rest total cash
+row[22]=rest AR (DO NOT USE — sum from rows instead)
+row[23]=rest LOC 5064, row[24]=rest Cap One CC, row[25]=rest AP, row[27]=rest net total
+row[30]=combined total cash, row[31]=combined total AR (override with summed value)
+row[32]=combined total AP, row[33]=combined credit debt, row[34]=combined net availability (override)
+```
 
 ---
 
@@ -137,7 +118,7 @@ Generated automatically by the parser. Smart insights, not just raw numbers:
 
 ### `daily_snapshots`
 ```
-id, report_date, impr_qb_bank, impr_bank_2657, impr_mm_2690, impr_cash,
+report_date, impr_qb_bank, impr_bank_2657, impr_mm_2690, impr_cash,
 impr_ar, impr_ap, impr_net, rest_qb_bank, rest_bank_7363, rest_mm_2798,
 rest_cash, rest_ar, rest_ap, rest_net, cap_one_construction, loc_3705,
 loc_5064, cap_one_restoration, total_cash, total_ar, total_ap,
@@ -146,7 +127,7 @@ credit_debt, net_availability, created_at
 
 ### `ar_items`
 ```
-id, report_date, client, balance, invoice_date, due_date,
+report_date, client, balance, invoice_date, due_date,
 days_outstanding (INTEGER — cast float to int),
 expected_payment_date, notes, invoice_number, division, created_at
 ```
@@ -160,10 +141,9 @@ pay_friday, division, created_at
 
 ### `transactions`
 ```
-id, report_date, trans_date, posted_date, account, account_type,
-division, card_no, vendor, amount, explanation, approved_by, txn_type, created_at
+report_date, account_type, division, card_no, vendor, amount,
+explanation, approved_by, txn_type, account, created_at
 ```
-- `account`: filter key — `cap_one_construction`, `checking_2657`, `mm_2690`, `cap_one_restoration`, `checking_7363`, `mm_2798`
 - `account_type`: `"credit_card"` or `"bank"`
 - `card_no` maps from JSON field `card_desc`
 
@@ -172,74 +152,71 @@ division, card_no, vendor, amount, explanation, approved_by, txn_type, created_a
 report_date, brief (JSON array of {icon, category, message})
 ```
 
-### `payment_approvals`
+### `monthly_reports`
 ```
-report_date, vendor, invoice_number, division, status, comment, updated_at
+report_month, division, revenue, gross_profit, net_profit,
+payroll, total_expenses, monthly_actual, target,
+services (jsonb array), metrics (jsonb array), prior_year (jsonb), summary
 ```
-
-### `monthly_snapshots`
-Stores monthly P&L data for the Monthly Financial Report tab.
-Populated when monthly P&L PDFs are uploaded to Claude.
-
----
-
-## push_to_supabase.py — Key Logic
-- `payload["date"]` → `report_date`
-- `get_account_key(account)`: substring number matching (avoids em dash issues):
-  - "capital one" + "restoration" → `cap_one_restoration`
-  - "capital one" → `cap_one_construction`
-  - "2657" → `checking_2657`, "2690" → `mm_2690`, "7363" → `checking_7363`, "2798" → `mm_2798`
-- `to_int(v)`: casts float to int for days_outstanding
-- `get_account_type(account)`: "credit_card" if "capital one" in name else "bank"
-- Supabase JS v2: NO `.execute()` calls needed
+- `services`: `[{"name":"Water Damage","val":107509.22}, ...]`
+- `metrics`: `[{"label":"Gross Profit %","v26":"85.14%","dir":"up_good"}, ...]`
+- `prior_year`: `{"revenue":340908,"gross_profit":286908,...,"services":[...],"metrics":[...]}`
 
 ---
 
-## Dashboard Tabs (index.html — DO NOT MODIFY)
-1. **Overview** — KPI cards, division breakdown, 30-day trend, credit utilization, CFO Daily Brief
-2. **Cash Position** — improvement/restoration/combined tables
-3. **Transactions** — grouped by division → by account, sorted posted_date oldest→newest. Filter chips by account. Columns: Trans Date, Posted Date, Account, Vendor, Amount, Explanation, Approved By
-4. **Receivables** — AR by division, days outstanding badges
-5. **Payables** — Friday payments with approval buttons (✅❌↺) + comment textarea. Full AP tables by division.
-6. **Cash Flow** — 7/15/30/45d windows, payroll schedule, business expenses, historical chart
-7. **Monthly Financial Report** — Construction/Restoration toggle, 5 charts, KPI cards, metrics table, executive summary
+## Debt Paydown Recommendation Card
+Built into `index.html` Overview tab. Calculates per division:
+
+**Inputs used:**
+- Cash in bank (per division)
+- Payroll due within 7 days (from `PAYROLL_SCHEDULES`)
+- Friday AP only — invoices marked `pay_friday = 'Yes'` in AP tracker (NOT weekly AP due dates)
+- Business expenses due within 7 days (from `BUSINESS_EXPENSES` in index.html)
+- Reserve: Construction $10,000 / Restoration $12,000
+
+**Priority:** Credit cards first (24.49% APR), then LOCs (8.75% APR)
+
+**Important:** Only Friday-marked AP is included. Unmarked AP invoices are excluded even if due date falls within the week — the user controls what gets paid each week by marking Friday.
 
 ---
 
-## Payables — Approval System
-- Friday payments: AP items with `pay_friday = "Yes"`
-- Approval buttons: ✅ Approved, ❌ Hold, ↺ Reset
-- Comment field: textarea, saves on blur even without status (`if (status || comment)`)
-- Saved to `payment_approvals` table, reloads AP after save
+## Payroll Schedule (in index.html `PAYROLL_SCHEDULES`)
+Current as of June 2026:
+- **Improvement Payroll**: lastPaid `2026-05-29`, estAmount `$3,500`, division `improvement`
+- **Admin Payroll**: lastPaid `2026-05-29`, estAmount `$3,500`, division `admin`
+- **Restoration Payroll**: lastPaid `2026-06-05`, estAmount `$15,500`, division `restoration`
+
+Admin payroll goes entirely to Construction (not split). Payroll is biweekly (every 14 days).
 
 ---
 
-## Monthly Financial Report Tab
-- Division toggle: Construction / Restoration
-- Data: YTD cumulative P&L
-- 5 Charts matching PDF format:
-  1. Gross Profit vs Net Profit (grouped bar)
-  2. Payroll Expenses vs Revenue (grouped bar)
-  3. Total Expenses vs Revenue (grouped bar)
-  4. Revenue Breakdown by Service (grouped bar)
-  5. Monthly Target vs Actual (grouped bar + line combo)
-- KPI cards, metrics comparison table, AI executive summary
-
-### Jan 2026 data — Construction (ABPI)
-Employees: 3 current / 4 prior. Target: $75K/month
-Revenue: $8,457 vs $17,923. Gross: 55.96% vs 27.97%. Net: -64.23% vs -204.12%
-
-### Jan 2026 data — Restoration (ABPR)
-Employees: 6 current / 8 prior. Target: $125K/month
-Revenue: $91,587 vs $150,725. Gross: 90.79% vs 77.21%. Net: 40.04% vs 20.50%
+## Interest Rates
+- **Capital One CC (both divisions)**: 24.49% APR
+- **LOC 3705 (Construction)**: 8.75% APR
+- **LOC 5064 (Restoration)**: 8.75% APR
 
 ---
 
-## Hardcoded Values in index.html
-**Payroll Schedule** (update when amounts change):
-- Improvement: lastPaid 2026-03-06, est. $1,658.70
-- Admin: lastPaid 2026-03-06, est. $3,119.00
-- Restoration: lastPaid 2026-03-13, est. $15,500.00
+## Monthly Financial Report Workflow
+1. Download QB P&L for both divisions (Jan 1 through last day of month, YTD with prior year comparison)
+2. Upload PDFs to Claude — ask to build the monthly snapshot
+3. Provide monthly actuals (single-month revenue for Construction and Restoration)
+4. Claude generates SQL — paste directly into Supabase SQL Editor
+5. Dashboard Monthly Snapshot tab updates automatically
+
+**Monthly actuals loaded (as of June 2026):**
+| Month | Division | Monthly Actual |
+|-------|----------|----------------|
+| Jan 2026 | construction | $8,525.20 |
+| Jan 2026 | restoration | $100,278.08 |
+| Feb 2026 | construction | $35,085.75 |
+| Feb 2026 | restoration | $50,105.28 |
+| Mar 2026 | construction | $33,044.48 |
+| Mar 2026 | restoration | $54,257.37 |
+| Apr 2026 | construction | $72,502.84 |
+| Apr 2026 | restoration | $69,983.30 |
+| May 2026 | construction | $28,608.93 |
+| May 2026 | restoration | $92,248.15 |
 
 ---
 
@@ -249,15 +226,32 @@ Revenue: $91,587 vs $150,725. Gross: 90.79% vs 77.21%. Net: 40.04% vs 20.50%
 3. `days_outstanding` float → cast to int
 4. Em dash in account names → use substring number matching
 5. `.execute()` calls → not needed in Supabase JS v2
-6. `window._saveAppr` → alias for `window.saveFridayApproval`
+6. `window._saveAppr` alias needed
 7. Comment `if (status)` → must be `if (status || comment)`
-8. GitHub upload → delete old file first, then upload
+8. Monthly report date matching → use `_month = (r.report_month||'').slice(0,10)`
+9. services/metrics stored as JSONB arrays not objects
+10. Sales Discounts excluded from service charts
+11. txn_type null handling: `txn_type_raw.capitalize() if txn_type_raw else None`
+12. AR totals → ALWAYS sum from individual rows, never trust workbook formula cell
+13. Net availability → always recalculate: Cash + AR - AP - Credit Debt
+14. Debt rec card must be inside `page-overview` div or it shows on all tabs
+
+---
+
+## index.html — Current State
+The dashboard has these tabs: Overview, Cash Position, Transactions, Receivables, Payables, Cash Flow, Monthly Snapshot.
+
+**Overview tab extras:**
+- CFO Daily Brief card
+- 💳 Debt Paydown Recommendation card (inside page-overview div)
+
+**Do NOT modify index.html unless fixing bugs.** Always start from the current GitHub version when making changes.
 
 ---
 
 ## How to Start a New Chat
 1. Open a new Claude chat
-2. Paste: "Here is my project context: https://raw.githubusercontent.com/aandbresto/ab-dashboard/refs/heads/main/CLAUDE_CONTEXT.md"
+2. Paste: `https://raw.githubusercontent.com/aandbresto/ab-dashboard/refs/heads/main/CLAUDE_CONTEXT.md`
 3. Upload workbook for daily JSON, or P&L PDFs for monthly report
-4. Do NOT ask Claude to modify index.html — it is stable and complete
-5. Claude always uses today's actual date as report_date
+4. Claude always uses today's actual date as report_date
+5. Claude always sums AR from individual rows — never trusts workbook formula cell
