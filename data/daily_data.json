@@ -1,5 +1,5 @@
 {
-  "date": "2026-06-11",
+  "date": "2026-06-12",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 21570.69,
@@ -39,7 +39,7 @@
         "balance": 18487.86,
         "invoice_date": "2026-04-17",
         "due_date": "2026-05-17",
-        "days_out": 56,
+        "days_out": 57,
         "expected_payment": "2026-06-12",
         "last_update": "06/05 - Jordan approved, payment being worked on.",
         "division": "improvement"
@@ -50,7 +50,7 @@
         "balance": 627.2,
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
-        "days_out": 43,
+        "days_out": 44,
         "expected_payment": "2026-05-30",
         "last_update": "06/09 - Texted Rebecca requesting update",
         "division": "improvement"
@@ -61,7 +61,7 @@
         "balance": 600.0,
         "invoice_date": "2026-05-05",
         "due_date": "2026-06-04",
-        "days_out": 38,
+        "days_out": 39,
         "expected_payment": "2026-06-04",
         "last_update": "06/09 - Texted Rebecca requesting update",
         "division": "improvement"
@@ -72,7 +72,7 @@
         "balance": 625.0,
         "invoice_date": "2026-05-07",
         "due_date": "2026-06-06",
-        "days_out": 36,
+        "days_out": 37,
         "expected_payment": "2026-06-06",
         "last_update": "06/05 - Left VM for Robert",
         "division": "improvement"
@@ -83,7 +83,7 @@
         "balance": 1512.5,
         "invoice_date": "2026-05-15",
         "due_date": "2026-05-30",
-        "days_out": 28,
+        "days_out": 29,
         "expected_payment": "2026-05-30",
         "last_update": "06/08 - Ozzy following up with Courtney",
         "division": "improvement"
@@ -94,7 +94,7 @@
         "balance": 1125.74,
         "invoice_date": "2026-05-20",
         "due_date": "2026-07-04",
-        "days_out": 23,
+        "days_out": 24,
         "expected_payment": "2026-07-04",
         "last_update": "06/08 - Work scheduled for 06/09",
         "division": "improvement"
@@ -105,7 +105,7 @@
         "balance": 680.0,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 15,
+        "days_out": 16,
         "expected_payment": "2026-06-27",
         "last_update": "5/29 - EPOs fully approved",
         "division": "improvement"
@@ -116,7 +116,7 @@
         "balance": 11011.38,
         "invoice_date": "2026-05-29",
         "due_date": "2026-06-13",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-06-13",
         "last_update": "5/29/2026 invoice created",
         "division": "improvement"
@@ -127,7 +127,7 @@
         "balance": 588.0,
         "invoice_date": "2026-05-29",
         "due_date": "2026-06-28",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-06-28",
         "last_update": "06/08 - EPO fully approved",
         "division": "improvement"
@@ -138,7 +138,7 @@
         "balance": 71.9,
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-20",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-06-20",
         "last_update": "06/05 - Invoice sent",
         "division": "improvement"
@@ -149,7 +149,7 @@
         "balance": 71.9,
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-20",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-06-20",
         "last_update": "06/05 - Invoice sent",
         "division": "improvement"
@@ -160,7 +160,7 @@
         "balance": 3211.26,
         "invoice_date": "2026-06-08",
         "due_date": "2026-07-08",
-        "days_out": 4,
+        "days_out": 5,
         "expected_payment": "2026-07-08",
         "last_update": "06/08 - Invoice sent",
         "division": "improvement"
@@ -173,7 +173,7 @@
         "balance": 4764.45,
         "invoice_date": "2025-09-19",
         "due_date": "2025-09-22",
-        "days_out": 266,
+        "days_out": 267,
         "expected_payment": null,
         "last_update": "IN COLLECTIONS - Last update, Pam spoke to Yvonne and she informed them she is filing for bankrupcy, they still need to confirm with H/O Attorneys and check what type of bankrupcy they are filing to let me know next steps",
         "division": "restoration"
@@ -184,7 +184,7 @@
         "balance": 3730.35,
         "invoice_date": "2025-12-04",
         "due_date": "2025-12-04",
-        "days_out": 190,
+        "days_out": 191,
         "expected_payment": null,
         "last_update": "No agreement reached as of yet.",
         "division": "restoration"
@@ -195,7 +195,7 @@
         "balance": 850.0,
         "invoice_date": "2025-12-16",
         "due_date": "2026-01-15",
-        "days_out": 178,
+        "days_out": 179,
         "expected_payment": null,
         "last_update": "05/05 - AQM is being scheduled but homeowner is not available, so still ongoing",
         "division": "restoration"
@@ -206,7 +206,7 @@
         "balance": 6936.52,
         "invoice_date": "2026-03-31",
         "due_date": "2026-04-30",
-        "days_out": 73,
+        "days_out": 74,
         "expected_payment": null,
         "last_update": "05/05 - AQM is being scheduled but homeowner is not available, so still ongoing",
         "division": "restoration"
@@ -217,7 +217,7 @@
         "balance": 3000.0,
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
-        "days_out": 43,
+        "days_out": 44,
         "expected_payment": "2026-06-12",
         "last_update": "4/30 Invoice created - work ongoing",
         "division": "restoration"
@@ -228,7 +228,7 @@
         "balance": 3854.0,
         "invoice_date": "2026-05-06",
         "due_date": "2026-06-05",
-        "days_out": 37,
+        "days_out": 38,
         "expected_payment": "2026-06-19",
         "last_update": "06/09 - Invoice adjusted and resent to Josh for payment approval",
         "division": "restoration"
@@ -239,7 +239,7 @@
         "balance": 4900.0,
         "invoice_date": "2026-05-11",
         "due_date": "2026-06-10",
-        "days_out": 32,
+        "days_out": 33,
         "expected_payment": "2026-06-10",
         "last_update": "06/08 - called and left VM, email also sent",
         "division": "restoration"
@@ -250,7 +250,7 @@
         "balance": 150.0,
         "invoice_date": "2026-05-12",
         "due_date": "2026-05-12",
-        "days_out": 31,
+        "days_out": 32,
         "expected_payment": "2026-06-11",
         "last_update": "06/10 - Check hasnt been received, emailed Sandy",
         "division": "restoration"
@@ -261,7 +261,7 @@
         "balance": 950.0,
         "invoice_date": "2026-05-14",
         "due_date": "2026-05-14",
-        "days_out": 29,
+        "days_out": 30,
         "expected_payment": "2026-05-14",
         "last_update": "06/08 - called Ryan no response",
         "division": "restoration"
@@ -272,7 +272,7 @@
         "balance": 1820.0,
         "invoice_date": "2026-05-26",
         "due_date": "2026-06-25",
-        "days_out": 17,
+        "days_out": 18,
         "expected_payment": "2026-06-25",
         "last_update": "06/01 - PO Fully approved",
         "division": "restoration"
@@ -283,7 +283,7 @@
         "balance": 6991.83,
         "invoice_date": "2026-05-27",
         "due_date": "2026-06-26",
-        "days_out": 16,
+        "days_out": 17,
         "expected_payment": "2026-06-26",
         "last_update": "06/08 - PO missing final approval, briz following up",
         "division": "restoration"
@@ -294,7 +294,7 @@
         "balance": 299.0,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 15,
+        "days_out": 16,
         "expected_payment": "2026-06-27",
         "last_update": "06/01 - invoice sent to direct billing",
         "division": "restoration"
@@ -305,7 +305,7 @@
         "balance": 1250.0,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 15,
+        "days_out": 16,
         "expected_payment": "2026-06-27",
         "last_update": "06/02 - EPO fully approved.",
         "division": "restoration"
@@ -316,7 +316,7 @@
         "balance": 491.5,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 15,
+        "days_out": 16,
         "expected_payment": "2026-06-27",
         "last_update": "05/28 - Invoice sent",
         "division": "restoration"
@@ -327,7 +327,7 @@
         "balance": 17322.85,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 15,
+        "days_out": 16,
         "expected_payment": "2026-06-27",
         "last_update": "05/28 - Invoice sent",
         "division": "restoration"
@@ -338,7 +338,7 @@
         "balance": 4590.0,
         "invoice_date": "2026-05-29",
         "due_date": "2026-06-28",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-06-28",
         "last_update": "05/29 - invoice sent",
         "division": "restoration"
@@ -349,7 +349,7 @@
         "balance": 1816.67,
         "invoice_date": "2026-05-29",
         "due_date": "2026-07-17",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-07-17",
         "last_update": "05/29 - Invoice created",
         "division": "restoration"
@@ -360,7 +360,7 @@
         "balance": 3387.0,
         "invoice_date": "2026-05-29",
         "due_date": "2026-06-28",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-06-28",
         "last_update": "05/29 - invoice sent",
         "division": "restoration"
@@ -371,7 +371,7 @@
         "balance": 9250.0,
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-05",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-06-05",
         "last_update": "06/08 - called Ryan no response",
         "division": "restoration"
@@ -382,7 +382,7 @@
         "balance": 697.57,
         "invoice_date": "2026-06-05",
         "due_date": "2026-07-05",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-07-05",
         "last_update": "06/09 - fully approved",
         "division": "restoration"
@@ -393,7 +393,7 @@
         "balance": 14041.8,
         "invoice_date": "2026-06-05",
         "due_date": "2026-07-05",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-07-05",
         "last_update": "06/05 - Invoice sent",
         "division": "restoration"
@@ -404,7 +404,7 @@
         "balance": 3287.12,
         "invoice_date": "2026-06-09",
         "due_date": "2026-07-09",
-        "days_out": 3,
+        "days_out": 4,
         "expected_payment": "2026-07-09",
         "last_update": "06/09 - Invoice sent",
         "division": "restoration"
@@ -415,7 +415,7 @@
         "balance": 450.0,
         "invoice_date": "2026-06-09",
         "due_date": "2026-07-09",
-        "days_out": 3,
+        "days_out": 4,
         "expected_payment": "2026-07-09",
         "last_update": "6/9 Inv created",
         "division": "restoration"
@@ -426,7 +426,7 @@
         "balance": 1752.0,
         "invoice_date": "2026-06-10",
         "due_date": "2026-07-10",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-07-10",
         "last_update": "6/10 Inv created",
         "division": "restoration"
@@ -437,7 +437,7 @@
         "balance": 799.0,
         "invoice_date": "2026-06-11",
         "due_date": "2026-07-11",
-        "days_out": 1,
+        "days_out": 2,
         "expected_payment": "2026-07-11",
         "last_update": "6/11 Inv created",
         "division": "restoration"
