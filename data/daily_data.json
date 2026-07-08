@@ -1,192 +1,122 @@
 {
-  "date": "2026-07-08",
-  "cash_position": {
-    "improvement": {
-      "accounts": [
-        { "name": "Construction Checking – 2657", "balance": 11750.99 },
-        { "name": "Construction MM – 2690", "balance": 28836.77 }
-      ],
-      "total_cash": 40587.76,
-      "accounts_receivable": 20856.30,
-      "accounts_payable": 66863.23,
-      "credit": [
-        { "name": "Capital One – Construction (2897)", "balance": 10796.50, "limit": 45000 },
-        { "name": "LOC 3705", "balance": 14475.76, "limit": 100000 }
-      ]
-    },
-    "restoration": {
-      "accounts": [
-        { "name": "Restoration Checking – 7363", "balance": 11559.93 },
-        { "name": "Restoration MM – 2798", "balance": 13952.36 }
-      ],
-      "total_cash": 25512.29,
-      "accounts_receivable": 134211.56,
-      "accounts_payable": 13739.50,
-      "credit": [
-        { "name": "LOC 5064", "balance": 32201.68, "limit": 75000 },
-        { "name": "Capital One – Restoration", "balance": 33798.81, "limit": 38000 }
-      ]
-    },
-    "combined": {
-      "total_cash": 66100.05,
-      "total_ar": 155067.86,
-      "total_ap": 80602.73,
-      "credit_debt": 91272.75,
-      "net_cash_availability": 44527.98
-    }
-  },
-  "ar": {
-    "improvement": [
-      { "invoice": "33124", "client": "Manatee County.:681013", "balance": 1125.74, "invoice_date": "2026-05-20", "due_date": "2026-07-04", "days_out": 49, "expected_payment": "2026-07-04", "notes": "06/12 - work completed, BI Received" },
-      { "invoice": "33130", "client": "Neal Communities:681043", "balance": 71.90, "invoice_date": "2026-06-05", "due_date": "2026-07-04", "days_out": 33, "expected_payment": "2026-07-04", "notes": "06/05 - Invoice sent" },
-      { "invoice": "33131", "client": "Neal Communities:681043", "balance": 71.90, "invoice_date": "2026-06-05", "due_date": "2026-07-04", "days_out": 33, "expected_payment": "2026-07-04", "notes": "06/05 - Invoice sent" },
-      { "invoice": "33134", "client": "Custome Craft 681047", "balance": 13367.77, "invoice_date": "2026-06-17", "due_date": "2026-07-16", "days_out": 21, "expected_payment": "2026-07-16", "notes": "06/17/2026 Inv sent" },
-      { "invoice": "33136", "client": "Taylor Morrison of FL:681045", "balance": 3329.39, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "06/17 - Invoice created" },
-      { "invoice": "33138", "client": "Taylor Morrison of FL:681049", "balance": 156.80, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "06/30 - EPO received" },
-      { "invoice": "33140", "client": "Taylor Morrison of FL:681028", "balance": 1316.24, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_out": 16, "expected_payment": "2026-07-22", "notes": "7/6 Pending final work and EPO" },
-      { "invoice": "33141", "client": "Taylor Morrison of FL:681052", "balance": 1246.56, "invoice_date": "2026-06-25", "due_date": "2026-07-25", "days_out": 13, "expected_payment": "2026-07-25", "notes": "07/02 requested EPO" },
-      { "invoice": "33126", "client": "Dream Finders Homes:681040", "balance": 170.00, "invoice_date": "2026-05-28", "due_date": "2026-06-27", "days_out": 41, "expected_payment": "2026-06-27", "notes": "07/06 Future orders" }
-    ],
-    "restoration": [
-      { "invoice": "4120", "client": "Yvonne Badger: 25-0133-MLD", "balance": 4764.45, "invoice_date": "2025-09-19", "due_date": "2025-09-22", "days_out": 292, "expected_payment": null, "notes": "IN COLLECTIONS - Last update, Pam spoke to Yvonne and she informed them she is filing for bankrupcy, they still need to confirm with H/O Attorneys and check what type of bankrupcy they are filing to let me know next steps" },
-      { "invoice": "4201", "client": "Kingdom Roofing: 25-0219-MLD", "balance": 3730.35, "invoice_date": "2025-12-04", "due_date": "2025-12-04", "days_out": 216, "expected_payment": null, "notes": "No agreement reached as of yet." },
-      { "invoice": "4216", "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC", "balance": 850.00, "invoice_date": "2025-12-16", "due_date": "2026-01-15", "days_out": 204, "expected_payment": null, "notes": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing" },
-      { "invoice": "4253", "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC", "balance": 6936.52, "invoice_date": "2026-03-31", "due_date": "2026-04-30", "days_out": 99, "expected_payment": null, "notes": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing" },
-      { "invoice": "4317", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 3000.00, "invoice_date": "2026-04-30", "due_date": "2026-05-30", "days_out": 69, "expected_payment": "2026-06-12", "notes": "4/30 Invoice created - work ongoing" },
-      { "invoice": "4326", "client": "Choate Constuction:2025 Northeast Pine Island Road-26-0109-WTR", "balance": 4900.00, "invoice_date": "2026-05-11", "due_date": "2026-06-10", "days_out": 58, "expected_payment": "2026-06-10", "notes": "06/29 - Spoje to AP, check is being released this wednesday" },
-      { "invoice": "4331", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 950.00, "invoice_date": "2026-05-14", "due_date": "2026-05-14", "days_out": 55, "expected_payment": "2026-05-14", "notes": "06/26 - Ryan texted saying the agreement was to pay upon completion, I reminded him about our conversation for invoicing." },
-      { "invoice": "4345", "client": "Alon Luxury Apartment Homes:Units 108, 208, 110, 112 and 210 - 2351 University Parkway-26-0127-ESR", "balance": 17322.85, "invoice_date": "2026-05-28", "due_date": "2026-06-27", "days_out": 41, "expected_payment": "2026-06-27", "notes": "06/29 - Spoke to Brenda she is checking with their Construction team in charge of payment, is the same company just different division" },
-      { "invoice": "4346", "client": "Neal Communities:10213 Canaveral Circle-26-0100-CLN", "balance": 4590.00, "invoice_date": "2026-05-29", "due_date": "2026-06-28", "days_out": 40, "expected_payment": "2026-07-10", "notes": "06/29 - Jacob to speak to Josh" },
-      { "invoice": "4347", "client": "Manatee County  - Customer:600 301 Boulevard West Suite 202-26-0132-ESR", "balance": 1816.67, "invoice_date": "2026-05-29", "due_date": "2026-07-17", "days_out": 40, "expected_payment": "2026-07-17", "notes": "05/29 - Invoice created" },
-      { "invoice": "4350", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 9250.00, "invoice_date": "2026-06-05", "due_date": "2026-06-05", "days_out": 33, "expected_payment": "2026-06-26", "notes": "06/26 - Ryan texted saying the agreement was to pay upon completion, I reminded him about our conversation for invoicing." },
-      { "invoice": "4352", "client": "Alon Luxury Apartment Homes:Units 108, 208, 110, 112 and 210 - 2351 University Parkway-26-0127-ESR", "balance": 14041.80, "invoice_date": "2026-06-05", "due_date": "2026-07-05", "days_out": 33, "expected_payment": "2026-07-05", "notes": "06/29 - Spoke to Brenda she is checking with their Construction team in charge of payment, is the same company just different division" },
-      { "invoice": "4359", "client": "Neal Communities:217 Ortelle Terrace-26-0128-MLD", "balance": 1813.00, "invoice_date": "2026-06-15", "due_date": "2026-07-15", "days_out": 23, "expected_payment": "2026-07-15", "notes": "6/15 Inv created" },
-      { "invoice": "4360", "client": "Dream Finders Homes:7429 Sea Manatee Street-26-0160-WTR", "balance": 199.00, "invoice_date": "2026-06-16", "due_date": "2026-07-16", "days_out": 22, "expected_payment": "2026-07-16", "notes": "6/30 - EPO Fully approved" },
-      { "invoice": "4362", "client": "Taylor Morrison Florida:Taylor Morrison North:15045 Cuzcorro Court-26-0115-TMP", "balance": 2877.08, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "06/24 - Brook working on EPO" },
-      { "invoice": "4361", "client": "Neal Communities - Warrany:14351 Skipping Stone Loop-26-0148-WTR", "balance": 299.00, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "06/17 - Invoice created" },
-      { "invoice": "4363", "client": "Taylor Morrison Tampa:746 Steel Drive-26-0145-WTR", "balance": 2734.05, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "6/29 EPO fully approved" },
-      { "invoice": "4364", "client": "Taylor Morrison:15169 Cuzcorro Court-26-0159-MLD", "balance": 1608.33, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_out": 21, "expected_payment": "2026-07-17", "notes": "06/17 - Invoice created" },
-      { "invoice": "4365", "client": "Dream Finders Homes:7453 Sea Manatee Street-26-0089-MLD", "balance": 299.00, "invoice_date": "2026-06-19", "due_date": "2026-07-19", "days_out": 19, "expected_payment": "2026-07-19", "notes": "06/30 - EPO submitted" },
-      { "invoice": "4367", "client": "Neal Communities - Warranty:10041 Hammock Brook Drive-26-0164-WTR", "balance": 125.00, "invoice_date": "2026-06-19", "due_date": "2026-07-19", "days_out": 19, "expected_payment": "2026-07-19", "notes": "06/19 - Invoice created" },
-      { "invoice": "4368", "client": "Pulte Homes Corporation:4715 Corsair Bay Glen-26-0153-WTR", "balance": 9000.00, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_out": 16, "expected_payment": "2026-07-22", "notes": "06/29 - Invoice adjusted and resent" },
-      { "invoice": "4369", "client": "Neal Communities:140 Corserra Drive-26-0165-STC", "balance": 250.00, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_out": 16, "expected_payment": "2026-07-22", "notes": "06/22 - Invoice created" },
-      { "invoice": "4370", "client": "Pulte Group:5822 Talon Preserve Drive-26-0162-WTR", "balance": 2517.98, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_out": 16, "expected_payment": "2026-07-22", "notes": "06/22 - Invoice created" },
-      { "invoice": "4371", "client": "Neal Communities:10213 Canaveral Circle-26-0100-CLN", "balance": 8315.00, "invoice_date": "2026-06-24", "due_date": "2026-07-24", "days_out": 14, "expected_payment": "2026-07-24", "notes": "06/24 - Invoice created" },
-      { "invoice": "4373", "client": "Neal Communities - Warranty:6285 Dry Tortugas Drive-26-0168-MLD", "balance": 125.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_out": 9, "expected_payment": "2026-07-29", "notes": "06/29 - Invoice created" },
-      { "invoice": "4374", "client": "Neal Communities - Warranty:6492 Big Bayou Dr-26-0172-MLD", "balance": 125.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_out": 9, "expected_payment": "2026-07-29", "notes": "06/29 - Invoice created" },
-      { "invoice": "4375", "client": "Neal Communities - Warranty:10117 Crystal Isles Circle-26-0166-WTR", "balance": 300.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_out": 9, "expected_payment": "2026-07-29", "notes": "06/29 - Invoice created" },
-      { "invoice": "4377", "client": "Neal Communities - Warranty:8536 Anthirium Loop-26-0178-WTR", "balance": 2427.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4379", "client": "Neal Communities - Warranty:2630 Paradise Plum Drive-26-0155-CLN", "balance": 579.60, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4380", "client": "Neal Communities - Warranty:2638 Paradise Plum Drive-26-0157-CLN", "balance": 819.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4381", "client": "Neal Communities - Warranty:2634 Paradise Plum Drive-26-0156-CLN", "balance": 960.75, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4382", "client": "Neal Communities - Warranty:2626 Paradise Plum Drive-26-0173-CLN", "balance": 664.65, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4383", "client": "Neal Communities - Warranty:2622 Paradise Plum Drive-26-0174-CLN", "balance": 560.70, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4385", "client": "Neal Communities - Warranty:2639 Paradise Plum Drive-26-0158-CLN", "balance": 337.05, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4384", "client": "Neal Communities - Warranty:2635 Paradise Plum Drive-26-0176-CLN", "balance": 403.20, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4386", "client": "Taylor Morrison Florida:Taylor Morrison North:3130 Torta Court-26-0177-CLN", "balance": 392.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4387", "client": "Taylor Morrison Tampa:6067 Whetstone Court-26-0151-MLD", "balance": 4898.04, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_out": 8, "expected_payment": "2026-07-30", "notes": "06/30 - Invoice created" },
-      { "invoice": "4378", "client": "Pulte Homes Corporation:14715 Eagle Branch Drive-26-0161-ESR", "balance": 4797.13, "invoice_date": "2026-06-26", "due_date": "2026-07-26", "days_out": 12, "expected_payment": "2026-07-26", "notes": "06/30 - Invoice created" },
-      { "invoice": "4389", "client": "Manatee County  - Customer:10311 Malachite Drive-26-0183-ESR", "balance": 5934.74, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_out": 1, "expected_payment": "2026-07-07", "notes": "07/07 - Invoice created" },
-      { "invoice": "4390", "client": "Pulte Homes Corporation:14715 Eagle Branch Drive-26-0161-ESR", "balance": 1731.20, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_out": 1, "expected_payment": "2026-07-07", "notes": "07/07 - Invoice created" },
-      { "invoice": "4391", "client": "Mechanical One:11239 Sycamore Glen Loop-26-0180-ESR", "balance": 6966.42, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_out": 1, "expected_payment": "2026-07-07", "notes": "07/07 - Invoice created" }
-    ]
-  },
-  "ap": {
-    "improvement": [
-      { "date": "05/07/2025", "vendor": "Kingdom Restoration", "invoice": "299-1", "amount": 25138.00, "due_date": "2025-06-06", "pay_friday": true, "notes": "680934 - Invoices #32991 $3,748.24, #33000 $10,000, #33019 $15,992.30 ALL PAID" },
-      { "date": "05/28/2025", "vendor": "Empire Today LLC", "invoice": "InvPRJ002738508", "amount": 9891.99, "due_date": "2025-06-27", "pay_friday": true, "notes": "RT Moore:25-0030-REP/Job 680939 LVT" },
-      { "date": "2026-04-20", "vendor": "Amir Shoufany", "invoice": "73", "amount": 1600.00, "due_date": "2026-05-04", "pay_friday": true, "notes": "Pending - 681025 - Outside repairs." },
-      { "date": "2026-04-27", "vendor": "Amir Shoufany", "invoice": "74", "amount": 800.00, "due_date": "2026-05-11", "pay_friday": true, "notes": "Pending - 681025 - Outside repairs." },
-      { "date": "2026-05-07", "vendor": "Amir Shoufany", "invoice": "80", "amount": 800.00, "due_date": "2026-05-21", "pay_friday": true, "notes": "Pending - 681025 - Outside repairs." },
-      { "date": "2026-06-01", "vendor": "Strada", "invoice": "418453431", "amount": 7460.14, "due_date": "2026-07-01", "pay_friday": true, "notes": "Pending - 680939" },
-      { "date": "2026-06-06", "vendor": "Harold Bronson", "invoice": "10005", "amount": 7250.00, "due_date": "2026-07-05", "pay_friday": true, "notes": "681021 - Invoice 33127 $11,011.38" },
-      { "date": "2026-06-06", "vendor": "Harold Bronson", "invoice": "10018", "amount": 9943.72, "due_date": "2026-07-05", "pay_friday": true, "notes": "681047 - Invoice #33134 $13,367.77" },
-      { "date": "2026-06-16", "vendor": "Amir Shoufany", "invoice": "84", "amount": 1980.00, "due_date": "2026-06-30", "pay_friday": true, "notes": "681045 - Invoice 33136 $3,397.34" },
-      { "date": "2026-06-19", "vendor": "Damm Good", "invoice": "9329387512", "amount": 371.00, "due_date": "2026-07-18", "pay_friday": false, "notes": "681013 - Invoice $1,125.74" },
-      { "date": "2026-06-24", "vendor": "XElent Remodeling LLC", "invoice": "599", "amount": 795.00, "due_date": "2026-07-09", "pay_friday": false, "notes": "681052 - Invoice 33141 $1,272.00" },
-      { "date": "2026-06-24", "vendor": "XElent Remodeling LLC", "invoice": "600", "amount": 285.43, "due_date": "2026-07-09", "pay_friday": false, "notes": "681051 - Invoice 33142 $898.00" },
-      { "date": "2026-06-25", "vendor": "Amir Shoufany", "invoice": "88", "amount": 547.95, "due_date": "2026-07-10", "pay_friday": false, "notes": "Pending - 681025 - Outside repairs." }
-    ],
-    "restoration": [
-      { "date": "12/16/2025", "vendor": "ECO Mold Testing", "invoice": "9925", "amount": 5335.00, "due_date": "2026-01-15", "pay_friday": true, "notes": "25-0131-WTR - Invoice #4217 $11,202.00" },
-      { "date": "02/23/2026", "vendor": "ECO Mold Testing", "invoice": "10396", "amount": 1930.00, "due_date": "2026-03-25", "pay_friday": false, "notes": "26-0044-MLD - Invoice #4261 $1,800" },
-      { "date": "2026-05-04", "vendor": "Clean Sweep", "invoice": "15366", "amount": 1775.00, "due_date": "2026-06-03", "pay_friday": true, "notes": "26-0066-MLD - Invoice #4305 $5,250 - Invoice #4350 $9,250" },
-      { "date": "2026-05-21", "vendor": "Clean Sweep", "invoice": "15492", "amount": 2510.00, "due_date": "2026-06-20", "pay_friday": true, "notes": "26-0100-CLN - Invoice #4346 $4,590" },
-      { "date": "2026-06-01", "vendor": "Damm Good", "invoice": "9329387084", "amount": 219.50, "due_date": "2026-07-01", "pay_friday": true, "notes": "26-0066-MLD - Invoice #4305 $5,250 - Invoice #4350 $9,250" },
-      { "date": "2026-06-09", "vendor": "Clean Sweep", "invoice": "15608", "amount": 870.00, "due_date": "2026-07-08", "pay_friday": false, "notes": "26-0143-CLN - Invoice #4356 $1,752.00" },
-      { "date": "2026-06-11", "vendor": "Clean Sweep", "invoice": "15622", "amount": 1100.00, "due_date": "2026-07-11", "pay_friday": false, "notes": "Pending - 26-0131-MLD" }
-    ]
-  },
-  "transactions": {
-    "improvement": [
-      { "trans_date": "2026-07-07", "posted_date": "2026-07-07", "account": "Capital One – Construction (2897)", "description": "John - Past Due Fee", "amount": -39.00, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Construction Checking – 2657", "description": "ACH: Billi ALLIED NATIONAL - Insurance", "amount": -1163.62, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Construction Checking – 2657", "description": "8887810585 ALLSTATE HEALTH - Insurance", "amount": -100.52, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Construction Checking – 2657", "description": "FLEXBEN TheLoomisCompany - Insurance", "amount": -78.74, "type": "Debit" },
-      { "trans_date": "2026-07-07", "posted_date": "2026-07-07", "account": "Construction Checking – 2657", "description": "TRNSFR CREDIT - TM Payment", "amount": 9131.18, "type": "Credit" }
-    ],
-    "restoration": [
-      { "trans_date": "2026-07-07", "posted_date": "2026-07-07", "account": "Capital One – Restoration", "description": "John 2897 - PAST DUE FEE", "amount": -39.00, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Capital One – Restoration", "description": "Leslie 7689 - Publix - Marketing", "amount": -257.99, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Capital One – Restoration", "description": "Leslie 7689 - Publix - Marketing", "amount": -106.82, "type": "Debit" },
-      { "trans_date": "2026-07-07", "posted_date": "2026-07-07", "account": "Capital One – Restoration", "description": "Leslie 7689 - Panera Bread - Marketing", "amount": -106.82, "type": "Debit" },
-      { "trans_date": "2026-07-07", "posted_date": "2026-07-07", "account": "Restoration Checking – 7363", "description": "CHANNEL TRANSFER DEBIT - TM Payment", "amount": -9131.18, "type": "Debit" },
-      { "trans_date": "2026-07-06", "posted_date": "2026-07-07", "account": "Restoration Checking – 7363", "description": "PAYMENT FL1 PMD 070726 - TM Payment", "amount": 12221.14, "type": "Credit" }
-    ]
-  },
-  "brief": {
-    "date": "2026-07-08",
-    "cash_summary": "Combined cash $66,100.05 (Improvement $40,587.76 | Restoration $25,512.29). Net cash availability $44,527.98 after excluding Yvonne Badger AR ($4,764.45 in collections).",
-    "items": [
-      {
-        "division": "both",
-        "category": "credit_alert",
-        "priority": "critical",
-        "title": "Cap One Restoration — CRITICAL Utilization",
-        "detail": "Cap One Restoration balance $33,798.81 / $38,000 limit = 88.9%. Paydown urgently needed. Cap One Construction $10,796.50 / $45,000 = 24.0%. LOC 3705 $14,475.76 / $100,000 = 14.5%. LOC 5064 $32,201.68 / $75,000 = 42.9%."
-      },
-      {
-        "division": "restoration",
-        "category": "ar_collections",
-        "priority": "high",
-        "title": "Restoration AR — Priority Collections",
-        "detail": "Choate Construction #4326 ($4,900, 58d, due 06/10) — AP confirmed check being released last Wednesday 07/01; now 7 days overdue, escalate immediately. Alon Luxury #4345 ($17,322.85, 41d) and #4352 ($14,041.80, 33d, due 07/05) — Brenda checking with construction team; $31,364.65 combined, follow up today. Today's Modern Dentistry #4317 ($3,000, 69d), #4331 ($950, 55d), #4350 ($9,250, 33d) — Ryan disputing payment terms; $13,200 combined, escalate. New invoices added 07/07: #4389 Manatee County $5,934.74, #4390 Pulte $1,731.20, #4391 Mechanical One $6,966.42."
-      },
-      {
-        "division": "improvement",
-        "category": "ar_collections",
-        "priority": "high",
-        "title": "Improvement AR — Priority Collections",
-        "detail": "Custom Craft #33134 ($13,367.77, due 07/16) — key receivable, monitor closely. Manatee County #33124 ($1,125.74, 49d, due 07/04) — past due, follow up. Dream Finders #33126 ($170.00, 41d) — future orders hold. TM #33140 ($1,316.24, due 07/22) — pending final work and EPO as of 07/06."
-      },
-      {
-        "division": "improvement",
-        "category": "ap_payments",
-        "priority": "medium",
-        "title": "Improvement AP — Friday Queue",
-        "detail": "Marked Yes: Kingdom Restoration $25,138 + Empire Today $9,892 + Bronson #10005 $7,250 + Bronson #10018 $9,943.72 + Amir #73 $1,600 + Amir #74 $800 + Amir #80 $800 + Amir #84 $1,980 + Strada $7,460.14. Hold Kingdom and Strada pending AR collections. XElent #599 $795, #600 $285.43 and Amir #88 $547.95 marked No — not yet approved."
-      },
-      {
-        "division": "restoration",
-        "category": "ap_payments",
-        "priority": "medium",
-        "title": "Restoration AP — Friday Queue",
-        "detail": "Marked Yes: ECO Mold $5,335 + Clean Sweep #15366 $1,775 + Clean Sweep #15492 $2,510 + Damm Good $219.50. Marked No (hold): ECO Mold #10396 $1,930 + Clean Sweep #15608 $870 + Clean Sweep #15622 $1,100."
-      },
-      {
-        "division": "improvement",
-        "category": "transactions",
-        "priority": "info",
-        "title": "Improvement Transactions",
-        "detail": "Insurance debits posted: Allied National $1,163.62, Allstate Health $100.52, Flexben/Loomis $78.74. TM payment credit $9,131.18 received in 2657. Cap One past due fee $39.00."
-      },
-      {
-        "division": "restoration",
-        "category": "transactions",
-        "priority": "info",
-        "title": "Restoration Transactions",
-        "detail": "TM payment $12,221.14 received in 7363; outbound transfer $9,131.18 (TM payment). Cap One Restoration: past due fee $39.00; Leslie marketing charges at Publix $257.99, $106.82 and Panera Bread $106.82."
-      }
-    ]
-  }
+  "report_date": "2026-07-08",
+  "total_cash": 66100.05,
+  "total_ar": 155067.86,
+  "total_ap": 80602.73,
+  "credit_debt": 91272.75,
+  "net_availability": 44527.98,
+  "impr_qb_bank": 28433.75,
+  "impr_bank_2657": 11750.99,
+  "impr_mm_2690": 28836.77,
+  "impr_cash": 40587.76,
+  "impr_ar": 20856.30,
+  "impr_ap": 66863.23,
+  "impr_net": -30691.43,
+  "cap_one_construction": 10796.50,
+  "loc_3705": 14475.76,
+  "rest_qb_bank": 6400.62,
+  "rest_bank_7363": 11559.93,
+  "rest_mm_2798": 13952.36,
+  "rest_cash": 25512.29,
+  "rest_ar": 134211.56,
+  "rest_ap": 13739.50,
+  "rest_net": 79983.86,
+  "loc_5064": 32201.68,
+  "cap_one_restoration": 33798.81,
+  "transactions": [
+    { "trans_date": "2026-07-07", "account": "cap_one_construction", "account_type": "credit_card", "vendor": "John - Past Due Fee", "amount": 39.00, "explanation": "Past Due Fee", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "checking_2657", "account_type": "bank", "vendor": "ACH: Billi ALLIED NATIONAL", "amount": 1163.62, "explanation": "Insurance", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "checking_2657", "account_type": "bank", "vendor": "8887810585 ALLSTATE HEALTH", "amount": 100.52, "explanation": "Insurance", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "checking_2657", "account_type": "bank", "vendor": "FLEXBEN TheLoomisCompany", "amount": 78.74, "explanation": "Insurance", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-07", "account": "checking_2657", "account_type": "bank", "vendor": "TRNSFR CREDIT", "amount": 9131.18, "explanation": "TM Payment", "approved_by": "", "txn_type": "credit" },
+    { "trans_date": "2026-07-07", "account": "cap_one_restoration", "account_type": "credit_card", "vendor": "John 2897 - PAST DUE FEE", "amount": 39.00, "explanation": "Past Due Fee", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "cap_one_restoration", "account_type": "credit_card", "vendor": "Leslie 7689 - Publix", "amount": 257.99, "explanation": "Marketing", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "cap_one_restoration", "account_type": "credit_card", "vendor": "Leslie 7689 - Publix", "amount": 106.82, "explanation": "Marketing", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-07", "account": "cap_one_restoration", "account_type": "credit_card", "vendor": "Leslie 7689 - Panera Bread", "amount": 106.82, "explanation": "Marketing", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-07", "account": "checking_7363", "account_type": "bank", "vendor": "CHANNEL TRANSFER DEBIT", "amount": 9131.18, "explanation": "TM Payment", "approved_by": "", "txn_type": "debit" },
+    { "trans_date": "2026-07-06", "account": "checking_7363", "account_type": "bank", "vendor": "PAYMENT FL1 PMD 070726", "amount": 12221.14, "explanation": "TM Payment", "approved_by": "", "txn_type": "credit" }
+  ],
+  "ar_items": [
+    { "division": "improvement", "invoice_number": "33124", "client": "Manatee County.:681013", "balance": 1125.74, "invoice_date": "2026-05-20", "due_date": "2026-07-04", "days_outstanding": 49, "expected_payment_date": "2026-07-04", "notes": "06/12 - work completed, BI Received" },
+    { "division": "improvement", "invoice_number": "33130", "client": "Neal Communities:681043", "balance": 71.90, "invoice_date": "2026-06-05", "due_date": "2026-07-04", "days_outstanding": 33, "expected_payment_date": "2026-07-04", "notes": "06/05 - Invoice sent" },
+    { "division": "improvement", "invoice_number": "33131", "client": "Neal Communities:681043", "balance": 71.90, "invoice_date": "2026-06-05", "due_date": "2026-07-04", "days_outstanding": 33, "expected_payment_date": "2026-07-04", "notes": "06/05 - Invoice sent" },
+    { "division": "improvement", "invoice_number": "33134", "client": "Custome Craft 681047", "balance": 13367.77, "invoice_date": "2026-06-17", "due_date": "2026-07-16", "days_outstanding": 21, "expected_payment_date": "2026-07-16", "notes": "06/17/2026 Inv sent" },
+    { "division": "improvement", "invoice_number": "33136", "client": "Taylor Morrison of FL:681045", "balance": 3329.39, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "06/17 - Invoice created" },
+    { "division": "improvement", "invoice_number": "33138", "client": "Taylor Morrison of FL:681049", "balance": 156.80, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "06/30 - EPO received" },
+    { "division": "improvement", "invoice_number": "33140", "client": "Taylor Morrison of FL:681028", "balance": 1316.24, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_outstanding": 16, "expected_payment_date": "2026-07-22", "notes": "7/6 Pending final work and EPO" },
+    { "division": "improvement", "invoice_number": "33141", "client": "Taylor Morrison of FL:681052", "balance": 1246.56, "invoice_date": "2026-06-25", "due_date": "2026-07-25", "days_outstanding": 13, "expected_payment_date": "2026-07-25", "notes": "07/02 requested EPO" },
+    { "division": "improvement", "invoice_number": "33126", "client": "Dream Finders Homes:681040", "balance": 170.00, "invoice_date": "2026-05-28", "due_date": "2026-06-27", "days_outstanding": 41, "expected_payment_date": "2026-06-27", "notes": "07/06 Future orders" },
+    { "division": "restoration", "invoice_number": "4120", "client": "Yvonne Badger: 25-0133-MLD", "balance": 4764.45, "invoice_date": "2025-09-19", "due_date": "2025-09-22", "days_outstanding": 292, "expected_payment_date": null, "notes": "IN COLLECTIONS - Last update, Pam spoke to Yvonne and she informed them she is filing for bankrupcy, they still need to confirm with H/O Attorneys and check what type of bankrupcy they are filing to let me know next steps" },
+    { "division": "restoration", "invoice_number": "4201", "client": "Kingdom Roofing: 25-0219-MLD", "balance": 3730.35, "invoice_date": "2025-12-04", "due_date": "2025-12-04", "days_outstanding": 216, "expected_payment_date": null, "notes": "No agreement reached as of yet." },
+    { "division": "restoration", "invoice_number": "4216", "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC", "balance": 850.00, "invoice_date": "2025-12-16", "due_date": "2026-01-15", "days_outstanding": 204, "expected_payment_date": null, "notes": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing" },
+    { "division": "restoration", "invoice_number": "4253", "client": "Toll Brothers:16257 Wax Myrtle Street-25-0205-STC", "balance": 6936.52, "invoice_date": "2026-03-31", "due_date": "2026-04-30", "days_outstanding": 99, "expected_payment_date": null, "notes": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing" },
+    { "division": "restoration", "invoice_number": "4317", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 3000.00, "invoice_date": "2026-04-30", "due_date": "2026-05-30", "days_outstanding": 69, "expected_payment_date": "2026-06-12", "notes": "4/30 Invoice created - work ongoing" },
+    { "division": "restoration", "invoice_number": "4326", "client": "Choate Constuction:2025 Northeast Pine Island Road-26-0109-WTR", "balance": 4900.00, "invoice_date": "2026-05-11", "due_date": "2026-06-10", "days_outstanding": 58, "expected_payment_date": "2026-06-10", "notes": "06/29 - Spoje to AP, check is being released this wednesday" },
+    { "division": "restoration", "invoice_number": "4331", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 950.00, "invoice_date": "2026-05-14", "due_date": "2026-05-14", "days_outstanding": 55, "expected_payment_date": "2026-05-14", "notes": "06/26 - Ryan texted saying the agreement was to pay upon completion, I reminded him about our conversation for invoicing." },
+    { "division": "restoration", "invoice_number": "4345", "client": "Alon Luxury Apartment Homes:Units 108, 208, 110, 112 and 210 - 2351 University Parkway-26-0127-ESR", "balance": 17322.85, "invoice_date": "2026-05-28", "due_date": "2026-06-27", "days_outstanding": 41, "expected_payment_date": "2026-06-27", "notes": "06/29 - Spoke to Brenda she is checking with their Construction team in charge of payment, is the same company just different division" },
+    { "division": "restoration", "invoice_number": "4346", "client": "Neal Communities:10213 Canaveral Circle-26-0100-CLN", "balance": 4590.00, "invoice_date": "2026-05-29", "due_date": "2026-06-28", "days_outstanding": 40, "expected_payment_date": "2026-07-10", "notes": "06/29 - Jacob to speak to Josh" },
+    { "division": "restoration", "invoice_number": "4347", "client": "Manatee County  - Customer:600 301 Boulevard West Suite 202-26-0132-ESR", "balance": 1816.67, "invoice_date": "2026-05-29", "due_date": "2026-07-17", "days_outstanding": 40, "expected_payment_date": "2026-07-17", "notes": "05/29 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4350", "client": "Today's Modern Dentistry:7208 South Beneva Road-26-0066-MLD", "balance": 9250.00, "invoice_date": "2026-06-05", "due_date": "2026-06-05", "days_outstanding": 33, "expected_payment_date": "2026-06-26", "notes": "06/26 - Ryan texted saying the agreement was to pay upon completion, I reminded him about our conversation for invoicing." },
+    { "division": "restoration", "invoice_number": "4352", "client": "Alon Luxury Apartment Homes:Units 108, 208, 110, 112 and 210 - 2351 University Parkway-26-0127-ESR", "balance": 14041.80, "invoice_date": "2026-06-05", "due_date": "2026-07-05", "days_outstanding": 33, "expected_payment_date": "2026-07-05", "notes": "06/29 - Spoke to Brenda she is checking with their Construction team in charge of payment, is the same company just different division" },
+    { "division": "restoration", "invoice_number": "4359", "client": "Neal Communities:217 Ortelle Terrace-26-0128-MLD", "balance": 1813.00, "invoice_date": "2026-06-15", "due_date": "2026-07-15", "days_outstanding": 23, "expected_payment_date": "2026-07-15", "notes": "6/15 Inv created" },
+    { "division": "restoration", "invoice_number": "4360", "client": "Dream Finders Homes:7429 Sea Manatee Street-26-0160-WTR", "balance": 199.00, "invoice_date": "2026-06-16", "due_date": "2026-07-16", "days_outstanding": 22, "expected_payment_date": "2026-07-16", "notes": "6/30 - EPO Fully approved" },
+    { "division": "restoration", "invoice_number": "4362", "client": "Taylor Morrison Florida:Taylor Morrison North:15045 Cuzcorro Court-26-0115-TMP", "balance": 2877.08, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "06/24 - Brook working on EPO" },
+    { "division": "restoration", "invoice_number": "4361", "client": "Neal Communities - Warrany:14351 Skipping Stone Loop-26-0148-WTR", "balance": 299.00, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "06/17 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4363", "client": "Taylor Morrison Tampa:746 Steel Drive-26-0145-WTR", "balance": 2734.05, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "6/29 EPO fully approved" },
+    { "division": "restoration", "invoice_number": "4364", "client": "Taylor Morrison:15169 Cuzcorro Court-26-0159-MLD", "balance": 1608.33, "invoice_date": "2026-06-17", "due_date": "2026-07-17", "days_outstanding": 21, "expected_payment_date": "2026-07-17", "notes": "06/17 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4365", "client": "Dream Finders Homes:7453 Sea Manatee Street-26-0089-MLD", "balance": 299.00, "invoice_date": "2026-06-19", "due_date": "2026-07-19", "days_outstanding": 19, "expected_payment_date": "2026-07-19", "notes": "06/30 - EPO submitted" },
+    { "division": "restoration", "invoice_number": "4367", "client": "Neal Communities - Warranty:10041 Hammock Brook Drive-26-0164-WTR", "balance": 125.00, "invoice_date": "2026-06-19", "due_date": "2026-07-19", "days_outstanding": 19, "expected_payment_date": "2026-07-19", "notes": "06/19 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4368", "client": "Pulte Homes Corporation:4715 Corsair Bay Glen-26-0153-WTR", "balance": 9000.00, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_outstanding": 16, "expected_payment_date": "2026-07-22", "notes": "06/29 - Invoice adjusted and resent" },
+    { "division": "restoration", "invoice_number": "4369", "client": "Neal Communities:140 Corserra Drive-26-0165-STC", "balance": 250.00, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_outstanding": 16, "expected_payment_date": "2026-07-22", "notes": "06/22 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4370", "client": "Pulte Group:5822 Talon Preserve Drive-26-0162-WTR", "balance": 2517.98, "invoice_date": "2026-06-22", "due_date": "2026-07-22", "days_outstanding": 16, "expected_payment_date": "2026-07-22", "notes": "06/22 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4371", "client": "Neal Communities:10213 Canaveral Circle-26-0100-CLN", "balance": 8315.00, "invoice_date": "2026-06-24", "due_date": "2026-07-24", "days_outstanding": 14, "expected_payment_date": "2026-07-24", "notes": "06/24 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4373", "client": "Neal Communities - Warranty:6285 Dry Tortugas Drive-26-0168-MLD", "balance": 125.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_outstanding": 9, "expected_payment_date": "2026-07-29", "notes": "06/29 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4374", "client": "Neal Communities - Warranty:6492 Big Bayou Dr-26-0172-MLD", "balance": 125.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_outstanding": 9, "expected_payment_date": "2026-07-29", "notes": "06/29 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4375", "client": "Neal Communities - Warranty:10117 Crystal Isles Circle-26-0166-WTR", "balance": 300.00, "invoice_date": "2026-06-29", "due_date": "2026-07-29", "days_outstanding": 9, "expected_payment_date": "2026-07-29", "notes": "06/29 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4377", "client": "Neal Communities - Warranty:8536 Anthirium Loop-26-0178-WTR", "balance": 2427.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4379", "client": "Neal Communities - Warranty:2630 Paradise Plum Drive-26-0155-CLN", "balance": 579.60, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4380", "client": "Neal Communities - Warranty:2638 Paradise Plum Drive-26-0157-CLN", "balance": 819.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4381", "client": "Neal Communities - Warranty:2634 Paradise Plum Drive-26-0156-CLN", "balance": 960.75, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4382", "client": "Neal Communities - Warranty:2626 Paradise Plum Drive-26-0173-CLN", "balance": 664.65, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4383", "client": "Neal Communities - Warranty:2622 Paradise Plum Drive-26-0174-CLN", "balance": 560.70, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4385", "client": "Neal Communities - Warranty:2639 Paradise Plum Drive-26-0158-CLN", "balance": 337.05, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4384", "client": "Neal Communities - Warranty:2635 Paradise Plum Drive-26-0176-CLN", "balance": 403.20, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4386", "client": "Taylor Morrison Florida:Taylor Morrison North:3130 Torta Court-26-0177-CLN", "balance": 392.00, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4387", "client": "Taylor Morrison Tampa:6067 Whetstone Court-26-0151-MLD", "balance": 4898.04, "invoice_date": "2026-06-30", "due_date": "2026-07-30", "days_outstanding": 8, "expected_payment_date": "2026-07-30", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4378", "client": "Pulte Homes Corporation:14715 Eagle Branch Drive-26-0161-ESR", "balance": 4797.13, "invoice_date": "2026-06-26", "due_date": "2026-07-26", "days_outstanding": 12, "expected_payment_date": "2026-07-26", "notes": "06/30 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4389", "client": "Manatee County  - Customer:10311 Malachite Drive-26-0183-ESR", "balance": 5934.74, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_outstanding": 1, "expected_payment_date": "2026-07-07", "notes": "07/07 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4390", "client": "Pulte Homes Corporation:14715 Eagle Branch Drive-26-0161-ESR", "balance": 1731.20, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_outstanding": 1, "expected_payment_date": "2026-07-07", "notes": "07/07 - Invoice created" },
+    { "division": "restoration", "invoice_number": "4391", "client": "Mechanical One:11239 Sycamore Glen Loop-26-0180-ESR", "balance": 6966.42, "invoice_date": "2026-07-07", "due_date": "2026-07-07", "days_outstanding": 1, "expected_payment_date": "2026-07-07", "notes": "07/07 - Invoice created" }
+  ],
+  "ap_items": [
+    { "division": "improvement", "invoice_date": "2025-05-07", "vendor": "Kingdom Restoration", "invoice_number": "299-1", "amount": 25138.00, "billed_to_client": 29740.54, "profit_pct": 0.1548, "notes": "680934 - Invoices #32991 $3,748.24, #33000 $10,000, #33019 $15,992.30 ALL PAID", "job_total": 29740.54, "due_date": "2025-06-06", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2025-05-28", "vendor": "Empire Today LLC", "invoice_number": "InvPRJ002738508", "amount": 9891.99, "billed_to_client": 15827.18, "profit_pct": 0.375, "notes": "RT Moore:25-0030-REP/Job 680939 LVT", "job_total": 585711.47, "due_date": "2025-06-27", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-04-20", "vendor": "Amir Shoufany", "invoice_number": "73", "amount": 1600.00, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 681025 - Outside repairs.", "job_total": null, "due_date": "2026-05-04", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-04-27", "vendor": "Amir Shoufany", "invoice_number": "74", "amount": 800.00, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 681025 - Outside repairs.", "job_total": null, "due_date": "2026-05-11", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-05-07", "vendor": "Amir Shoufany", "invoice_number": "80", "amount": 800.00, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 681025 - Outside repairs.", "job_total": null, "due_date": "2026-05-21", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-06-01", "vendor": "Strada", "invoice_number": "418453431", "amount": 7460.14, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 680939", "job_total": 588581.42, "due_date": "2026-07-01", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-06-06", "vendor": "Harold Bronson", "invoice_number": "10005", "amount": 7250.00, "billed_to_client": 10875.00, "profit_pct": 0.3333, "notes": "681021 - Invoice 33127 $11,011.38", "job_total": 16940.58, "due_date": "2026-07-05", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-06-06", "vendor": "Harold Bronson", "invoice_number": "10018", "amount": 9943.72, "billed_to_client": 14915.58, "profit_pct": 0.3333, "notes": "681047 - Invoice #33134 $13,367.77", "job_total": 14853.08, "due_date": "2026-07-05", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-06-16", "vendor": "Amir Shoufany", "invoice_number": "84", "amount": 1980.00, "billed_to_client": 3168.00, "profit_pct": 0.375, "notes": "681045 - Invoice 33136 $3,397.34", "job_total": 3397.34, "due_date": "2026-06-30", "pay_friday": "Yes" },
+    { "division": "improvement", "invoice_date": "2026-06-19", "vendor": "Damm Good", "invoice_number": "9329387512", "amount": 371.00, "billed_to_client": 556.50, "profit_pct": 0.3333, "notes": "681013 - Invoice $1,125.74", "job_total": 1125.74, "due_date": "2026-07-18", "pay_friday": "No" },
+    { "division": "improvement", "invoice_date": "2026-06-24", "vendor": "XElent Remodeling LLC", "invoice_number": "599", "amount": 795.00, "billed_to_client": 1272.00, "profit_pct": 0.375, "notes": "681052 - Invoice 33141 $1,272.00", "job_total": 1272.00, "due_date": "2026-07-09", "pay_friday": "No" },
+    { "division": "improvement", "invoice_date": "2026-06-24", "vendor": "XElent Remodeling LLC", "invoice_number": "600", "amount": 285.43, "billed_to_client": 456.68, "profit_pct": 0.375, "notes": "681051 - Invoice 33142 $898.00", "job_total": 898.00, "due_date": "2026-07-09", "pay_friday": "No" },
+    { "division": "improvement", "invoice_date": "2026-06-25", "vendor": "Amir Shoufany", "invoice_number": "88", "amount": 547.95, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 681025 - Outside repairs.", "job_total": null, "due_date": "2026-07-10", "pay_friday": "No" },
+    { "division": "restoration", "invoice_date": "2025-12-16", "vendor": "ECO Mold Testing", "invoice_number": "9925", "amount": 5335.00, "billed_to_client": 8536.00, "profit_pct": 0.375, "notes": "25-0131-WTR - Invoice #4217 $11,202.00", "job_total": 11202.00, "due_date": "2026-01-15", "pay_friday": "Yes" },
+    { "division": "restoration", "invoice_date": "2026-02-23", "vendor": "ECO Mold Testing", "invoice_number": "10396", "amount": 1930.00, "billed_to_client": 1800.00, "profit_pct": -0.0722, "notes": "26-0044-MLD - Invoice #4261 $1,800", "job_total": 1800.00, "due_date": "2026-03-25", "pay_friday": "No" },
+    { "division": "restoration", "invoice_date": "2026-05-04", "vendor": "Clean Sweep", "invoice_number": "15366", "amount": 1775.00, "billed_to_client": 2840.00, "profit_pct": 0.375, "notes": "26-0066-MLD - Invoice #4305 $5,250 - Invoice #4350 $9,250", "job_total": 17500.00, "due_date": "2026-06-03", "pay_friday": "Yes" },
+    { "division": "restoration", "invoice_date": "2026-05-21", "vendor": "Clean Sweep", "invoice_number": "15492", "amount": 2510.00, "billed_to_client": 3765.00, "profit_pct": 0.3333, "notes": "26-0100-CLN - Invoice #4346 $4,590", "job_total": 4590.00, "due_date": "2026-06-20", "pay_friday": "Yes" },
+    { "division": "restoration", "invoice_date": "2026-06-01", "vendor": "Damm Good", "invoice_number": "9329387084", "amount": 219.50, "billed_to_client": 329.25, "profit_pct": 0.3333, "notes": "26-0066-MLD - Invoice #4305 $5,250 - Invoice #4350 $9,250", "job_total": 17500.00, "due_date": "2026-07-01", "pay_friday": "Yes" },
+    { "division": "restoration", "invoice_date": "2026-06-09", "vendor": "Clean Sweep", "invoice_number": "15608", "amount": 870.00, "billed_to_client": 1392.00, "profit_pct": 0.375, "notes": "26-0143-CLN - Invoice #4356 $1,752.00", "job_total": 1752.00, "due_date": "2026-07-08", "pay_friday": "No" },
+    { "division": "restoration", "invoice_date": "2026-06-11", "vendor": "Clean Sweep", "invoice_number": "15622", "amount": 1100.00, "billed_to_client": null, "profit_pct": null, "notes": "Pending - 26-0131-MLD", "job_total": null, "due_date": "2026-07-11", "pay_friday": "No" }
+  ],
+  "brief": [
+    { "icon": "🚨", "category": "CREDIT — CRITICAL", "message": "Cap One Restoration at 88.9% utilization ($33,799 / $38K). Paydown urgently needed. Cap One Construction 24.0% ($10,797 / $45K). LOC 3705 14.5% ($14,476 / $100K). LOC 5064 42.9% ($32,202 / $75K)." },
+    { "icon": "💰", "category": "CASH POSITION", "message": "Combined cash $66,100.05 — Improvement $40,587.76 (2657: $11,750.99 | MM: $28,836.77), Restoration $25,512.29 (7363: $11,559.93 | MM: $13,952.36). Net availability $44,527.98 after excluding Yvonne Badger AR ($4,764.45 in collections)." },
+    { "icon": "🏠", "category": "RESTORATION AR — PRIORITY COLLECTIONS", "message": "Choate Construction #4326 ($4,900, 58d) — AP said check releasing last Wed 07/01; now 7 days overdue, escalate immediately. Alon Luxury #4345 ($17,323, 41d) + #4352 ($14,042, 33d) = $31,365 combined — Brenda still checking, follow up today. Today's Modern Dentistry #4317 ($3,000, 69d) + #4331 ($950, 55d) + #4350 ($9,250, 33d) = $13,200 — Ryan disputing payment terms, escalate. New 07/07 invoices: Manatee County #4389 $5,935, Pulte #4390 $1,731, Mechanical One #4391 $6,966." },
+    { "icon": "🔧", "category": "IMPROVEMENT AR — PRIORITY COLLECTIONS", "message": "Custom Craft #33134 ($13,368, due 07/16) — key receivable. Manatee County #33124 ($1,126, 49d, past due 07/04). TM #33140 ($1,316, due 07/22) — pending final work and EPO as of 07/06." },
+    { "icon": "📤", "category": "IMPROVEMENT AP — FRIDAY QUEUE", "message": "Marked Yes: Kingdom Restoration $25,138 + Empire Today $9,892 + Bronson #10005 $7,250 + Bronson #10018 $9,944 + Amir #73 $1,600 + Amir #74 $800 + Amir #80 $800 + Amir #84 $1,980 + Strada $7,460. Hold Kingdom and Strada pending AR. XElent #599/$600 and Amir #88 marked No." },
+    { "icon": "📤", "category": "RESTORATION AP — FRIDAY QUEUE", "message": "Marked Yes: ECO Mold $5,335 + Clean Sweep #15366 $1,775 + Clean Sweep #15492 $2,510 + Damm Good $219.50. Marked No (hold): ECO Mold #10396 $1,930 + Clean Sweep #15608 $870 + Clean Sweep #15622 $1,100." },
+    { "icon": "💳", "category": "TRANSACTIONS", "message": "Improvement: Insurance debits posted (Allied National $1,164, Allstate $101, Flexben $79); TM payment credit +$9,131 in 2657; Cap One past due fee $39. Restoration: TM payment +$12,221 in 7363; outbound transfer $9,131; Cap One past due fee $39; Leslie marketing charges Publix $258/$107 + Panera $107." }
+  ]
 }
