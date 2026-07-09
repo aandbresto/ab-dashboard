@@ -6,14 +6,14 @@
       "bank_balance_2657": 11750.99,
       "money_market_2690": 28836.77,
       "total_cash_in_bank": 40587.76,
-      "accounts_receivable": 20856.3,
+      "accounts_receivable": 20856.300000000003,
       "cap_one_cc": 10796.5,
       "loc_3705": 14475.76,
       "accounts_payable": 66863.23,
-      "net_total": -14008.67
+      "net_total": -14008.669999999991
     },
     "restoration": {
-      "qb_bank_balance": 6400.62,
+      "qb_bank_balance": 6400.620000000001,
       "bank_balance_7363": 11559.93,
       "money_market_2798": 13952.36,
       "total_cash_in_bank": 25512.29,
@@ -21,14 +21,14 @@
       "loc_5064": 32201.68,
       "cap_one_cc": 33798.81,
       "accounts_payable": 13739.5,
-      "net_total": 74824.55
+      "net_total": 74824.55000000002
     },
     "combined": {
       "total_cash_in_bank": 66100.05,
       "total_ar": 155067.86,
       "total_ap": 80602.73,
       "credit_debt": 91272.75,
-      "net_cash_availability": 44527.98
+      "net_cash_availability": 44527.979999999996
     }
   },
   "ar": {
