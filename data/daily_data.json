@@ -1,34 +1,34 @@
 {
-  "date": "2026-07-23",
+  "date": "2026-07-24",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 20115.64,
-      "bank_balance_2657": 3146.86,
+      "qb_bank_balance": 19829.62,
+      "bank_balance_2657": 11726.66,
       "money_market_2690": 22243.33,
-      "total_cash_in_bank": 25390.19,
-      "accounts_receivable": 14684.44,
+      "total_cash_in_bank": 33969.99,
+      "accounts_receivable": 9138.61,
       "cap_one_cc": 18549.52,
-      "loc_3705": 14423.26,
-      "accounts_payable": 46227.55,
-      "net_total": -22156.92
+      "loc_3705": 14426.76,
+      "accounts_payable": 39853.22,
+      "net_total": -21617.94
     },
     "restoration": {
-      "qb_bank_balance": 4771.47,
-      "bank_balance_7363": 6641.47,
-      "money_market_2798": 14787.1,
-      "total_cash_in_bank": 21428.57,
-      "accounts_receivable": 150140.32,
-      "loc_5064": 32084.87,
+      "qb_bank_balance": 4351.57,
+      "bank_balance_7363": 13165.46,
+      "money_market_2798": 12527.81,
+      "total_cash_in_bank": 25693.27,
+      "accounts_receivable": 168673.73,
+      "loc_5064": 32092.66,
       "cap_one_cc": 35553.58,
-      "accounts_payable": 27195.17,
-      "net_total": 74865.27
+      "accounts_payable": 25225.17,
+      "net_total": 92681.7
     },
     "combined": {
-      "total_cash_in_bank": 46818.76,
-      "total_ar": 164824.76,
-      "total_ap": 73422.72,
-      "credit_debt": 100611.23,
-      "net_cash_availability": 32845.12
+      "total_cash_in_bank": 59663.26,
+      "total_ar": 177812.34,
+      "total_ap": 65078.39,
+      "credit_debt": 100622.52,
+      "net_cash_availability": 67010.24
     }
   },
   "ar": {
@@ -39,7 +39,7 @@
         "balance": 1125.74,
         "invoice_date": "2026-05-20",
         "due_date": "2026-07-04",
-        "days_out": 64,
+        "days_out": 65,
         "expected_payment": "2026-07-17",
         "last_update": "07/21 - Payment processed last week should arrive in the next week.",
         "division": "improvement"
@@ -50,7 +50,7 @@
         "balance": 3329.39,
         "invoice_date": "2026-06-17",
         "due_date": "2026-07-17",
-        "days_out": 36,
+        "days_out": 37,
         "expected_payment": "2026-07-17",
         "last_update": "7/17 - EPO Fully approved",
         "division": "improvement"
@@ -61,7 +61,7 @@
         "balance": 1316.24,
         "invoice_date": "2026-06-22",
         "due_date": "2026-07-22",
-        "days_out": 31,
+        "days_out": 32,
         "expected_payment": "2026-07-22",
         "last_update": "7/9 Pending final work and EPO",
         "division": "improvement"
@@ -72,7 +72,7 @@
         "balance": 1246.56,
         "invoice_date": "2026-06-25",
         "due_date": "2026-07-25",
-        "days_out": 28,
+        "days_out": 29,
         "expected_payment": "2026-07-25",
         "last_update": "07/21 - EPO received, pending final approval",
         "division": "improvement"
@@ -83,20 +83,9 @@
         "balance": 170.0,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 56,
+        "days_out": 57,
         "expected_payment": "2026-07-25",
         "last_update": "07/17 - EPO was not received, left VM for Brendan",
-        "division": "improvement"
-      },
-      {
-        "invoice_num": "33145",
-        "client_job": "Taylor Morrison of FL:681054",
-        "balance": 4363.75,
-        "invoice_date": "2026-07-14",
-        "due_date": "2026-08-13",
-        "days_out": 9,
-        "expected_payment": "2026-08-13",
-        "last_update": "7/17 - EPO Fully approved",
         "division": "improvement"
       },
       {
@@ -105,20 +94,20 @@
         "balance": 1176.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-07-17",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-07-17",
         "last_update": "7/17 Inv created",
         "division": "improvement"
       },
       {
-        "invoice_num": "33147",
-        "client_job": "Taylor Morrison of FL:681056",
-        "balance": 1956.76,
-        "invoice_date": "2026-07-20",
-        "due_date": "2026-08-19",
-        "days_out": null,
-        "expected_payment": null,
-        "last_update": "7/20 - EPO fully approved",
+        "invoice_num": "33148",
+        "client_job": "Dream Finders Homes:681057",
+        "balance": 774.68,
+        "invoice_date": "2026-07-24",
+        "due_date": "2026-08-23",
+        "days_out": 0,
+        "expected_payment": "2026-08-23",
+        "last_update": "7/24 Inv created",
         "division": "improvement"
       }
     ],
@@ -129,7 +118,7 @@
         "balance": 4764.45,
         "invoice_date": "2025-09-19",
         "due_date": "2025-09-22",
-        "days_out": 307,
+        "days_out": 308,
         "expected_payment": null,
         "last_update": "IN COLLECTIONS - Last update, Pam spoke to Yvonne and she informed them she is filing for bankrupcy, they still need to confirm with H/O Attorneys and check what type of bankrupcy they are filing to let me know next steps",
         "division": "restoration"
@@ -140,7 +129,7 @@
         "balance": 3730.35,
         "invoice_date": "2025-12-04",
         "due_date": "2025-12-04",
-        "days_out": 231,
+        "days_out": 232,
         "expected_payment": null,
         "last_update": "No agreement reached as of yet.",
         "division": "restoration"
@@ -151,7 +140,7 @@
         "balance": 850.0,
         "invoice_date": "2025-12-16",
         "due_date": "2026-01-15",
-        "days_out": 219,
+        "days_out": 220,
         "expected_payment": null,
         "last_update": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing",
         "division": "restoration"
@@ -162,7 +151,7 @@
         "balance": 6936.52,
         "invoice_date": "2026-03-31",
         "due_date": "2026-04-30",
-        "days_out": 114,
+        "days_out": 115,
         "expected_payment": null,
         "last_update": "05/05 - AQM is being scheduled but homeowner is not available until the end of July, so still ongoing",
         "division": "restoration"
@@ -173,7 +162,7 @@
         "balance": 3000.0,
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
-        "days_out": 84,
+        "days_out": 85,
         "expected_payment": "2026-06-12",
         "last_update": "07/17 - Cabinets will be installed and then we can receive full payment",
         "division": "restoration"
@@ -184,7 +173,7 @@
         "balance": 17322.85,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 56,
+        "days_out": 57,
         "expected_payment": "2026-07-25",
         "last_update": "07/21 - Emailed John and Justin",
         "division": "restoration"
@@ -195,7 +184,7 @@
         "balance": 4590.0,
         "invoice_date": "2026-05-29",
         "due_date": "2026-06-28",
-        "days_out": 55,
+        "days_out": 56,
         "expected_payment": "2026-07-10",
         "last_update": "7/21 - Checking with Jacob",
         "division": "restoration"
@@ -206,7 +195,7 @@
         "balance": 1816.67,
         "invoice_date": "2026-05-29",
         "due_date": "2026-07-17",
-        "days_out": 55,
+        "days_out": 56,
         "expected_payment": "2026-07-31",
         "last_update": "07/21 - Reached out to Timothy, he's checking with Fiscal",
         "division": "restoration"
@@ -217,7 +206,7 @@
         "balance": 9250.0,
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-05",
-        "days_out": 48,
+        "days_out": 49,
         "expected_payment": "2026-07-25",
         "last_update": "07/17 - Cabinets will be installed and then we can receive full payment",
         "division": "restoration"
@@ -228,7 +217,7 @@
         "balance": 14041.8,
         "invoice_date": "2026-06-05",
         "due_date": "2026-07-05",
-        "days_out": 48,
+        "days_out": 49,
         "expected_payment": "2026-07-25",
         "last_update": "07/21 - Emailed John and Justin",
         "division": "restoration"
@@ -239,20 +228,9 @@
         "balance": 2877.08,
         "invoice_date": "2026-06-17",
         "due_date": "2026-07-17",
-        "days_out": 36,
+        "days_out": 37,
         "expected_payment": "2026-07-17",
         "last_update": "7/16 - Emailed Brook requesting approval",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4363",
-        "client_job": "Taylor Morrison Tampa:746 Steel Drive-26-0145-WTR",
-        "balance": 2734.05,
-        "invoice_date": "2026-06-17",
-        "due_date": "2026-07-17",
-        "days_out": 36,
-        "expected_payment": "2026-07-17",
-        "last_update": "6/29 EPO fully approved",
         "division": "restoration"
       },
       {
@@ -261,7 +239,7 @@
         "balance": 299.0,
         "invoice_date": "2026-06-19",
         "due_date": "2026-07-19",
-        "days_out": 34,
+        "days_out": 35,
         "expected_payment": "2026-07-19",
         "last_update": "07/17 - EPO was not received, left VM for Brendan",
         "division": "restoration"
@@ -272,20 +250,9 @@
         "balance": 9000.0,
         "invoice_date": "2026-06-22",
         "due_date": "2026-07-22",
-        "days_out": 31,
+        "days_out": 32,
         "expected_payment": "2026-07-22",
         "last_update": "07/17 - Spoke to Bret, he is working on approval",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4369",
-        "client_job": "Neal Communities:140 Corserra Drive-26-0165-STC",
-        "balance": 250.0,
-        "invoice_date": "2026-06-22",
-        "due_date": "2026-07-22",
-        "days_out": 31,
-        "expected_payment": "2026-07-22",
-        "last_update": "07/23 - ACH Notice received",
         "division": "restoration"
       },
       {
@@ -294,7 +261,7 @@
         "balance": 2517.98,
         "invoice_date": "2026-06-22",
         "due_date": "2026-07-22",
-        "days_out": 31,
+        "days_out": 32,
         "expected_payment": "2026-07-31",
         "last_update": "07/21 - Invoiced in portal",
         "division": "restoration"
@@ -305,141 +272,9 @@
         "balance": 8315.0,
         "invoice_date": "2026-06-24",
         "due_date": "2026-07-24",
-        "days_out": 29,
+        "days_out": 30,
         "expected_payment": "2026-07-24",
         "last_update": "06/24 - Invoice created",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4373",
-        "client_job": "Neal Communities - Warranty:6285 Dry Tortugas Drive-26-0168-MLD",
-        "balance": 125.0,
-        "invoice_date": "2026-06-29",
-        "due_date": "2026-07-29",
-        "days_out": 24,
-        "expected_payment": "2026-07-29",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4374",
-        "client_job": "Neal Communities - Warranty:6492 Big Bayou Dr-26-0172-MLD",
-        "balance": 125.0,
-        "invoice_date": "2026-06-29",
-        "due_date": "2026-07-29",
-        "days_out": 24,
-        "expected_payment": "2026-07-29",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4375",
-        "client_job": "Neal Communities - Warranty:10117 Crystal Isles Circle-26-0166-WTR",
-        "balance": 300.0,
-        "invoice_date": "2026-06-29",
-        "due_date": "2026-07-29",
-        "days_out": 24,
-        "expected_payment": "2026-07-29",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4377",
-        "client_job": "Neal Communities - Warranty:8536 Anthirium Loop-26-0178-WTR",
-        "balance": 2427.0,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4379",
-        "client_job": "Neal Communities - Warranty:2630 Paradise Plum Drive-26-0155-CLN",
-        "balance": 579.6,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4380",
-        "client_job": "Neal Communities - Warranty:2638 Paradise Plum Drive-26-0157-CLN",
-        "balance": 819.0,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4381",
-        "client_job": "Neal Communities - Warranty:2634 Paradise Plum Drive-26-0156-CLN",
-        "balance": 960.75,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4382",
-        "client_job": "Neal Communities - Warranty:2626 Paradise Plum Drive-26-0173-CLN",
-        "balance": 664.65,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4383",
-        "client_job": "Neal Communities - Warranty:2622 Paradise Plum Drive-26-0174-CLN",
-        "balance": 560.7,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4385",
-        "client_job": "Neal Communities - Warranty:2639 Paradise Plum Drive-26-0158-CLN",
-        "balance": 337.05,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4384",
-        "client_job": "Neal Communities - Warranty:2635 Paradise Plum Drive-26-0176-CLN",
-        "balance": 403.2,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/23 - ACH Notice received",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4386",
-        "client_job": "Taylor Morrison Florida:Taylor Morrison North:3130 Torta Court-26-0177-CLN",
-        "balance": 392.0,
-        "invoice_date": "2026-06-30",
-        "due_date": "2026-07-30",
-        "days_out": 23,
-        "expected_payment": "2026-07-30",
-        "last_update": "07/9 Briz following up",
         "division": "restoration"
       },
       {
@@ -448,7 +283,7 @@
         "balance": 4898.04,
         "invoice_date": "2026-06-30",
         "due_date": "2026-07-30",
-        "days_out": 23,
+        "days_out": 24,
         "expected_payment": "2026-07-30",
         "last_update": "7/9 EPO in Future orders",
         "division": "restoration"
@@ -459,7 +294,7 @@
         "balance": 4797.13,
         "invoice_date": "2026-06-26",
         "due_date": "2026-07-26",
-        "days_out": 27,
+        "days_out": 28,
         "expected_payment": "2026-07-31",
         "last_update": "07/21 - PO Received",
         "division": "restoration"
@@ -470,7 +305,7 @@
         "balance": 1731.2,
         "invoice_date": "2026-07-07",
         "due_date": "2026-08-06",
-        "days_out": 16,
+        "days_out": 17,
         "expected_payment": "2026-08-06",
         "last_update": "07/21 - PO Received",
         "division": "restoration"
@@ -481,7 +316,7 @@
         "balance": 6966.42,
         "invoice_date": "2026-07-07",
         "due_date": "2026-08-06",
-        "days_out": 16,
+        "days_out": 17,
         "expected_payment": "2026-08-06",
         "last_update": "07/21 - Jason approved and sent invoice to AP, payment should be received by due date",
         "division": "restoration"
@@ -492,7 +327,7 @@
         "balance": 299.0,
         "invoice_date": "2026-07-14",
         "due_date": "2026-08-13",
-        "days_out": 9,
+        "days_out": 10,
         "expected_payment": "2026-08-13",
         "last_update": "07/14 - Invoice created",
         "division": "restoration"
@@ -503,7 +338,7 @@
         "balance": 675.0,
         "invoice_date": "2026-07-16",
         "due_date": "2026-08-15",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-08-15",
         "last_update": "07/16 - Invoice created",
         "division": "restoration"
@@ -514,7 +349,7 @@
         "balance": 150.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -525,7 +360,7 @@
         "balance": 125.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -536,7 +371,7 @@
         "balance": 1600.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -547,7 +382,7 @@
         "balance": 1345.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -558,7 +393,7 @@
         "balance": 1396.5,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -569,7 +404,7 @@
         "balance": 8251.5,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 6,
+        "days_out": 7,
         "expected_payment": "2026-08-16",
         "last_update": "07/17 - Invoice created",
         "division": "restoration"
@@ -580,7 +415,7 @@
         "balance": 922.34,
         "invoice_date": "2026-07-20",
         "due_date": "2026-08-19",
-        "days_out": 3,
+        "days_out": 4,
         "expected_payment": "2026-08-19",
         "last_update": "07/20 - Invoice created",
         "division": "restoration"
@@ -591,7 +426,7 @@
         "balance": 125.0,
         "invoice_date": "2026-07-20",
         "due_date": "2026-08-19",
-        "days_out": 3,
+        "days_out": 4,
         "expected_payment": "2026-08-19",
         "last_update": "07/20 - Invoice created",
         "division": "restoration"
@@ -602,7 +437,7 @@
         "balance": 2144.25,
         "invoice_date": "2026-07-20",
         "due_date": "2026-07-20",
-        "days_out": 3,
+        "days_out": 4,
         "expected_payment": "2026-07-20",
         "last_update": "07/20 - Invoice created",
         "division": "restoration"
@@ -613,7 +448,7 @@
         "balance": 500.0,
         "invoice_date": "2026-07-21",
         "due_date": "2026-07-21",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-07-21",
         "last_update": "07/21 - Invoice created",
         "division": "restoration"
@@ -624,7 +459,7 @@
         "balance": 1455.3,
         "invoice_date": "2026-07-21",
         "due_date": "2026-08-20",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-08-20",
         "last_update": "07/21 - Invoice created",
         "division": "restoration"
@@ -635,9 +470,53 @@
         "balance": 12768.94,
         "invoice_date": "2026-07-21",
         "due_date": "2026-08-20",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-08-20",
         "last_update": "07/21 - Invoice created",
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4409",
+        "client_job": "RT Moore - Multifamily:1000 1st Avenue North-26-0194-WTR",
+        "balance": 15638.48,
+        "invoice_date": "2026-07-23",
+        "due_date": "2026-08-22",
+        "days_out": 1,
+        "expected_payment": "2026-08-22",
+        "last_update": "07/23 - Invoice created",
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4410",
+        "client_job": "Taylor Morrison:6933 Prairie Oak Way-26-0191-ESR",
+        "balance": 6660.51,
+        "invoice_date": "2026-07-23",
+        "due_date": "2026-08-22",
+        "days_out": 1,
+        "expected_payment": "2026-08-22",
+        "last_update": "07/23 - Invoice created",
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4411",
+        "client_job": "Taylor Morrison:10152 Milky Way Circle-26-0179-MLD",
+        "balance": 293.02,
+        "invoice_date": "2026-07-23",
+        "due_date": "2026-08-22",
+        "days_out": 1,
+        "expected_payment": "2026-08-22",
+        "last_update": "07/23 - Invoice created",
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4408",
+        "client_job": "Lizanne Conrad:803 Bayport Way-26-0131-MLD",
+        "balance": 6619.4,
+        "invoice_date": "2026-07-23",
+        "due_date": "2026-07-27",
+        "days_out": 1,
+        "expected_payment": "2026-07-27",
+        "last_update": "07/23 - Invoice created",
         "division": "restoration"
       }
     ]
@@ -710,19 +589,6 @@
         "division": "improvement"
       },
       {
-        "inv_date": "2026-06-06",
-        "vendor": "Harold Bronson",
-        "invoice_num": "10005",
-        "amount": 3193.75,
-        "billed": 4790.62,
-        "profit_pct": 0.3333326375291716,
-        "approval_status": "681021 -  Invoice 33127 $11,011.38",
-        "job_total": 16940.58,
-        "due_date": "2026-07-05",
-        "pay_friday": "Yes",
-        "division": "improvement"
-      },
-      {
         "inv_date": "2026-06-19",
         "vendor": "Damm Good",
         "invoice_num": "9329387512",
@@ -758,19 +624,6 @@
         "approval_status": "681045 - Invoice 33136 $3,397.34",
         "job_total": 1605.0,
         "due_date": "2026-07-31",
-        "pay_friday": "No",
-        "division": "improvement"
-      },
-      {
-        "inv_date": "2026-07-12",
-        "vendor": "Xelent Remodeling",
-        "invoice_num": "601",
-        "amount": 3180.58,
-        "billed": 4451.81,
-        "profit_pct": 0.28555351643488835,
-        "approval_status": "681054 - Invoice 33145 $4,451.81",
-        "job_total": 4451.81,
-        "due_date": "2026-07-27",
         "pay_friday": "Yes",
         "division": "improvement"
       },
@@ -784,7 +637,7 @@
         "approval_status": "681056 - Invoice 33147 $1,996.69",
         "job_total": 1996.69,
         "due_date": "2026-08-01",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "improvement"
       },
       {
@@ -868,32 +721,6 @@
         "division": "restoration"
       },
       {
-        "inv_date": "2026-06-09",
-        "vendor": "Clean Sweep",
-        "invoice_num": "15608",
-        "amount": 870.0,
-        "billed": 1392.0,
-        "profit_pct": 0.375,
-        "approval_status": "26-0143-CLN - Invoice #4356 $1,752.00",
-        "job_total": 1752.0,
-        "due_date": "2026-07-08",
-        "pay_friday": "Yes",
-        "division": "restoration"
-      },
-      {
-        "inv_date": "2026-06-11",
-        "vendor": "Clean Sweep",
-        "invoice_num": "15622",
-        "amount": 1100.0,
-        "billed": null,
-        "profit_pct": null,
-        "approval_status": "Pending - 26-0131-MLD - ",
-        "job_total": null,
-        "due_date": "2026-07-11",
-        "pay_friday": "Yes",
-        "division": "restoration"
-      },
-      {
         "inv_date": "2026-07-02",
         "vendor": "ECO Mold Testing",
         "invoice_num": "10826",
@@ -903,7 +730,7 @@
         "approval_status": "26-0047-FIRE - Invoice 4388 $950",
         "job_total": 950.0,
         "due_date": "2026-08-01",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -961,6 +788,19 @@
     ]
   },
   "transactions": [
+    {
+      "trans_date": "2026-07-22",
+      "posted_date": "2026-07-23",
+      "card_desc": 2671,
+      "vendor": "Travelers",
+      "amount": 510.58,
+      "explanation": "Vehicle Insurance",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Construction (2671)",
+      "division": "improvement",
+      "account_type": "credit_card"
+    },
     {
       "trans_date": "2026-07-22",
       "posted_date": "2026-07-22",
@@ -1042,44 +882,44 @@
   ],
   "brief": [
     {
-      "icon": "\ud83d\udea8",
-      "category": "CREDIT \u2014 CRITICAL",
-      "message": "Cap One Restoration at 93.6% utilization ($35,553.58 / $38K) \u2014 down slightly from 95.4% after a $1,000 payment from Restoration Checking on 7/22, but still above the 90% threshold. Cap One Construction 41.2% ($18,549.52 / $45K). LOC 3705 14.4% ($14,423.26 / $100K). LOC 5064 42.8% ($32,084.87 / $75K). Total credit debt $100,611.23 \u2014 down from $101,300.22 but still above $100K."
-    },
-    {
       "icon": "\ud83d\udcb0",
       "category": "CASH POSITION",
-      "message": "Combined cash $46,818.76 \u2014 Improvement $25,390.19 (2657: $3,146.86 | MM: $22,243.33), Restoration $21,428.57 (7363: $6,641.47 | MM: $14,787.10). Net availability $32,845.12 (workbook $37,609.57 \u2212 $4,764.45 Yvonne Badger exclusion, invoice remains in collections). Improvement checking (2657) continues to draw down \u2014 down to $3,146.86."
+      "message": "Combined cash jumped to $59,663.26 (+$12,844.50 vs. yesterday) \u2014 Improvement $33,969.99 (2657 up to $11,726.66), Restoration $25,693.27. Net availability $67,010.24 (workbook $71,774.69 \u2212 $4,764.45 Yvonne Badger exclusion). Large jump driven partly by genuine cash inflow and partly by new large Restoration AR invoices (see below) \u2014 worth confirming with bookkeeping whether recent invoices have actually been collected or are still outstanding."
+    },
+    {
+      "icon": "\ud83d\udea8",
+      "category": "CREDIT",
+      "message": "Cap One Restoration steady at 93.6% ($35,553.58 / $38K) \u2014 still above the 90% threshold, no change since yesterday's paydown. Cap One Construction 41.2% ($18,549.52 / $45K). LOC 3705 14.4% ($14,426.76 / $100K). LOC 5064 42.8% ($32,092.66 / $75K). Total credit debt $100,622.52 \u2014 essentially flat, still above $100K."
     },
     {
       "icon": "\u26a0\ufe0f",
       "category": "DEBT PAYDOWN RECOMMENDATION",
-      "message": "Not recommended for either division this week. Improvement: $25,390.19 cash vs. $62,140.55 obligations (payroll $7,000 incl. admin share due 7/24, Friday AP $43,091.42, biz expenses $2,049.13, $10K reserve) = -$36,750.36 available. Restoration: $21,428.57 cash vs. $24,119.45 obligations (Friday AP $11,809.50, biz expenses $309.95, $12K reserve) = -$2,690.88 available. Both divisions remain cash-constrained; prioritize AR collections."
+      "message": "Not recommended for either division this week \u2014 and today is a payroll day for both. Improvement: $33,969.99 cash vs. $56,643.22 obligations (payroll $7,000 incl. admin, due today; Friday AP $39,118.22; biz expenses $525; $10K reserve) = -$22,673.23 available. Restoration: $25,693.27 cash vs. $38,259.50 obligations (Restoration payroll $15,500 due 7/31 \u2014 within window; Friday AP $10,464.50; biz expenses $295; $12K reserve) = -$12,566.23 available. Restoration's payroll obligation lands in this window for the first time in several days \u2014 factor into weekly cash planning."
     },
     {
       "icon": "\ud83c\udfe0",
-      "category": "RESTORATION AR \u2014 PRIORITY COLLECTIONS",
-      "message": "Restoration AR flat at $150,140.32 (47 invoices, unchanged from yesterday). Alon Luxury #4345 ($17,322.85) + #4352 ($14,041.80) = $31,364.65 remains the largest exposure. Today's Modern Dentistry #4350 ($9,250) still pending cabinet install. Yvonne Badger #4120 ($4,764.45, 307 days) remains in collections, excluded from net availability."
+      "category": "RESTORATION AR \u2014 MAJOR MOVEMENT",
+      "message": "Restoration AR jumped to $168,673.73 (+$18,533.41), invoice count dropped from 47 to 37 \u2014 several smaller invoices cleared while large new ones appeared: RT Moore #4409 ($15,638.48, 1 day), Island Village Montessori #4407 ($12,768.94, 3 days), Neal Communities #4371 ($8,315.00) and #4401 ($8,251.50), Mechanical One #4391 ($6,966.42). Alon Luxury remains largest combined exposure at $31,364.65 (#4345 + #4352). Yvonne Badger #4120 ($4,764.45, 308 days) remains in collections and excluded from net availability."
     },
     {
       "icon": "\ud83d\udd27",
-      "category": "IMPROVEMENT AR \u2014 PRIORITY COLLECTIONS",
-      "message": "Improvement AR flat at $14,684.44 (8 invoices, no change for the third consecutive day) \u2014 no new collections or new invoices recorded. Taylor Morrison of FL #33136 ($3,329.39) and Manatee County #33124 ($1,125.74) both still outstanding with no status update."
+      "category": "IMPROVEMENT AR \u2014 COLLECTIONS PROGRESS",
+      "message": "Improvement AR dropped to $9,138.61 (-$5,545.83, 7 invoices vs. 8) \u2014 invoices #33145 and #33147 have cleared the tracker (collected or written off). New/remaining invoices: Taylor Morrison #33136 ($3,329.39), #33140 ($1,316.24), #33141 ($1,246.56), Neal Communities #33146 ($1,176.00), Manatee County #33124 ($1,125.74, still 62+ days out), Dream Finders Homes #33126 ($170.00) and #33148 ($774.68)."
     },
     {
       "icon": "\ud83d\udce4",
-      "category": "IMPROVEMENT AP \u2014 FRIDAY QUEUE",
-      "message": "Friday-marked total now $43,091.42 (up from $41,890.84) \u2014 Amir Shoufany #84 ($1,980) has dropped off the tracker (paid off), while Xelent Remodeling #601 ($3,180.58, due 7/27) was newly marked Yes. Total Improvement AP now $46,227.55 (down $1,980 vs. yesterday, net of the Xelent addition)."
+      "category": "IMPROVEMENT AP",
+      "message": "Total Improvement AP down to $39,853.22 (-$6,374.33). Friday-marked queue now $39,118.22 (down from $43,091.42) \u2014 Xelent Remodeling #601 ($3,180.58) has dropped off (paid), and DE Home Solutions #252 ($1,070.00) is now marked Yes. Cash on hand ($33,969.99) still well short of the Friday queue plus today's payroll and reserve."
     },
     {
       "icon": "\ud83d\udce4",
-      "category": "RESTORATION AP \u2014 FRIDAY QUEUE",
-      "message": "Friday-marked total unchanged at $11,809.50 (ECO Mold Testing $5,335, Clean Sweep combined $6,255, Damm Good $219.50). Total Restoration AP unchanged at $27,195.17 \u2014 no new invoices added since yesterday."
+      "category": "RESTORATION AP",
+      "message": "Total Restoration AP down to $25,225.17 (-$1,970.00). Friday-marked queue now $10,464.50 (down from $11,809.50) \u2014 Clean Sweep #15608 and #15622 ($870 + $1,100) have dropped off (paid), while ECO Mold Testing #10826 ($625.00) is now marked Yes."
     },
     {
       "icon": "\ud83d\udcb3",
       "category": "TRANSACTIONS",
-      "message": "Improvement: Sunpass $30 (toll), Red IT $442.50 (IT payment), Admin Payroll $899.36 \u2014 all debited from Construction Checking (2657) on 7/22. Restoration: Circle K $3.73 (ice) and Cool Today $296 (service) on Cap One 7/21; a $1,000 Capital One payment was made from Restoration Checking (7363) on 7/22, explaining the utilization drop noted above."
+      "message": "Improvement: Travelers $510.58 (vehicle insurance) on Cap One 2671; Sunpass $30, Red IT $442.50, and Admin Payroll $899.36 debited from Construction Checking (2657) \u2014 carried over from 7/22, same as prior snapshot. Restoration: Circle K $3.73 and Cool Today $296 on Cap One; $1,000 Capital One payment from Restoration Checking (7363), also carried over from 7/22."
     }
   ]
 }
