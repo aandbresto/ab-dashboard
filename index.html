@@ -1420,19 +1420,23 @@ function buildDebtRecommendation(snap) {
     return;
   }
 
-  // ── Payroll due within 7 days per division ────────────────────────────────
-  const payrollNext7 = getUpcomingPayrolls(7);
-  const imprPayroll  = payrollNext7.filter(p => p.division === 'improvement').reduce((s,p) => s + p.estAmount, 0);
-  const adminPayroll = payrollNext7.filter(p => p.division === 'admin').reduce((s,p) => s + p.estAmount, 0);
-  const restPayroll  = payrollNext7.filter(p => p.division === 'restoration').reduce((s,p) => s + p.estAmount, 0);
+  // ── Payroll due within 14 days per division ───────────────────────────────
+  // Widened from 7 to 14 days: a payroll run landing in week 2 was previously
+  // invisible to this calculation, so a full paydown this week could leave
+  // less in reserve than next week's payroll alone requires.
+  const LOOKAHEAD_DAYS = 14;
+  const payrollNextWindow = getUpcomingPayrolls(LOOKAHEAD_DAYS);
+  const imprPayroll  = payrollNextWindow.filter(p => p.division === 'improvement').reduce((s,p) => s + p.estAmount, 0);
+  const adminPayroll = payrollNextWindow.filter(p => p.division === 'admin').reduce((s,p) => s + p.estAmount, 0);
+  const restPayroll  = payrollNextWindow.filter(p => p.division === 'restoration').reduce((s,p) => s + p.estAmount, 0);
   // Admin payroll split 50/50 between divisions
   const imprPayrollTotal = imprPayroll + adminPayroll;
   const restPayrollTotal = restPayroll;
 
-  // ── Business expenses due within 7 days per division ─────────────────────
-  const bizNext7     = getUpcomingExpenses(7, 'improvement');
-  const imprBizTotal = bizNext7.reduce((s,e) => s + (e.amount||0), 0);
-  const restBizTotal = getUpcomingExpenses(7, 'restoration').reduce((s,e) => s + (e.amount||0), 0);
+  // ── Business expenses due within 14 days per division ─────────────────────
+  const bizNextWindow = getUpcomingExpenses(LOOKAHEAD_DAYS, 'improvement');
+  const imprBizTotal = bizNextWindow.reduce((s,e) => s + (e.amount||0), 0);
+  const restBizTotal = getUpcomingExpenses(LOOKAHEAD_DAYS, 'restoration').reduce((s,e) => s + (e.amount||0), 0);
 
   // ── AP due within 7 days — need from Supabase (already loaded in snap context)
   // We'll use the AP data from the current date's ap_items
@@ -1548,7 +1552,7 @@ function buildDebtRecommendation(snap) {
   );
 
   out += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
-    * Payroll pulled from Cash Flow schedule. AP includes Friday payments + invoices due within 7 days. Business expenses from Cash Flow tab. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
+    * Payroll and business expenses reflect the next 14 days (not just this week), so a payroll run or expense cluster landing in week 2 is already factored in before recommending a payment. AP includes Friday payments + invoices due within 7 days. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
   </div>`;
 
   el.innerHTML = out;
