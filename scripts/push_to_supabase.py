@@ -128,6 +128,7 @@ for row in payload["ap"]["improvement"] + payload["ap"]["restoration"]:
         "billed_to_client": row.get("billed"),
         "profit_pct":       row.get("profit_pct"),
         "notes":            row.get("approval_status"),
+        "comments":         row.get("comments"),
         "job_total":        row.get("job_total"),
         "due_date":         row.get("due_date"),
         "pay_friday":       row.get("pay_friday"),
