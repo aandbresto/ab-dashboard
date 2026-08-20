@@ -394,14 +394,14 @@ body {
           <div style="margin-bottom:20px;">
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 6px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 6px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1162,7 +1162,7 @@ async function loadAP() {
   };
 
   const renderFriday = (rows, tableId) => {
-    if (!rows.length) return '<tr><td colspan="9" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
+    if (!rows.length) return '<tr><td colspan="11" class="empty-state">No invoices marked for payment this Friday.</td></tr>';
     return rows.map(r => {
       const pct   = r.profit_pct!=null?(r.profit_pct*100).toFixed(1)+'%':'—';
       const color = r.profit_pct==null?'':r.profit_pct>=0.3?'color:var(--green);font-weight:600':r.profit_pct>=0.1?'color:var(--amber);font-weight:600':'color:var(--red);font-weight:600';
@@ -1182,6 +1182,8 @@ async function loadAP() {
         <td class="mono right">${r.billed_to_client?fmt(r.billed_to_client):'—'}</td>
         <td class="mono right" style="${color}">${pct}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
+        <td style="font-size:12px;color:var(--text-muted);">${r.notes||'—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);">${r.comments||'—'}</td>
         <td style="min-width:120px;">
           <span style="font-size:12px;font-weight:600;color:${bc};">${bt}</span>
           <div style="display:flex;gap:4px;margin-top:4px;">
@@ -1196,7 +1198,7 @@ async function loadAP() {
             style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
         </td>
       </tr>`;
-    }).join('') + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td><td colspan="5"></td></tr>`;
+    }).join('') + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td><td colspan="7"></td></tr>`;
   };
 
   document.querySelector('#ap-friday-impr-table tbody').innerHTML = renderFriday(fridayImpr);
