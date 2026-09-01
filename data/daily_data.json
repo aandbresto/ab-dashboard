@@ -17,7 +17,7 @@
       "bank_balance_7363": 29336.88,
       "money_market_2798": 27798.23,
       "total_cash_in_bank": 57135.11,
-      "accounts_receivable": 152574.61,
+      "accounts_receivable": 150388.37,
       "loc_5064": 32123.81,
       "cap_one_cc": 23841.18,
       "accounts_payable": 21942.0,
@@ -25,10 +25,10 @@
     },
     "combined": {
       "total_cash_in_bank": 92237.0,
-      "total_ar": 157457.63,
+      "total_ar": 155271.39,
       "total_ap": 60939.83,
       "credit_debt": 82469.86,
-      "net_cash_availability": 101520.49
+      "net_cash_availability": 99334.25
     }
   },
   "ar": {
@@ -175,7 +175,7 @@
         "due_date": "2026-08-13",
         "days_out": 49,
         "expected_payment": "2026-08-28",
-        "last_update": "08/17 - Reached out to AP requesting update, called Cindy Berger and left VM",
+        "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
       },
       {
@@ -186,7 +186,7 @@
         "due_date": "2026-08-16",
         "days_out": 46,
         "expected_payment": "2026-08-28",
-        "last_update": "08/17 - Reached out to AP requesting update, called Cindy Berger and left VM",
+        "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
       },
       {
@@ -197,7 +197,7 @@
         "due_date": "2026-07-20",
         "days_out": 43,
         "expected_payment": "2026-08-28",
-        "last_update": "08/19 - Spoke to Sam, Service dept, she faveme AP address for follow up and asked me to resend the invoice there, she also asked AP to contact me with an update",
+        "last_update": "09/01 - No payment received, email sent asking for payment date in 2 days, if not received we will initiate a Notice of Intent to Lien.",
         "division": "restoration"
       },
       {
@@ -208,7 +208,7 @@
         "due_date": "2026-08-22",
         "days_out": 40,
         "expected_payment": "2026-08-28",
-        "last_update": "08/17 - Reached out to AP requesting update, called Cindy Berger and left VM",
+        "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
       },
       {
@@ -219,7 +219,7 @@
         "due_date": "2026-08-22",
         "days_out": 40,
         "expected_payment": "2026-09-04",
-        "last_update": "08/26 - Marc Ayala approved amount, EPO Screenshot receives",
+        "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
       },
       {
@@ -241,7 +241,7 @@
         "due_date": "2026-07-27",
         "days_out": 36,
         "expected_payment": "2026-09-04",
-        "last_update": "08/25 - Notice of Intent to Lien sent to Jennifer and James,",
+        "last_update": "09/01 - James to send a check tomorrow",
         "division": "restoration"
       },
       {
@@ -252,7 +252,7 @@
         "due_date": "2026-08-30",
         "days_out": 32,
         "expected_payment": "2026-08-30",
-        "last_update": "08/17 - Reached out to AP requesting update, called Cindy Berger and left VM",
+        "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
       },
       {
@@ -263,7 +263,7 @@
         "due_date": "2026-09-04",
         "days_out": 27,
         "expected_payment": "2026-09-04",
-        "last_update": "08/05 - Invoice sent",
+        "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
       },
       {
@@ -274,7 +274,7 @@
         "due_date": "2026-09-12",
         "days_out": 19,
         "expected_payment": "2026-09-12",
-        "last_update": "08/24 - EPO in future orders, Briz requested approval",
+        "last_update": "08/31 - EPO in future orders, Briz followed up",
         "division": "restoration"
       },
       {
@@ -307,7 +307,7 @@
         "due_date": "2026-09-13",
         "days_out": 18,
         "expected_payment": "2026-09-13",
-        "last_update": "08/26 - EPO in future orders",
+        "last_update": "08/31 - EPO in future orders, Briz followed up",
         "division": "restoration"
       },
       {
@@ -318,7 +318,7 @@
         "due_date": "2026-09-13",
         "days_out": 18,
         "expected_payment": "2026-09-13",
-        "last_update": "08/14 - Invoice created",
+        "last_update": "08/31 - EPO in future orders, Ozzy followed up",
         "division": "restoration"
       },
       {
@@ -329,7 +329,7 @@
         "due_date": "2026-09-13",
         "days_out": 18,
         "expected_payment": "2026-09-13",
-        "last_update": "08/25 - EPO pending approval",
+        "last_update": "08/31 - EPO pending final approval due to amount, Ozzy followed up",
         "division": "restoration"
       },
       {
@@ -351,7 +351,7 @@
         "due_date": "2026-09-18",
         "days_out": 13,
         "expected_payment": "2026-09-18",
-        "last_update": "08/25 - EPO missing final approval",
+        "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
       },
       {
@@ -362,7 +362,7 @@
         "due_date": "2026-09-18",
         "days_out": 13,
         "expected_payment": "2026-09-18",
-        "last_update": "08/25 - Briz followed up with Rebecca",
+        "last_update": "08/31 - EPO pending, Briz following up",
         "division": "restoration"
       },
       {
@@ -384,7 +384,7 @@
         "due_date": "2026-09-20",
         "days_out": 11,
         "expected_payment": "2026-09-20",
-        "last_update": "08/25 - EPO Received",
+        "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
       },
       {
@@ -406,7 +406,7 @@
         "due_date": "2026-09-25",
         "days_out": 6,
         "expected_payment": "2026-09-25",
-        "last_update": "09/25 - Invoice created",
+        "last_update": "08/27 - PO Received",
         "division": "restoration"
       },
       {
@@ -417,7 +417,7 @@
         "due_date": "2026-09-27",
         "days_out": 4,
         "expected_payment": "2026-09-27",
-        "last_update": null,
+        "last_update": "08/28 - invoice created",
         "division": "restoration"
       },
       {
@@ -428,7 +428,7 @@
         "due_date": "2026-09-04",
         "days_out": 4,
         "expected_payment": "2026-09-04",
-        "last_update": null,
+        "last_update": "08/28 - invoice sent",
         "division": "restoration"
       },
       {
@@ -439,7 +439,7 @@
         "due_date": "2026-09-27",
         "days_out": 4,
         "expected_payment": "2026-09-27",
-        "last_update": null,
+        "last_update": "08/28 - invoice created",
         "division": "restoration"
       },
       {
@@ -450,18 +450,7 @@
         "due_date": "2026-09-27",
         "days_out": 4,
         "expected_payment": "2026-09-27",
-        "last_update": null,
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4454",
-        "client_job": "Above & Beyond Property Improvement",
-        "balance": 2186.24,
-        "invoice_date": "2026-08-31",
-        "due_date": "2026-09-30",
-        "days_out": 1,
-        "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/28 - invoice sent",
         "division": "restoration"
       },
       {
@@ -472,7 +461,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -483,7 +472,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -494,7 +483,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -505,7 +494,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -516,7 +505,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -527,7 +516,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -538,7 +527,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -549,7 +538,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -560,7 +549,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -571,7 +560,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       },
       {
@@ -582,7 +571,7 @@
         "due_date": "2026-09-30",
         "days_out": 1,
         "expected_payment": "2026-09-30",
-        "last_update": null,
+        "last_update": "08/31 - invoice created",
         "division": "restoration"
       }
     ]
@@ -908,8 +897,8 @@
     },
     {
       "icon": "\ud83c\udfe0",
-      "category": "RESTORATION AR \u2014 LARGE BATCH OF NEW INVOICES",
-      "message": "Restoration AR up sharply to $152,574.61 (+$53,456.07, 16 new invoices) \u2014 largest single addition is Neal Communities Warranty #4457 ($15,681.00), followed by Mechanical One #4465 ($6,377.64) and #4453 ($4,887.30), and Dream Finders Homes #4452 ($6,232.08). One entry, #4454 ($2,186.24, listed under 'Above & Beyond Property Improvement'), appears to be an intercompany receivable matching the standard monthly Shared Expenses amount \u2014 worth confirming that's intentional rather than a duplicate of the expense already tracked on the Improvement side."
+      "category": "RESTORATION AR \u2014 NOTES UPDATED",
+      "message": "31 Restoration AR invoices had their follow-up notes refreshed with current status (EPO approvals, RT Moore's General Liability exclusion request being handled by Quena and Adam, new invoices created 8/27-8/31, and a Notice of Intent to Lien pending on Custom Air & Plumbing #4404 if no payment in 2 days)."
     },
     {
       "icon": "\u2705",
