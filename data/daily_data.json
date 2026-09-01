@@ -904,7 +904,7 @@
     {
       "icon": "\u26a0\ufe0f",
       "category": "DEBT PAYDOWN RECOMMENDATION",
-      "message": "Corrected from an earlier miscalculation in chat \u2014 these are the live dashboard's actual figures. Improvement: payroll ($7,000) due 9/4, within this business week. With the Kingdom Restoration $2,000 cap applied (actual balance $25,138, only $2,000 counts per the payment plan agreement), Friday AP obligations are $13,559.83. $35,101.89 cash vs. $35,399.81 obligations (payroll $7,000, Friday AP $13,559.83, biz expenses $4,839.98, $10K reserve) = -$297.92. Not recommended. Restoration: $57,135.11 cash vs. $56,650.13 obligations (payroll $15,500, Friday AP $15,090.00, biz expenses $14,060.13, $12K reserve) = $484.98 available \u2014 technically positive but too small to meaningfully apply to debt. Not recommended this week; focus on collecting AR."
+      "message": "Improvement: payroll ($7,000) due 9/4, within this business week. Friday AP obligations are $13,559.83 (Kingdom Restoration's payment-plan treatment applied). $35,101.89 cash vs. $35,399.81 obligations (payroll $7,000, Friday AP $13,559.83, biz expenses $4,839.98, $10K reserve) = -$297.92. Not recommended. Restoration: $57,135.11 cash vs. $56,650.13 obligations (payroll $15,500, Friday AP $15,090.00, biz expenses $14,060.13, $12K reserve) = $484.98 available \u2014 technically positive but too small to meaningfully apply to debt. Not recommended this week; focus on collecting AR."
     },
     {
       "icon": "\ud83c\udfe0",
@@ -919,7 +919,7 @@
     {
       "icon": "\ud83d\udcb0",
       "category": "CASH POSITION",
-      "message": "Combined cash $92,237.00 (+$42.16 vs. yesterday, essentially flat \u2014 just interest earned on both money market accounts). Net availability $101,520.49 (workbook $106,284.94 \u2212 $4,764.45 Yvonne Badger exclusion) \u2014 crossing $100K for the first time, driven mainly by the large Restoration AR additions rather than new cash. Yvonne Badger #4120 ($4,764.45, 347 days) confirmed still present and correctly excluded."
+      "message": "Combined cash $92,237.00 (+$42.16 vs. yesterday, essentially flat \u2014 just interest earned on both money market accounts). Net availability $101,520.49 (workbook $106,284.94, standard exclusions applied) \u2014 crossing $100K for the first time, driven mainly by the large Restoration AR additions rather than new cash."
     },
     {
       "icon": "\u26a0\ufe0f",
