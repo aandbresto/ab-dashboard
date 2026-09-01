@@ -802,16 +802,21 @@ async function loadOverview() {
   buildTrendChart([...allSnapshots].reverse().slice(-30));
   // Load AP items to calculate weekly obligations per division
   const debtDate = snap.report_date;
-  db.from('ap_items').select('amount,due_date,pay_friday,division').eq('report_date', debtDate).then(({ data: apItems }) => {
+  db.from('ap_items').select('amount,due_date,pay_friday,division,vendor').eq('report_date', debtDate).then(({ data: apItems }) => {
     if (apItems) {
       const today7 = new Date(); today7.setHours(0,0,0,0);
       const week7  = new Date(today7); week7.setDate(week7.getDate()+7);
       const todayStr = today7.toISOString().slice(0,10);
       const weekStr  = week7.toISOString().slice(0,10);
-      snap._imprFridayAP = apItems.filter(r => r.division==='improvement' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
-      snap._restFridayAP = apItems.filter(r => r.division==='restoration' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+(r.amount||0),0);
-      snap._imprWeekAP   = apItems.filter(r => r.division==='improvement' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+(r.amount||0),0);
-      snap._restWeekAP   = apItems.filter(r => r.division==='restoration' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+(r.amount||0),0);
+      // Kingdom Restoration ($25,138 invoice) is on a $2,000/mo payment plan agreement —
+      // count only the monthly payment toward this week's obligation, not the full balance.
+      const KINGDOM_MONTHLY_CAP = 2000;
+      const obligationAmount = r => (r.vendor||'').toLowerCase().includes('kingdom restoration')
+        ? Math.min(r.amount||0, KINGDOM_MONTHLY_CAP) : (r.amount||0);
+      snap._imprFridayAP = apItems.filter(r => r.division==='improvement' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+obligationAmount(r),0);
+      snap._restFridayAP = apItems.filter(r => r.division==='restoration' && (r.pay_friday||'').toLowerCase()==='yes').reduce((s,r)=>s+obligationAmount(r),0);
+      snap._imprWeekAP   = apItems.filter(r => r.division==='improvement' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+obligationAmount(r),0);
+      snap._restWeekAP   = apItems.filter(r => r.division==='restoration' && r.due_date && r.due_date >= todayStr && r.due_date <= weekStr && (r.pay_friday||'').toLowerCase()!=='yes').reduce((s,r)=>s+obligationAmount(r),0);
     }
     buildDebtRecommendation(snap);
   });
@@ -1554,7 +1559,7 @@ function buildDebtRecommendation(snap) {
   );
 
   out += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
-    * Payroll and business expenses reflect the next 14 days (not just this week), so a payroll run or expense cluster landing in week 2 is already factored in before recommending a payment. AP includes Friday payments + invoices due within 7 days. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
+    * Payroll and business expenses reflect the next 14 days (not just this week), so a payroll run or expense cluster landing in week 2 is already factored in before recommending a payment. AP includes Friday payments + invoices due within 7 days. Kingdom Restoration's invoice is on a $2,000/mo payment plan — only that monthly amount counts toward obligations, not its full balance. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
   </div>`;
 
   el.innerHTML = out;
