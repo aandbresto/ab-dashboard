@@ -1428,10 +1428,10 @@ function buildDebtRecommendation(snap) {
   }
 
   // ── Payroll due within 14 days per division ───────────────────────────────
-  // Widened from 7 to 14 days: a payroll run landing in week 2 was previously
-  // invisible to this calculation, so a full paydown this week could leave
-  // less in reserve than next week's payroll alone requires.
-  const LOOKAHEAD_DAYS = 14;
+  // Reserve only for what's genuinely due in the next 7 days. A 14-day window was tried
+  // but held cash back for obligations over a week out even when there was room to pay
+  // down debt now — reverted per decision to prioritize using available cash this week.
+  const LOOKAHEAD_DAYS = 7;
   const payrollNextWindow = getUpcomingPayrolls(LOOKAHEAD_DAYS);
   const imprPayroll  = payrollNextWindow.filter(p => p.division === 'improvement').reduce((s,p) => s + p.estAmount, 0);
   const adminPayroll = payrollNextWindow.filter(p => p.division === 'admin').reduce((s,p) => s + p.estAmount, 0);
@@ -1559,7 +1559,7 @@ function buildDebtRecommendation(snap) {
   );
 
   out += `<div style="font-size:10px;color:var(--text-3);margin-top:4px;border-top:1px solid var(--border);padding-top:8px;">
-    * Payroll and business expenses reflect the next 14 days (not just this week), so a payroll run or expense cluster landing in week 2 is already factored in before recommending a payment. AP includes Friday payments + invoices due within 7 days. Kingdom Restoration's invoice is on a $2,000/mo payment plan — only that monthly amount counts toward obligations, not its full balance. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
+    * Payroll and business expenses reflect only the next 7 days — obligations further out aren't held in reserve, so cash can be used for debt paydown now even if something is due the following week. AP includes Friday payments + invoices due within 7 days. Kingdom Restoration's invoice is on a $2,000/mo payment plan — only that monthly amount counts toward obligations, not its full balance. Reserves: Construction ${fmt(imprReserve)} · Restoration ${fmt(restReserve)}.
   </div>`;
 
   el.innerHTML = out;
