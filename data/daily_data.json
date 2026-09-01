@@ -1,34 +1,34 @@
 {
-  "date": "2026-08-31",
+  "date": "2026-09-01",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 18774.26,
+      "qb_bank_balance": 17325.82,
       "bank_balance_2657": 17325.82,
-      "money_market_2690": 17733.91,
-      "total_cash_in_bank": 35059.73,
+      "money_market_2690": 17776.07,
+      "total_cash_in_bank": 35101.89,
       "accounts_receivable": 4883.02,
       "cap_one_cc": 12050.11,
       "loc_3705": 14454.76,
-      "accounts_payable": 40520.78,
-      "net_total": -25634.46
+      "accounts_payable": 38997.83,
+      "net_total": -25517.79
     },
     "restoration": {
       "qb_bank_balance": 26571.27,
       "bank_balance_7363": 29336.88,
       "money_market_2798": 27798.23,
       "total_cash_in_bank": 57135.11,
-      "accounts_receivable": 99118.54,
+      "accounts_receivable": 152574.61,
       "loc_5064": 32123.81,
-      "cap_one_cc": 22968.18,
-      "accounts_payable": 22703.0,
-      "net_total": 75693.05
+      "cap_one_cc": 23841.18,
+      "accounts_payable": 21942.0,
+      "net_total": 129037.12
     },
     "combined": {
-      "total_cash_in_bank": 92194.84,
-      "total_ar": 104001.56,
-      "total_ap": 63223.78,
-      "credit_debt": 81596.86,
-      "net_cash_availability": 46611.31
+      "total_cash_in_bank": 92237.0,
+      "total_ar": 157457.63,
+      "total_ap": 60939.83,
+      "credit_debt": 82469.86,
+      "net_cash_availability": 101520.49
     }
   },
   "ar": {
@@ -408,6 +408,182 @@
         "expected_payment": "2026-09-25",
         "last_update": "09/25 - Invoice created",
         "division": "restoration"
+      },
+      {
+        "invoice_num": "4450",
+        "client_job": "Neal Communities - Warranty:2448 Star Apple Way-26-0260-MLD",
+        "balance": 358.0,
+        "invoice_date": "2026-08-28",
+        "due_date": "2026-09-27",
+        "days_out": 4,
+        "expected_payment": "2026-09-27",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4451",
+        "client_job": "Filippo Villella:145 Cordana Court-26-0245-MLD",
+        "balance": 1122.78,
+        "invoice_date": "2026-08-28",
+        "due_date": "2026-09-04",
+        "days_out": 4,
+        "expected_payment": "2026-09-04",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4452",
+        "client_job": "Dream Finders Homes:7551 Sea Oak Court-26-0216-WTR",
+        "balance": 6232.08,
+        "invoice_date": "2026-08-28",
+        "due_date": "2026-09-27",
+        "days_out": 4,
+        "expected_payment": "2026-09-27",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4453",
+        "client_job": "Mechanical One:1485 Passiflora Avenue-26-0246-ESR",
+        "balance": 4887.3,
+        "invoice_date": "2026-08-28",
+        "due_date": "2026-09-27",
+        "days_out": 4,
+        "expected_payment": "2026-09-27",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4454",
+        "client_job": "Above & Beyond Property Improvement",
+        "balance": 2186.24,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4455",
+        "client_job": "Taylor Morrison:9072 Luna Lane-26-0261-MLD",
+        "balance": 443.94,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4456",
+        "client_job": "Neal Communities - Warranty:8549 Canyon Creek Trail-26-0229-MLD",
+        "balance": 4529.8,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4457",
+        "client_job": "Neal Communities - Warranty:8027 Anthirium Loop-26-0232-WTR",
+        "balance": 15681.0,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4458",
+        "client_job": "Taylor Morrison:16556 Bergamo Place-26-0235-MLD",
+        "balance": 5672.45,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4459",
+        "client_job": "Taylor Morrison:5671 Blue Reef Place-26-0242-WTR",
+        "balance": 231.52,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4460",
+        "client_job": "Meritage Homes Corporation:13505 Shellmore Avenue-26-0234-MLD",
+        "balance": 1298.0,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4461",
+        "client_job": "Taylor Morrison:6270 Grandview Hill Court-26-0244-MLD",
+        "balance": 293.02,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4462",
+        "client_job": "Neal Communities - Warranty:8132 Anthirium Loop-26-0262-MLD",
+        "balance": 125.0,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4463",
+        "client_job": "Taylor Morrison:5418 Morey Farms Loop-26-0267-CLN",
+        "balance": 1777.5,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4464",
+        "client_job": "Dream Finders Homes:7559 Sea Oak Court-26-0247-WTR",
+        "balance": 2239.8,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4465",
+        "client_job": "Mechanical One:1484 Passiflora Avenue-26-0250-ESR",
+        "balance": 6377.64,
+        "invoice_date": "2026-08-31",
+        "due_date": "2026-09-30",
+        "days_out": 1,
+        "expected_payment": "2026-09-30",
+        "last_update": null,
+        "division": "restoration"
       }
     ]
   },
@@ -428,20 +604,6 @@
         "division": "improvement"
       },
       {
-        "inv_date": "2026-05-07",
-        "vendor": "Amir Shoufany",
-        "invoice_num": "80",
-        "amount": 800.0,
-        "billed": 1200.0,
-        "profit_pct": 0.3333333333333333,
-        "approval_status": " 681025 - Invoice 33150 $6,651.54",
-        "job_total": 6651.54,
-        "due_date": "2026-05-21",
-        "comments": "Approved for payment this week",
-        "pay_friday": "Yes",
-        "division": "improvement"
-      },
-      {
         "inv_date": "2026-06-01",
         "vendor": "Strada",
         "invoice_num": "418453431",
@@ -456,20 +618,6 @@
         "division": "improvement"
       },
       {
-        "inv_date": "2026-06-25",
-        "vendor": "Amir Shoufany",
-        "invoice_num": "88",
-        "amount": 547.95,
-        "billed": 821.85,
-        "profit_pct": 0.3332724949808359,
-        "approval_status": " 681025 - Invoice 33150 $6,651.54",
-        "job_total": 6651.54,
-        "due_date": "2026-07-10",
-        "comments": "Approved for payment this week",
-        "pay_friday": "Yes",
-        "division": "improvement"
-      },
-      {
         "inv_date": "2026-07-29",
         "vendor": "DE Home Solutions",
         "invoice_num": "257",
@@ -479,20 +627,6 @@
         "approval_status": "681038 - Invoice 33123 $2,132.90 - Invoice 33152  $4,816.00 ",
         "job_total": 6948.9,
         "due_date": "2026-08-28",
-        "comments": null,
-        "pay_friday": "Yes",
-        "division": "improvement"
-      },
-      {
-        "inv_date": "2026-07-31",
-        "vendor": "DE Home Solutions",
-        "invoice_num": "259",
-        "amount": 725.0,
-        "billed": 1160.0,
-        "profit_pct": 0.375,
-        "approval_status": "681059 - Invoice #33155 $1,160.00",
-        "job_total": 1160.0,
-        "due_date": "2026-08-30",
         "comments": null,
         "pay_friday": "Yes",
         "division": "improvement"
@@ -521,6 +655,20 @@
         "approval_status": "681063 - Invoice 33159 $1,824.54",
         "job_total": 1824.54,
         "due_date": "2026-09-03",
+        "comments": null,
+        "pay_friday": "Yes",
+        "division": "improvement"
+      },
+      {
+        "inv_date": "2026-08-27",
+        "vendor": "DE Home Solutions",
+        "invoice_num": "264",
+        "amount": 550.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 681064 - ",
+        "job_total": null,
+        "due_date": "2026-09-26",
         "comments": null,
         "pay_friday": "No",
         "division": "improvement"
@@ -579,21 +727,21 @@
         "approval_status": "26-0100-CLN - Invoice #4346 $3,340",
         "job_total": 11655.0,
         "due_date": "2026-06-20",
-        "comments": "On hold until client payment is received",
+        "comments": "Payment received",
         "pay_friday": "Yes",
         "division": "restoration"
       },
       {
         "inv_date": "2026-07-12",
         "vendor": "Clean Sweep",
-        "invoice_num": "15688",
+        "invoice_num": "15822",
         "amount": 2510.0,
         "billed": 4016.0,
         "profit_pct": 0.375,
         "approval_status": "26-0170-MLD - Invoice #4401 $8,251.50 ",
         "job_total": 8251.5,
         "due_date": "2026-08-11",
-        "comments": "On hold until client payment is received",
+        "comments": "Payment received",
         "pay_friday": "Yes",
         "division": "restoration"
       },
@@ -612,48 +760,6 @@
         "division": "restoration"
       },
       {
-        "inv_date": "2026-07-29",
-        "vendor": "DE Home Solutions",
-        "invoice_num": "258",
-        "amount": 730.0,
-        "billed": 1095.0,
-        "profit_pct": 0.3333333333333333,
-        "approval_status": "26-0182-MLD -  Invoice #4407 $27,714.44",
-        "job_total": 27714.44,
-        "due_date": "2026-08-28",
-        "comments": null,
-        "pay_friday": "Yes",
-        "division": "restoration"
-      },
-      {
-        "inv_date": "2026-07-31",
-        "vendor": "Fullfilment Personnel",
-        "invoice_num": "2117",
-        "amount": 3876.0,
-        "billed": 6201.6,
-        "profit_pct": 0.37500000000000006,
-        "approval_status": "26-0182-MLD -  Invoice #4407 $27,714.44",
-        "job_total": 27714.44,
-        "due_date": "2026-08-30",
-        "comments": null,
-        "pay_friday": "Yes",
-        "division": "restoration"
-      },
-      {
-        "inv_date": "2026-07-31",
-        "vendor": "ECO Mold Testing",
-        "invoice_num": "10939",
-        "amount": 625.0,
-        "billed": 875.0,
-        "profit_pct": 0.2857142857142857,
-        "approval_status": "26-0210-STC -  Invoice #4425 $875",
-        "job_total": 1875.0,
-        "due_date": "2026-08-30",
-        "comments": null,
-        "pay_friday": "Yes",
-        "division": "restoration"
-      },
-      {
         "inv_date": "2026-08-03",
         "vendor": "AQM",
         "invoice_num": "26-077-08",
@@ -664,7 +770,7 @@
         "job_total": 7786.52,
         "due_date": "2026-09-02",
         "comments": "Client had already been given the $850 pricing because we were using ECO Mold, AQM 's charge is higher, kept price given to client originall to finish job,",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -694,42 +800,85 @@
         "comments": "Job Ongoing",
         "pay_friday": "Yes",
         "division": "restoration"
+      },
+      {
+        "inv_date": "2026-08-21",
+        "vendor": "Clean Sweep",
+        "invoice_num": "16077",
+        "amount": 2510.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 26-0232-WTR - ",
+        "job_total": null,
+        "due_date": "2026-09-20",
+        "comments": null,
+        "pay_friday": "No",
+        "division": "restoration"
+      },
+      {
+        "inv_date": "2026-08-27",
+        "vendor": "Amir Shoufany",
+        "invoice_num": "95",
+        "amount": 150.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 26-0118-MLD -",
+        "job_total": null,
+        "due_date": "2026-09-11",
+        "comments": null,
+        "pay_friday": "No",
+        "division": "restoration"
+      },
+      {
+        "inv_date": "2026-08-31",
+        "vendor": "Clean Sweep",
+        "invoice_num": "16140",
+        "amount": 1185.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending - 26-0267-CLN - ",
+        "job_total": null,
+        "due_date": "2026-09-30",
+        "comments": null,
+        "pay_friday": "No",
+        "division": "restoration"
+      },
+      {
+        "inv_date": "2026-08-31",
+        "vendor": "ECO Mold Testing",
+        "invoice_num": "11053",
+        "amount": 625.0,
+        "billed": null,
+        "profit_pct": null,
+        "approval_status": "Pending- 26-0264-MLD",
+        "job_total": null,
+        "due_date": "2026-09-30",
+        "comments": null,
+        "pay_friday": "No",
+        "division": "restoration"
       }
     ]
   },
   "transactions": [
     {
-      "trans_date": "2026-08-28",
-      "posted_date": "2026-08-29",
-      "card_desc": 1326,
-      "vendor": "Lowes",
-      "amount": 564.83,
-      "explanation": "Supplies",
+      "trans_date": "2026-08-31",
+      "posted_date": "2026-08-31",
+      "card_desc": "IOD INTEREST PAID",
+      "vendor": null,
+      "amount": 42.16,
+      "explanation": "Interest Earned",
       "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One \u2013 Restoration",
-      "division": "restoration",
-      "account_type": "credit_card"
+      "txn_type": "Credit",
+      "account": "Construction MM \u2013 2690",
+      "division": "improvement",
+      "account_type": "bank"
     },
     {
-      "trans_date": "2026-08-28",
-      "posted_date": "2026-08-29",
+      "trans_date": "2026-08-29",
+      "posted_date": "2026-08-31",
       "card_desc": 2897,
-      "vendor": "Tesla ",
-      "amount": 7.69,
-      "explanation": "Charge",
-      "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One \u2013 Restoration",
-      "division": "restoration",
-      "account_type": "credit_card"
-    },
-    {
-      "trans_date": "2026-08-28",
-      "posted_date": "2026-08-29",
-      "card_desc": 2897,
-      "vendor": "Intuit",
-      "amount": 340.0,
+      "vendor": "Albi",
+      "amount": 873.0,
       "explanation": "Subscription",
       "approved_by": null,
       "txn_type": "Debit",
@@ -738,49 +887,44 @@
       "account_type": "credit_card"
     },
     {
-      "trans_date": "2026-08-29",
-      "posted_date": "2026-08-29",
-      "card_desc": 2897,
-      "vendor": "Foxtail Coffee",
-      "amount": 5.02,
-      "explanation": "Coffee",
+      "trans_date": "2026-08-31",
+      "posted_date": "2026-08-31",
+      "card_desc": "IOD INTEREST PAID",
+      "vendor": null,
+      "amount": 70.89,
+      "explanation": "Interest Earned",
       "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One \u2013 Restoration",
+      "txn_type": "Credit",
+      "account": "Restoration MM \u2013 2798",
       "division": "restoration",
-      "account_type": "credit_card"
+      "account_type": "bank"
     }
   ],
   "brief": [
     {
+      "icon": "\ud83c\udf89",
+      "category": "DEBT PAYDOWN RECOMMENDATION \u2014 KINGDOM CAP RULE LIVE FOR THE FIRST TIME",
+      "message": "Improvement: payroll ($7,000) due 9/4, within this business week. With the new Kingdom Restoration $2,000 cap applied (its actual balance is $25,138, but only $2,000 counts per the payment plan agreement), Friday AP obligations drop to $13,559.83 from what would otherwise be $36,697.83. $35,101.89 cash vs. $35,399.81 obligations (payroll $7,000, Friday AP $13,559.83 capped, biz expenses $4,839.98, $10K reserve) = -$297.92 \u2014 essentially break-even, a dramatic improvement from prior weeks. Restoration: no payroll due this week (next is 9/11). $57,135.11 cash vs. $39,775.00 obligations (Friday AP $15,090.00, biz expenses $12,685.00, $12K reserve) = $17,360.11 available \u2014 good room for a paydown this week if useful."
+    },
+    {
       "icon": "\ud83c\udfe0",
-      "category": "RESTORATION AR \u2014 MAJOR COLLECTIONS",
-      "message": "Restoration AR down sharply to $99,118.54 (-$25,216.50) \u2014 three large invoices collected: Neal Communities #4401 ($7,901.50), Pulte Homes #4368 ($9,000.00), and Neal Communities #4371 ($8,315.00). First time Restoration AR has dropped below $100K in this snapshot history. Yvonne Badger #4120 ($4,764.45, 347 days) confirmed still present, correctly excluded from net availability."
+      "category": "RESTORATION AR \u2014 LARGE BATCH OF NEW INVOICES",
+      "message": "Restoration AR up sharply to $152,574.61 (+$53,456.07, 16 new invoices) \u2014 largest single addition is Neal Communities Warranty #4457 ($15,681.00), followed by Mechanical One #4465 ($6,377.64) and #4453 ($4,887.30), and Dream Finders Homes #4452 ($6,232.08). One entry, #4454 ($2,186.24, listed under 'Above & Beyond Property Improvement'), appears to be an intercompany receivable matching the standard monthly Shared Expenses amount \u2014 worth confirming that's intentional rather than a duplicate of the expense already tracked on the Improvement side."
     },
     {
       "icon": "\u2705",
-      "category": "DEBT PAYDOWN RECOMMENDATION",
-      "message": "Restoration: no payroll due this week (next is 9/11). $57,135.11 cash vs. $44,221.00 obligations (Friday AP $19,536.00, biz expenses $12,685.00, $12K reserve) = $12,914.11 available \u2014 room for a paydown this week if useful. Improvement: payroll ($7,000) due 9/4, within this business week. $35,059.73 cash vs. $59,361.07 obligations (payroll $7,000, Friday AP $37,521.09, biz expenses $4,839.98, $10K reserve) = -$24,301.34. Not recommended, cash earmarked for payroll and AP."
-    },
-    {
-      "icon": "\u2705",
-      "category": "AP \u2014 COMPLETELY FLAT BOTH SIDES",
-      "message": "Improvement AP unchanged at $40,520.78, Restoration AP unchanged at $22,703.00. Both Friday queues unchanged ($37,521.09 / $19,536.00)."
+      "category": "AP \u2014 SIGNIFICANT PAYDOWN ACTIVITY",
+      "message": "Improvement AP down to $38,997.83 (-$1,522.95 net) \u2014 three Friday-marked items paid off (DE Home Solutions #259, Amir Shoufany #88 and #80, $2,072.95 combined), one new unmarked invoice added. Restoration AP down to $21,942.00 (-$761.00 net) \u2014 four Friday-marked items paid off ($7,741.00 combined: DE Home Solutions #258, Clean Sweep #15688, ECO Mold Testing #10939, Fulfillment Personnel #2117), five new items added. One new item worth a glance: Clean Sweep #15822 ($2,510.00) is marked Friday-Yes with a due date of 8/11/2026 \u2014 already past due by three weeks, worth confirming that's intentional."
     },
     {
       "icon": "\ud83d\udcb0",
       "category": "CASH POSITION",
-      "message": "Combined cash $92,194.84 (-$5,203.59 vs. Friday, mostly reflecting Improvement's checking balance drawdown). Improvement $35,059.73, Restoration $57,135.11. Net availability $46,611.31 (workbook $51,375.76 \u2212 $4,764.45 Yvonne Badger exclusion) \u2014 down from Friday's $78,346.50, driven mainly by the large AR collections no longer counting toward the total, plus Improvement's cash reduction."
+      "message": "Combined cash $92,237.00 (+$42.16 vs. yesterday, essentially flat \u2014 just interest earned on both money market accounts). Net availability $101,520.49 (workbook $106,284.94 \u2212 $4,764.45 Yvonne Badger exclusion) \u2014 crossing $100K for the first time, driven mainly by the large Restoration AR additions rather than new cash. Yvonne Badger #4120 ($4,764.45, 347 days) confirmed still present and correctly excluded."
     },
     {
       "icon": "\u26a0\ufe0f",
       "category": "CREDIT",
-      "message": "Cap One Restoration up to 60.4% ($22,968.18 / $38K, routine charges \u2014 Lowes, Intuit). Cap One Construction unchanged 26.8% ($12,050.11 / $45K). Total credit debt $81,596.86."
-    },
-    {
-      "icon": "\u2705",
-      "category": "TRANSACTIONS \u2014 CORRECTED",
-      "message": "Removed 4 leftover Restoration Checking entries from 8/27 that were mistakenly still showing on this report. Remaining transactions confirmed: routine Restoration Cap One charges only (Lowes, Tesla, Intuit, Foxtail Coffee)."
+      "message": "Cap One Restoration up to 62.7% ($23,841.18 / $38K). Cap One Construction and both LOCs unchanged. Total credit debt $82,469.86."
     }
   ]
 }
