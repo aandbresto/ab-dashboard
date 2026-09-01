@@ -749,58 +749,6 @@
       "account": "Capital One \u2013 Restoration",
       "division": "restoration",
       "account_type": "credit_card"
-    },
-    {
-      "trans_date": "2026-08-27",
-      "posted_date": "2026-08-27",
-      "card_desc": "PAYMENT FL1 PMD 082726",
-      "vendor": null,
-      "amount": 343.0,
-      "explanation": "Client Payment - TM",
-      "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Restoration Checking \u2013 7363",
-      "division": "restoration",
-      "account_type": "bank"
-    },
-    {
-      "trans_date": "2026-08-27",
-      "posted_date": "2026-08-27",
-      "card_desc": "DEPOSIT INTUIT 39633173 082726",
-      "vendor": null,
-      "amount": 1248.15,
-      "explanation": "Client Payment - Ralph Bloch",
-      "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Restoration Checking \u2013 7363",
-      "division": "restoration",
-      "account_type": "bank"
-    },
-    {
-      "trans_date": "2026-08-27",
-      "posted_date": "2026-08-27",
-      "card_desc": "PAYMENT FL1 PMD 082726",
-      "vendor": null,
-      "amount": 3307.15,
-      "explanation": "Client Payment - TM",
-      "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Restoration Checking \u2013 7363",
-      "division": "restoration",
-      "account_type": "bank"
-    },
-    {
-      "trans_date": "2026-08-27",
-      "posted_date": "2026-08-27",
-      "card_desc": "TRAN FEE INTUIT 39999173 082726",
-      "vendor": null,
-      "amount": 12.48,
-      "explanation": "QB Payment Fee",
-      "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Restoration Checking \u2013 7363",
-      "division": "restoration",
-      "account_type": "bank"
     }
   ],
   "brief": [
@@ -828,6 +776,11 @@
       "icon": "\u26a0\ufe0f",
       "category": "CREDIT",
       "message": "Cap One Restoration up to 60.4% ($22,968.18 / $38K, routine charges \u2014 Lowes, Intuit). Cap One Construction unchanged 26.8% ($12,050.11 / $45K). Total credit debt $81,596.86."
+    },
+    {
+      "icon": "\u2705",
+      "category": "TRANSACTIONS \u2014 CORRECTED",
+      "message": "Removed 4 leftover Restoration Checking entries from 8/27 that were mistakenly still showing on this report. Remaining transactions confirmed: routine Restoration Cap One charges only (Lowes, Tesla, Intuit, Foxtail Coffee)."
     }
   ]
 }
