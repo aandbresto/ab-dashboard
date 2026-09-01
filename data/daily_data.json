@@ -902,9 +902,9 @@
   ],
   "brief": [
     {
-      "icon": "\u26a0\ufe0f",
+      "icon": "\u2705",
       "category": "DEBT PAYDOWN RECOMMENDATION",
-      "message": "Improvement: payroll ($7,000) due 9/4, within this business week. Friday AP obligations are $13,559.83 (Kingdom Restoration's payment-plan treatment applied). $35,101.89 cash vs. $35,399.81 obligations (payroll $7,000, Friday AP $13,559.83, biz expenses $4,839.98, $10K reserve) = -$297.92. Not recommended. Restoration: $57,135.11 cash vs. $56,650.13 obligations (payroll $15,500, Friday AP $15,090.00, biz expenses $14,060.13, $12K reserve) = $484.98 available \u2014 technically positive but too small to meaningfully apply to debt. Not recommended this week; focus on collecting AR."
+      "message": "Improvement: payroll ($7,000) due 9/4, within this business week. Friday AP obligations are $13,559.83 (Kingdom Restoration's payment-plan treatment applied). $35,101.89 cash vs. $35,399.81 obligations (payroll $7,000, Friday AP $13,559.83, biz expenses $4,839.98, $10K reserve) = -$297.92. Not recommended. Restoration IS recommended for a paydown this week: $57,135.11 cash vs. $34,547.70 obligations (Friday AP $15,090.00, biz expenses due within 7 days $7,457.70, $12K reserve \u2014 obligations further out, like the 9/11 payroll, aren't held in reserve) = $22,587.41 available. Recommended: apply the full $22,587.41 to Cap One Restoration (24.49% APR, currently $23,841.18) \u2014 would leave roughly $1,253.77 on the card."
     },
     {
       "icon": "\ud83c\udfe0",
