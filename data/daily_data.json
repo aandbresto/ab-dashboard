@@ -1,34 +1,34 @@
 {
-  "date": "2026-09-02",
+  "date": "2026-09-03",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 15407.47,
-      "bank_balance_2657": 15324.97,
+      "qb_bank_balance": 11999.96,
+      "bank_balance_2657": 11999.96,
       "money_market_2690": 18952.07,
-      "total_cash_in_bank": 34277.04,
-      "accounts_receivable": 4207.02,
+      "total_cash_in_bank": 30952.03,
+      "accounts_receivable": 4949.34,
       "cap_one_cc": 12775.11,
-      "loc_3705": 14458.26,
+      "loc_3705": 14461.76,
       "accounts_payable": 38997.83,
-      "net_total": -27664.64
+      "net_total": -30333.33
     },
     "restoration": {
-      "qb_bank_balance": 30182.18,
-      "bank_balance_7363": 31223.11,
+      "qb_bank_balance": 27816.21,
+      "bank_balance_7363": 28082.46,
       "money_market_2798": 27869.12,
-      "total_cash_in_bank": 59092.23,
-      "accounts_receivable": 147889.01,
-      "loc_5064": 32162.74,
-      "cap_one_cc": 23841.18,
+      "total_cash_in_bank": 55951.58,
+      "accounts_receivable": 146891.23,
+      "loc_5064": 32170.53,
+      "cap_one_cc": 26348.16,
       "accounts_payable": 22567.0,
-      "net_total": 127369.39
+      "net_total": 121490.87
     },
     "combined": {
-      "total_cash_in_bank": 93369.27,
-      "total_ar": 152096.03,
+      "total_cash_in_bank": 86903.61,
+      "total_ar": 151840.57,
       "total_ap": 61564.83,
-      "credit_debt": 83237.29,
-      "net_cash_availability": 95898.73
+      "credit_debt": 85755.56,
+      "net_cash_availability": 86659.34
     }
   },
   "ar": {
@@ -39,20 +39,9 @@
         "balance": 170.0,
         "invoice_date": "2026-05-28",
         "due_date": "2026-06-27",
-        "days_out": 97,
+        "days_out": 98,
         "expected_payment": "2026-09-07",
         "last_update": "08/19 - Text sent to Brendan for follow up, EPO is in system just needs to be approved.",
-        "division": "improvement"
-      },
-      {
-        "invoice_num": "33148",
-        "client_job": "Dream Finders Homes:681057",
-        "balance": 774.68,
-        "invoice_date": "2026-07-24",
-        "due_date": "2026-08-23",
-        "days_out": 40,
-        "expected_payment": "2026-09-03",
-        "last_update": "08/13 - Fully approved",
         "division": "improvement"
       },
       {
@@ -61,7 +50,7 @@
         "balance": 2800.0,
         "invoice_date": "2026-08-17",
         "due_date": "2026-09-16",
-        "days_out": 16,
+        "days_out": 17,
         "expected_payment": "2026-09-16",
         "last_update": "08/17 - Invoice sent.",
         "division": "improvement"
@@ -72,9 +61,31 @@
         "balance": 462.34,
         "invoice_date": "2026-08-20",
         "due_date": "2026-09-19",
-        "days_out": 13,
+        "days_out": 14,
         "expected_payment": "2026-09-19",
-        "last_update": "08/26 - Partial Payment Received",
+        "last_update": "09/31 - EPO fully approved",
+        "division": "improvement"
+      },
+      {
+        "invoice_num": "33160",
+        "client_job": "Dream Finders Homes:681064",
+        "balance": 880.0,
+        "invoice_date": "2026-08-27",
+        "due_date": "2026-09-26",
+        "days_out": null,
+        "expected_payment": "2026-09-26",
+        "last_update": "08/27 - Invoice created",
+        "division": "improvement"
+      },
+      {
+        "invoice_num": "33163",
+        "client_job": "Taylor Morrison of FL:681066",
+        "balance": 637.0,
+        "invoice_date": "2026-09-02",
+        "due_date": "2026-09-02",
+        "days_out": 1,
+        "expected_payment": "2026-10-02",
+        "last_update": "09/02 - Invoice created",
         "division": "improvement"
       }
     ],
@@ -85,7 +96,7 @@
         "balance": 4764.45,
         "invoice_date": "2025-09-19",
         "due_date": "2025-09-22",
-        "days_out": 348,
+        "days_out": 349,
         "expected_payment": null,
         "last_update": "IN COLLECTIONS - Email received from Collections, the werent able to get the payment, Yvonne kept telling them she was filling bankruptcy but they were not able to get proof of this and Yvonne now stopped answering their attempts to talk to her.",
         "division": "restoration"
@@ -96,7 +107,7 @@
         "balance": 3730.35,
         "invoice_date": "2025-12-04",
         "due_date": "2025-12-04",
-        "days_out": 272,
+        "days_out": 273,
         "expected_payment": null,
         "last_update": "07/28 - John emailed Mike with payment plan, awaiting response",
         "division": "restoration"
@@ -107,7 +118,7 @@
         "balance": 850.0,
         "invoice_date": "2025-12-16",
         "due_date": "2026-01-15",
-        "days_out": 260,
+        "days_out": 261,
         "expected_payment": null,
         "last_update": "08/21 - Invoices were resent, Gia is asking for pricing breakdown, Briz is checking with Jacob",
         "division": "restoration"
@@ -118,7 +129,7 @@
         "balance": 6936.52,
         "invoice_date": "2026-03-31",
         "due_date": "2026-04-30",
-        "days_out": 155,
+        "days_out": 156,
         "expected_payment": null,
         "last_update": "08/21 - Invoices were resent, Gia is asking for pricing breakdown, Briz is checking with Jacob",
         "division": "restoration"
@@ -129,7 +140,7 @@
         "balance": 3000.0,
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
-        "days_out": 125,
+        "days_out": 126,
         "expected_payment": "2026-08-28",
         "last_update": "08/21 - Electrical completed, Ozzy checking with Mario for availability to complete cabinets installation",
         "division": "restoration"
@@ -140,7 +151,7 @@
         "balance": 9250.0,
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-05",
-        "days_out": 89,
+        "days_out": 90,
         "expected_payment": "2026-08-28",
         "last_update": "08/21 - Electrical completed, Ozzy checking with Mario for availability to complete cabinets installation",
         "division": "restoration"
@@ -151,7 +162,7 @@
         "balance": 299.0,
         "invoice_date": "2026-06-19",
         "due_date": "2026-07-19",
-        "days_out": 75,
+        "days_out": 76,
         "expected_payment": "2026-08-28",
         "last_update": "08/21 - Brendan working on approval, might ned to create warranty case",
         "division": "restoration"
@@ -162,7 +173,7 @@
         "balance": 299.0,
         "invoice_date": "2026-07-14",
         "due_date": "2026-08-13",
-        "days_out": 50,
+        "days_out": 51,
         "expected_payment": "2026-08-28",
         "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
@@ -173,7 +184,7 @@
         "balance": 1600.0,
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
-        "days_out": 47,
+        "days_out": 48,
         "expected_payment": "2026-08-28",
         "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
@@ -184,7 +195,7 @@
         "balance": 2144.25,
         "invoice_date": "2026-07-20",
         "due_date": "2026-07-20",
-        "days_out": 44,
+        "days_out": 45,
         "expected_payment": "2026-08-28",
         "last_update": "09/01 - No payment received, email sent asking for payment date in 2 days, if not received we will initiate a Notice of Intent to Lien.",
         "division": "restoration"
@@ -195,7 +206,7 @@
         "balance": 14038.48,
         "invoice_date": "2026-07-23",
         "due_date": "2026-08-22",
-        "days_out": 41,
+        "days_out": 42,
         "expected_payment": "2026-08-28",
         "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
@@ -206,7 +217,7 @@
         "balance": 6301.44,
         "invoice_date": "2026-07-23",
         "due_date": "2026-08-22",
-        "days_out": 41,
+        "days_out": 42,
         "expected_payment": "2026-09-04",
         "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
@@ -217,7 +228,7 @@
         "balance": 4660.46,
         "invoice_date": "2026-07-24",
         "due_date": "2026-08-23",
-        "days_out": 40,
+        "days_out": 41,
         "expected_payment": "2026-09-04",
         "last_update": "08/17 - EPO fully approved",
         "division": "restoration"
@@ -228,7 +239,7 @@
         "balance": 7554.72,
         "invoice_date": "2026-07-27",
         "due_date": "2026-07-27",
-        "days_out": 37,
+        "days_out": 38,
         "expected_payment": "2026-09-04",
         "last_update": "09/01 - James to send a check tomorrow",
         "division": "restoration"
@@ -239,7 +250,7 @@
         "balance": 2609.0,
         "invoice_date": "2026-07-31",
         "due_date": "2026-08-30",
-        "days_out": 33,
+        "days_out": 34,
         "expected_payment": "2026-08-30",
         "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
@@ -250,7 +261,7 @@
         "balance": 5004.0,
         "invoice_date": "2026-08-05",
         "due_date": "2026-09-04",
-        "days_out": 28,
+        "days_out": 29,
         "expected_payment": "2026-09-04",
         "last_update": "08/31 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
         "division": "restoration"
@@ -261,7 +272,7 @@
         "balance": 3853.87,
         "invoice_date": "2026-08-13",
         "due_date": "2026-09-12",
-        "days_out": 20,
+        "days_out": 21,
         "expected_payment": "2026-09-12",
         "last_update": "08/31 - EPO in future orders, Briz followed up",
         "division": "restoration"
@@ -272,7 +283,7 @@
         "balance": 2015.63,
         "invoice_date": "2026-08-13",
         "due_date": "2026-09-12",
-        "days_out": 20,
+        "days_out": 21,
         "expected_payment": "2026-09-12",
         "last_update": "08/13 - Invoice sent",
         "division": "restoration"
@@ -283,7 +294,7 @@
         "balance": 125.0,
         "invoice_date": "2026-08-14",
         "due_date": "2026-09-13",
-        "days_out": 19,
+        "days_out": 20,
         "expected_payment": "2026-09-13",
         "last_update": "08/14 - Invoice sent",
         "division": "restoration"
@@ -294,7 +305,7 @@
         "balance": 4241.84,
         "invoice_date": "2026-08-14",
         "due_date": "2026-09-13",
-        "days_out": 19,
+        "days_out": 20,
         "expected_payment": "2026-09-13",
         "last_update": "08/31 - EPO in future orders, Briz followed up",
         "division": "restoration"
@@ -305,7 +316,7 @@
         "balance": 2935.98,
         "invoice_date": "2026-08-14",
         "due_date": "2026-09-13",
-        "days_out": 19,
+        "days_out": 20,
         "expected_payment": "2026-09-13",
         "last_update": "08/31 - EPO in future orders, Ozzy followed up",
         "division": "restoration"
@@ -316,9 +327,9 @@
         "balance": 3771.76,
         "invoice_date": "2026-08-14",
         "due_date": "2026-09-13",
-        "days_out": 19,
+        "days_out": 20,
         "expected_payment": "2026-09-13",
-        "last_update": "08/31 - EPO pending final approval due to amount, Ozzy followed up",
+        "last_update": "09/01 - EPO fully approved",
         "division": "restoration"
       },
       {
@@ -327,7 +338,7 @@
         "balance": 1472.95,
         "invoice_date": "2026-08-14",
         "due_date": "2026-09-13",
-        "days_out": 19,
+        "days_out": 20,
         "expected_payment": "2026-09-13",
         "last_update": "08/14 - Invoice sent",
         "division": "restoration"
@@ -338,7 +349,7 @@
         "balance": 293.02,
         "invoice_date": "2026-08-19",
         "due_date": "2026-09-18",
-        "days_out": 14,
+        "days_out": 15,
         "expected_payment": "2026-09-18",
         "last_update": "08/31 - EPO pending, Briz following up",
         "division": "restoration"
@@ -349,7 +360,7 @@
         "balance": 350.0,
         "invoice_date": "2026-08-20",
         "due_date": "2026-09-19",
-        "days_out": 13,
+        "days_out": 14,
         "expected_payment": "2026-09-19",
         "last_update": "08/26 - Invoiced in Portal",
         "division": "restoration"
@@ -360,7 +371,7 @@
         "balance": 1516.44,
         "invoice_date": "2026-08-21",
         "due_date": "2026-09-20",
-        "days_out": 12,
+        "days_out": 13,
         "expected_payment": "2026-09-20",
         "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
@@ -371,7 +382,7 @@
         "balance": 1901.02,
         "invoice_date": "2026-08-21",
         "due_date": "2026-09-20",
-        "days_out": 12,
+        "days_out": 13,
         "expected_payment": "2026-09-20",
         "last_update": "08/21 - Invoice Sent",
         "division": "restoration"
@@ -382,7 +393,7 @@
         "balance": 1100.0,
         "invoice_date": "2026-08-26",
         "due_date": "2026-09-25",
-        "days_out": 7,
+        "days_out": 8,
         "expected_payment": "2026-09-25",
         "last_update": "08/27 - PO Received",
         "division": "restoration"
@@ -393,20 +404,9 @@
         "balance": 358.0,
         "invoice_date": "2026-08-28",
         "due_date": "2026-09-27",
-        "days_out": 5,
+        "days_out": 6,
         "expected_payment": "2026-09-27",
         "last_update": "08/28 - invoice created",
-        "division": "restoration"
-      },
-      {
-        "invoice_num": "4451",
-        "client_job": "Filippo Villella:145 Cordana Court-26-0245-MLD",
-        "balance": 1122.78,
-        "invoice_date": "2026-08-28",
-        "due_date": "2026-09-04",
-        "days_out": 5,
-        "expected_payment": "2026-09-04",
-        "last_update": "08/28 - invoice sent",
         "division": "restoration"
       },
       {
@@ -415,9 +415,9 @@
         "balance": 6232.08,
         "invoice_date": "2026-08-28",
         "due_date": "2026-09-27",
-        "days_out": 5,
+        "days_out": 6,
         "expected_payment": "2026-09-27",
-        "last_update": "08/28 - invoice created",
+        "last_update": "09/01 - EPO screenshot received.",
         "division": "restoration"
       },
       {
@@ -426,7 +426,7 @@
         "balance": 4887.3,
         "invoice_date": "2026-08-28",
         "due_date": "2026-09-27",
-        "days_out": 5,
+        "days_out": 6,
         "expected_payment": "2026-09-27",
         "last_update": "08/28 - invoice sent",
         "division": "restoration"
@@ -437,9 +437,9 @@
         "balance": 443.94,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
-        "last_update": "08/31 - invoice created",
+        "last_update": "09/02 - EPO fully approved",
         "division": "restoration"
       },
       {
@@ -448,7 +448,7 @@
         "balance": 4529.8,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -459,7 +459,7 @@
         "balance": 15681.0,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -470,7 +470,7 @@
         "balance": 5672.45,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -481,7 +481,7 @@
         "balance": 231.52,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -492,7 +492,7 @@
         "balance": 1298.0,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -503,7 +503,7 @@
         "balance": 293.02,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -514,7 +514,7 @@
         "balance": 125.0,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -525,7 +525,7 @@
         "balance": 1777.5,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -536,7 +536,7 @@
         "balance": 2239.8,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
         "division": "restoration"
@@ -547,9 +547,20 @@
         "balance": 6377.64,
         "invoice_date": "2026-08-31",
         "due_date": "2026-09-30",
-        "days_out": 2,
+        "days_out": 3,
         "expected_payment": "2026-09-30",
         "last_update": "08/31 - invoice created",
+        "division": "restoration"
+      },
+      {
+        "invoice_num": "4466",
+        "client_job": "Neal Communities - Warranty:9949 Cross River Trail-26-0219-WTR",
+        "balance": 125.0,
+        "invoice_date": "2026-09-02",
+        "due_date": "2026-10-02",
+        "days_out": 1,
+        "expected_payment": "2026-10-02",
+        "last_update": "09/02 - invoice sent",
         "division": "restoration"
       }
     ]
@@ -842,25 +853,12 @@
   },
   "transactions": [
     {
-      "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 7363",
+      "trans_date": "2026-09-02",
+      "posted_date": "2026-09-02",
+      "card_desc": "PAYROLL ONLINE PAYROLL 090226",
       "vendor": null,
-      "amount": 2186.24,
-      "explanation": "Shared Expenses",
-      "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Construction Checking \u2013 2657",
-      "division": "improvement",
-      "account_type": "bank"
-    },
-    {
-      "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRANSFER DEBIT\nOLB XFER TO 7363",
-      "vendor": null,
-      "amount": 2186.24,
-      "explanation": "Shared Expenses",
+      "amount": 82.5,
+      "explanation": "Payroll Admin Charge",
       "approved_by": null,
       "txn_type": "Debit",
       "account": "Construction Checking \u2013 2657",
@@ -869,63 +867,76 @@
     },
     {
       "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRANSFER DEBIT\nOLB XFER TO 7363",
-      "vendor": null,
-      "amount": 9000.0,
-      "explanation": "Pulte Payment moved to Resto",
+      "posted_date": "2026-09-02",
+      "card_desc": 2897,
+      "vendor": "ChatGPT",
+      "amount": 20.0,
+      "explanation": "Subscription",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Construction Checking \u2013 2657",
-      "division": "improvement",
-      "account_type": "bank"
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
     },
     {
       "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "WISE Wise Inc 090126",
-      "vendor": null,
-      "amount": 941.32,
-      "explanation": "Admin Payroll",
+      "posted_date": "2026-09-02",
+      "card_desc": 2897,
+      "vendor": "River Club Car Wash",
+      "amount": 19.4,
+      "explanation": "Monthly Car Wash",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Construction Checking \u2013 2657",
-      "division": "improvement",
-      "account_type": "bank"
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
     },
     {
       "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "WISE Wise Inc 090126",
-      "vendor": null,
-      "amount": 976.73,
-      "explanation": "Admin Payroll",
+      "posted_date": "2026-09-02",
+      "card_desc": 4365,
+      "vendor": "Crowder Bros",
+      "amount": 89.86,
+      "explanation": "Supplies",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Construction Checking \u2013 2657",
-      "division": "improvement",
-      "account_type": "bank"
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
     },
     {
       "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "MOBILE CHECK DEPOSIT",
-      "vendor": null,
-      "amount": 1176.0,
-      "explanation": "Client Payment - Neal",
+      "posted_date": "2026-09-02",
+      "card_desc": 2897,
+      "vendor": "Publix",
+      "amount": 249.08,
+      "explanation": "Gift Cards TM",
       "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Construction MM \u2013 2690",
-      "division": "improvement",
-      "account_type": "bank"
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
     },
     {
       "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 2657",
+      "posted_date": "2026-09-02",
+      "card_desc": 2897,
+      "vendor": "Midgard ",
+      "amount": 2128.64,
+      "explanation": "Storage",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One \u2013 Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
+    },
+    {
+      "trans_date": "2026-09-01",
+      "posted_date": "2026-09-02",
+      "card_desc": "DEPOSIT INTUIT 57744863 090226",
       "vendor": null,
-      "amount": 2186.24,
-      "explanation": "Shared Expenses",
+      "amount": 1122.78,
+      "explanation": "Client Payment - Filippo Villella",
       "approved_by": null,
       "txn_type": "Credit",
       "account": "Restoration Checking \u2013 7363",
@@ -933,12 +944,12 @@
       "account_type": "bank"
     },
     {
-      "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "PAYMENT FL1 PMD 090126",
+      "trans_date": "2026-09-02",
+      "posted_date": "2026-09-02",
+      "card_desc": "PAYMENT DFHACH PMD 090226",
       "vendor": null,
-      "amount": 2499.36,
-      "explanation": "Client Payment - TM",
+      "amount": 774.68,
+      "explanation": "Client Payment - DreamFinders",
       "approved_by": null,
       "txn_type": "Credit",
       "account": "Restoration Checking \u2013 7363",
@@ -946,25 +957,12 @@
       "account_type": "bank"
     },
     {
-      "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRNSFR CREDIT\nOLB XFER FROM 2657",
+      "trans_date": "2026-09-02",
+      "posted_date": "2026-09-02",
+      "card_desc": "TRAN FEE INTUIT 58730863 090226",
       "vendor": null,
-      "amount": 9000.0,
-      "explanation": "Client Payment - Pulte",
-      "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Restoration Checking \u2013 7363",
-      "division": "restoration",
-      "account_type": "bank"
-    },
-    {
-      "trans_date": "2026-09-01",
-      "posted_date": "2026-09-01",
-      "card_desc": "TRANSFER DEBIT\nOLB XFER TO 2657",
-      "vendor": null,
-      "amount": 2186.24,
-      "explanation": "Shared Expenses",
+      "amount": 11.23,
+      "explanation": "QB Payment Fee",
       "approved_by": null,
       "txn_type": "Debit",
       "account": "Restoration Checking \u2013 7363",
@@ -972,15 +970,15 @@
       "account_type": "bank"
     },
     {
-      "trans_date": "2026-08-31",
-      "posted_date": "2026-08-31",
-      "card_desc": "IOD INTEREST PAID",
+      "trans_date": "2026-09-02",
+      "posted_date": "2026-09-02",
+      "card_desc": "DDA CHECK  0000001356",
       "vendor": null,
-      "amount": 70.89,
-      "explanation": "Interest Earned",
+      "amount": 2500.0,
+      "explanation": "Distribution",
       "approved_by": null,
-      "txn_type": "Credit",
-      "account": "Restoration MM \u2013 2798",
+      "txn_type": "Debit",
+      "account": "Restoration Checking \u2013 7363",
       "division": "restoration",
       "account_type": "bank"
     }
@@ -988,13 +986,8 @@
   "brief": [
     {
       "icon": "\u2705",
-      "category": "DEBT PAYDOWN RECOMMENDATION \u2014 BOTH DIVISIONS POSITIVE",
-      "message": "Improvement: this week's Improvement/Admin payroll already ran 9/1, so it's not a forward obligation. $34,277.04 cash vs. $23,854.82 obligations (Friday AP $13,559.83, biz expenses $294.99, $10K reserve) = $10,422.22 available. Restoration: no payroll in the 7-day window. $59,092.23 cash vs. $24,681.30 obligations (Friday AP $7,355.00, biz expenses $5,326.30, $12K reserve) = $34,410.93 available. Both recommended: apply to Cap One Construction ($12,775.11) and Cap One Restoration ($23,841.18) respectively \u2014 Improvement would leave $0 with $2,352.89 spare toward LOC 3705; Restoration would fully clear Cap One with $10,569.75 spare toward LOC 5064."
-    },
-    {
-      "icon": "\u2705",
-      "category": "AP",
-      "message": "Restoration Friday queue down to $7,355.00 \u2014 three items (Clean Sweep #15366, ECO Mold Testing #10914 and #9925) unmarked, no longer due this Friday. One new unmarked invoice added (ECO Mold Testing #11062, $625, due 10/2)."
+      "category": "DEBT PAYDOWN RECOMMENDATION",
+      "message": "Improvement: $30,952.03 cash vs. $23,854.82 obligations (Friday AP $13,559.83, biz expenses $294.99, $10K reserve \u2014 this week's Admin payroll already ran 9/1) = $7,097.21 available. Restoration: $55,951.58 cash vs. $24,681.30 obligations (Friday AP $7,355.00, biz expenses $5,326.30, $12K reserve) = $31,270.28 available. Both recommended. Cap One Restoration is up to 69.3% ($26,348.16 / $38K) and is the priority target."
     }
   ]
 }
