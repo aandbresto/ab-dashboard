@@ -2138,13 +2138,19 @@ async function loadProfitShare() {
 
   const pool = netIncome * PROFIT_SHARE_POOL_RATE;
 
+  // Temporary: individual dollar amounts hidden pending verification of the
+  // underlying figures. Flip to true to restore once confirmed correct.
+  const PROFIT_SHARE_SHOW_AMOUNTS = false;
+
   const poolsHtml = Object.entries(PROFIT_SHARE_POOL_PCTS).map(([poolName, poolPct]) => {
     const members = PROFIT_SHARE_ALLOCATION.filter(a => a.pool === poolName);
     const poolTotal = pool * poolPct / 100;
+    const amountCell = amt => PROFIT_SHARE_SHOW_AMOUNTS
+      ? fmt(amt) : '<span style="color:var(--text-3);font-size:11px;">Pending review</span>';
     const rows = members.map(m => `<tr>
       <td>${m.name}</td>
       <td class="right mono">${m.pct}%</td>
-      <td class="right mono" style="font-weight:600;">${fmt(pool * m.pct / 100)}</td>
+      <td class="right mono" style="font-weight:600;">${amountCell(pool * m.pct / 100)}</td>
     </tr>`).join('');
     return `
       <div class="fr-section-label">${poolName} Pool — ${poolPct}% of total pool</div>
@@ -2152,7 +2158,7 @@ async function loadProfitShare() {
         <table class="data-table">
           <thead><tr><th>Employee</th><th style="text-align:right">% of Total Pool</th><th style="text-align:right">Amount</th></tr></thead>
           <tbody>${rows}</tbody>
-          <tfoot><tr class="total-row"><td>Pool Total — ${poolName}</td><td class="right mono">${poolPct}%</td><td class="right mono">${fmt(poolTotal)}</td></tr></tfoot>
+          <tfoot><tr class="total-row"><td>Pool Total — ${poolName}</td><td class="right mono">${poolPct}%</td><td class="right mono">${amountCell(poolTotal)}</td></tr></tfoot>
         </table>
       </div>`;
   }).join('');
