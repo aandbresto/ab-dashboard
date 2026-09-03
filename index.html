@@ -1966,6 +1966,7 @@ async function loadPayroll() {
     const needsApproval = PAYROLL_NEEDS_APPROVAL[divKey];
     const profitShareCycle = divKey === 'restoration' ? 'restoration' : 'construction';
     const profitShareEligible = PROFIT_SHARE_DATES[profitShareCycle].includes(period);
+    const payLabel = divKey === 'admin' ? 'Total Pay' : 'Gross Pay';
     let divTotal = 0;
     const rows = team.map(emp => {
       const rec = hoursData[divKey+'_'+emp.name+'_'+period] || {};
@@ -2030,11 +2031,11 @@ async function loadPayroll() {
             <th style="text-align:right">Profit Share</th>
             <th style="text-align:right">Bonus</th>
             <th style="text-align:right">Reimbursement</th>
-            <th style="text-align:right">Total Pay</th>
+            <th style="text-align:right">${payLabel}</th>
             <th>${needsApproval ? 'Approval (Jacob)' : 'Approval'}</th>
           </tr></thead>
           <tbody>${rows}</tbody>
-          <tfoot><tr class="total-row"><td colspan="8">Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
+          <tfoot><tr class="total-row"><td colspan="8">${divKey === 'admin' ? 'Total' : 'Gross Total'} — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
         </table>
       </div>`;
   };
