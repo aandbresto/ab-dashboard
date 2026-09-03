@@ -601,6 +601,15 @@ body {
 
 <style>
 /* ── Monthly Snapshot Tab ─────────────────────────────────────── */
+/* ── Payroll Tab: remove number input spinner arrows ────────────── */
+.pr-num-input::-webkit-inner-spin-button,
+.pr-num-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pr-num-input {
+  -moz-appearance: textfield;
+}
 .fr-page-header {
   display: flex; align-items: flex-end; justify-content: space-between;
   flex-wrap: wrap; gap: 16px;
@@ -1960,7 +1969,7 @@ async function loadPayroll() {
     } catch(e) { console.error('Payroll approval save error:', e); }
   };
 
-  const numInput = (val, onblurExpr) => `<input type="number" step="0.01" value="${val}" placeholder="0"
+  const numInput = (val, onblurExpr) => `<input type="number" class="pr-num-input" step="0.01" value="${val}" placeholder="0"
       onblur="${onblurExpr}"
       style="width:78px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
 
