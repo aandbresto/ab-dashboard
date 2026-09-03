@@ -1878,7 +1878,10 @@ const PAYROLL_TEAM = {
 const PAYROLL_TAB_ANCHORS = { restoration: '2026-05-22', construction: '2026-05-29' };
 // Restoration and Admin hours need Jacob's approval before submission;
 // Construction is approved by the CFO directly, no separate approval step.
-const PAYROLL_NEEDS_APPROVAL = { restoration: true, admin: true, construction: false };
+// All three divisions use the same approve/hold workflow now — the approver
+// differs: Jacob approves Restoration and Admin, the CFO self-approves Construction.
+const PAYROLL_NEEDS_APPROVAL = { restoration: true, admin: true, construction: true };
+const PAYROLL_APPROVER = { restoration: 'Jacob', admin: 'Jacob', construction: '' };
 
 // Profit share is only paid on one specific pay date per quarter, not every
 // biweekly period — starting September 2026. Biweekly periods don't line up
@@ -2032,7 +2035,7 @@ async function loadPayroll() {
             <th style="text-align:right">Bonus</th>
             <th style="text-align:right">Reimbursement</th>
             <th style="text-align:right">${payLabel}</th>
-            <th>${needsApproval ? 'Approval (Jacob)' : 'Approval'}</th>
+            <th>${PAYROLL_APPROVER[divKey] ? 'Approval (' + PAYROLL_APPROVER[divKey] + ')' : 'Approval'}</th>
           </tr></thead>
           <tbody>${rows}</tbody>
           <tfoot><tr class="total-row"><td colspan="8">${divKey === 'admin' ? 'Total' : 'Gross Total'} — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
