@@ -2167,16 +2167,16 @@ async function loadProfitShare() {
     <div class="fr-section-label">Reclassified P&L</div>
     <div class="card fr-table-card">
       <table class="data-table">
-        <thead><tr><th>Line</th><th style="text-align:right">Current P&L</th><th style="text-align:right">Reclassified (true) P&L</th></tr></thead>
+        <thead><tr><th>Line</th><th style="text-align:right">Amount</th></tr></thead>
         <tbody>
-          <tr><td>Revenue</td><td class="right mono">${fmt(revenue)}</td><td class="right mono">${fmt(revenue)}</td></tr>
-          <tr><td>Less: COGS (materials, subs, equipment, fuel)</td><td class="right mono">${fmt(cogsOriginal)}</td><td class="right mono">${fmt(cogsOriginal)}</td></tr>
-          <tr><td>Less: Field labor + WC + field payroll taxes</td><td class="right mono" style="color:var(--text-3);">(in OpEx, below)</td><td class="right mono">${fmt(laborBurden)}</td></tr>
-          <tr><td>Less: Support team allocation</td><td class="right mono" style="color:var(--text-3);">(in OpEx, below)</td><td class="right mono">${fmt(supportAlloc)}</td></tr>
-          <tr style="background:var(--green-bg);"><td style="font-weight:700;">GROSS PROFIT</td><td class="right mono" style="font-weight:700;">${fmt(grossProfitOrig)}</td><td class="right mono" style="font-weight:700;">${fmt(grossProfitRecl)}</td></tr>
-          <tr style="background:var(--green-bg);"><td style="font-weight:700;">GROSS MARGIN</td><td class="right mono" style="font-weight:700;">${marginOrig.toFixed(1)}%</td><td class="right mono" style="font-weight:700;">${marginRecl.toFixed(1)}%</td></tr>
-          <tr><td>Less: Operating expenses</td><td class="right mono">${fmt(opexOriginal)}</td><td class="right mono">${fmt(opexReclassified)}</td></tr>
-          <tr style="background:var(--green-bg);"><td style="font-weight:700;">NET INCOME (unchanged)</td><td class="right mono" style="font-weight:700;">${fmt(netIncome)}</td><td class="right mono" style="font-weight:700;">${fmt(netIncome)}</td></tr>
+          <tr><td>Revenue</td><td class="right mono">${fmt(revenue)}</td></tr>
+          <tr><td>Less: COGS (materials, subs, equipment, fuel)</td><td class="right mono">${fmt(cogsOriginal)}</td></tr>
+          <tr><td>Less: Field labor + WC + field payroll taxes</td><td class="right mono">${fmt(laborBurden)}</td></tr>
+          <tr><td>Less: Support team allocation</td><td class="right mono">${fmt(supportAlloc)}</td></tr>
+          <tr style="background:var(--green-bg);"><td style="font-weight:700;">GROSS PROFIT</td><td class="right mono" style="font-weight:700;">${fmt(grossProfitRecl)}</td></tr>
+          <tr style="background:var(--green-bg);"><td style="font-weight:700;">GROSS MARGIN</td><td class="right mono" style="font-weight:700;">${marginRecl.toFixed(1)}%</td></tr>
+          <tr><td>Less: Operating expenses</td><td class="right mono">${fmt(opexReclassified)}</td></tr>
+          <tr style="background:var(--green-bg);"><td style="font-weight:700;">NET INCOME</td><td class="right mono" style="font-weight:700;">${fmt(netIncome)}</td></tr>
         </tbody>
       </table>
     </div>
