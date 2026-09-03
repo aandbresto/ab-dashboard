@@ -581,9 +581,18 @@ body {
   <div class="fr-page-header">
     <div>
       <div class="page-title">Payroll</div>
-      <div class="fr-page-sub" id="pr-subtitle">Restoration next pay date — · Construction/Admin next pay date —</div>
+      <div class="fr-page-sub">Select a pay period for each cycle below</div>
     </div>
-    <button id="pr-toggle-rates" onclick="window.togglePayRates()" style="font-size:12px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);cursor:pointer;">Show Pay Rates</button>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:3px;">Restoration pay date</div>
+        <select class="date-select" id="pr-rest-date" onchange="loadPayroll()"></select>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:3px;">Construction / Admin pay date</div>
+        <select class="date-select" id="pr-cons-date" onchange="loadPayroll()"></select>
+      </div>
+    </div>
   </div>
 
   <div id="pr-restoration-section"></div>
@@ -1842,8 +1851,9 @@ function frLoadSummary() {
 
 // ── PAYROLL TAB ──────────────────────────────────────────────────────────────
 // Team roster and rates are config, not Supabase data — same pattern as
-// PAYROLL_SCHEDULES and BUSINESS_EXPENSES above. Only hours/approval per pay
-// period are stored in Supabase (table: payroll_hours).
+// PAYROLL_SCHEDULES and BUSINESS_EXPENSES above. Only hours/pay/approval per
+// pay period are stored in Supabase (table: payroll_hours). Rates are never
+// rendered in this tab — only computed pay amounts.
 const PAYROLL_TEAM = {
   restoration: [
     { name: 'Jacob Mercer',       rate: 38.46, type: 'hourly' },
@@ -1871,26 +1881,35 @@ const PAYROLL_TAB_ANCHORS = { restoration: '2026-05-22', construction: '2026-05-
 // Construction is approved by the CFO directly, no separate approval step.
 const PAYROLL_NEEDS_APPROVAL = { restoration: true, admin: true, construction: false };
 
-function payrollNextDate(anchorKey) {
+// Generates a descending list of pay-period-end dates for one cycle: the next
+// upcoming period first (the default selection), then the 10 most recent past
+// periods — mirrors how allDates drives the other tabs' date selects.
+function payrollPeriodOptions(anchorKey) {
   const anchor = PAYROLL_TAB_ANCHORS[anchorKey];
   const today = new Date(); today.setHours(0,0,0,0);
   let next = new Date(anchor+'T00:00:00');
   while (next < today) next.setDate(next.getDate()+14);
-  return next.toISOString().slice(0,10);
+  const dates = [next.toISOString().slice(0,10)];
+  let d = new Date(next);
+  for (let i=0; i<10; i++) { d = new Date(d); d.setDate(d.getDate()-14); dates.push(d.toISOString().slice(0,10)); }
+  return dates;
 }
 
-let payRatesVisible = false;
-window.togglePayRates = function() {
-  payRatesVisible = !payRatesVisible;
-  document.getElementById('pr-toggle-rates').textContent = payRatesVisible ? 'Hide Pay Rates' : 'Show Pay Rates';
-  document.querySelectorAll('.pr-rate-col').forEach(el => el.style.display = payRatesVisible ? '' : 'none');
-};
+function populatePayrollDateSelects() {
+  const restEl = document.getElementById('pr-rest-date');
+  const consEl = document.getElementById('pr-cons-date');
+  if (restEl && !restEl.options.length) {
+    restEl.innerHTML = payrollPeriodOptions('restoration').map(d => `<option value="${d}">${fmtDate(d)}</option>`).join('');
+  }
+  if (consEl && !consEl.options.length) {
+    consEl.innerHTML = payrollPeriodOptions('construction').map(d => `<option value="${d}">${fmtDate(d)}</option>`).join('');
+  }
+}
 
 async function loadPayroll() {
-  const restPeriod = payrollNextDate('restoration');
-  const consPeriod = payrollNextDate('construction'); // shared by construction + admin
-  document.getElementById('pr-subtitle').textContent =
-    `Restoration next pay date ${fmtDate(restPeriod)} · Construction/Admin next pay date ${fmtDate(consPeriod)}`;
+  populatePayrollDateSelects();
+  const restPeriod = document.getElementById('pr-rest-date').value;
+  const consPeriod = document.getElementById('pr-cons-date').value; // shared by construction + admin
 
   let hoursData = {};
   try {
@@ -1899,20 +1918,26 @@ async function loadPayroll() {
     (data||[]).forEach(r => { hoursData[r.division+'_'+r.employee_name+'_'+r.pay_period_end] = r; });
   } catch(e) { console.error('Payroll load error:', e); }
 
-  window._savePayrollHours = async (division, employee, period, hours) => {
-    const h = parseFloat(hours);
+  // Single field save (hours, profit_share, bonus, or reimbursement) — reads
+  // the existing record so unrelated fields aren't wiped out by this edit.
+  window._savePayrollField = async (division, employee, period, field, value) => {
+    const num = parseFloat(value);
+    const existing = hoursData[division+'_'+employee+'_'+period] || {};
+    const rec = {
+      division, employee_name: employee, pay_period_end: period,
+      hours:         field==='hours'         ? (isNaN(num)?null:num) : (existing.hours ?? null),
+      profit_share:  field==='profit_share'  ? (isNaN(num)?null:num) : (existing.profit_share ?? null),
+      bonus:         field==='bonus'         ? (isNaN(num)?null:num) : (existing.bonus ?? null),
+      reimbursement: field==='reimbursement' ? (isNaN(num)?null:num) : (existing.reimbursement ?? null),
+      status: existing.status||'', comment: existing.comment||'',
+      updated_at: new Date().toISOString()
+    };
     try {
       await db.from('payroll_hours').delete().eq('division',division).eq('employee_name',employee).eq('pay_period_end',period);
-      if (!isNaN(h)) {
-        const existing = hoursData[division+'_'+employee+'_'+period] || {};
-        await db.from('payroll_hours').insert({
-          division, employee_name: employee, pay_period_end: period,
-          hours: h, status: existing.status||'', comment: existing.comment||'',
-          updated_at: new Date().toISOString()
-        });
-      }
+      const hasData = rec.hours!=null || rec.profit_share!=null || rec.bonus!=null || rec.reimbursement!=null || rec.status;
+      if (hasData) await db.from('payroll_hours').insert(rec);
       await loadPayroll();
-    } catch(e) { console.error('Payroll hours save error:', e); }
+    } catch(e) { console.error('Payroll save error:', e); }
   };
 
   window._savePayrollApproval = async (division, employee, period, status) => {
@@ -1921,12 +1946,18 @@ async function loadPayroll() {
       await db.from('payroll_hours').delete().eq('division',division).eq('employee_name',employee).eq('pay_period_end',period);
       await db.from('payroll_hours').insert({
         division, employee_name: employee, pay_period_end: period,
-        hours: existing.hours ?? null, status, comment: existing.comment||'',
+        hours: existing.hours ?? null, profit_share: existing.profit_share ?? null,
+        bonus: existing.bonus ?? null, reimbursement: existing.reimbursement ?? null,
+        status, comment: existing.comment||'',
         updated_at: new Date().toISOString()
       });
       await loadPayroll();
     } catch(e) { console.error('Payroll approval save error:', e); }
   };
+
+  const numInput = (val, onblurExpr) => `<input type="number" step="0.01" value="${val}" placeholder="0"
+      onblur="${onblurExpr}"
+      style="width:78px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
 
   const renderDivision = (divKey, label, icon, period) => {
     const team = PAYROLL_TEAM[divKey];
@@ -1935,14 +1966,15 @@ async function loadPayroll() {
     const rows = team.map(emp => {
       const rec = hoursData[divKey+'_'+emp.name+'_'+period] || {};
       const hours = rec.hours ?? '';
-      const gross = emp.type === 'monthly' ? emp.rate : (hours !== '' ? emp.rate * parseFloat(hours) : 0);
-      divTotal += gross || 0;
-      const rateDisplay = emp.type === 'monthly' ? `${fmt(emp.rate)}/mo` : `${fmt(emp.rate)}/hr`;
+      const profitShare = rec.profit_share ?? '';
+      const bonus = rec.bonus ?? '';
+      const reimbursement = rec.reimbursement ?? '';
+      const basePay = emp.type === 'monthly' ? emp.rate : (hours !== '' ? emp.rate * parseFloat(hours) : 0);
+      const totalPay = basePay + (parseFloat(profitShare)||0) + (parseFloat(bonus)||0) + (parseFloat(reimbursement)||0);
+      divTotal += totalPay || 0;
       const hoursCell = emp.type === 'monthly'
         ? '<span style="color:var(--text-3);">—</span>'
-        : `<input type="number" step="0.25" value="${hours}" placeholder="0"
-             onblur="window._savePayrollHours('${divKey}','${emp.name}','${period}',this.value)"
-             style="width:70px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
+        : numInput(hours, `window._savePayrollField('${divKey}','${emp.name}','${period}','hours',this.value)`);
       let apprCell = '<span style="color:var(--text-3);font-size:11px;">Self-approved</span>';
       if (needsApproval) {
         const st = rec.status || '';
@@ -1957,9 +1989,11 @@ async function loadPayroll() {
       }
       return `<tr>
         <td>${emp.name}</td>
-        <td class="mono right pr-rate-col" style="display:${payRatesVisible?'':'none'};color:var(--text-3);">${rateDisplay}</td>
         <td class="right">${hoursCell}</td>
-        <td class="mono right" style="font-weight:600;">${fmt(gross)}</td>
+        <td class="right">${numInput(profitShare, `window._savePayrollField('${divKey}','${emp.name}','${period}','profit_share',this.value)`)}</td>
+        <td class="right">${numInput(bonus, `window._savePayrollField('${divKey}','${emp.name}','${period}','bonus',this.value)`)}</td>
+        <td class="right">${numInput(reimbursement, `window._savePayrollField('${divKey}','${emp.name}','${period}','reimbursement',this.value)`)}</td>
+        <td class="mono right" style="font-weight:600;">${fmt(totalPay)}</td>
         <td>${apprCell}</td>
       </tr>`;
     }).join('');
@@ -1969,13 +2003,15 @@ async function loadPayroll() {
         <table class="data-table">
           <thead><tr>
             <th>Employee</th>
-            <th style="text-align:right;display:${payRatesVisible?'':'none'};" class="pr-rate-col">Rate</th>
             <th style="text-align:right">Hours</th>
-            <th style="text-align:right">Gross Pay</th>
+            <th style="text-align:right">Profit Share</th>
+            <th style="text-align:right">Bonus</th>
+            <th style="text-align:right">Reimbursement</th>
+            <th style="text-align:right">Total Pay</th>
             <th>${needsApproval ? 'Approval (Jacob)' : 'Approval'}</th>
           </tr></thead>
           <tbody>${rows}</tbody>
-          <tfoot><tr class="total-row"><td colspan="3">Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
+          <tfoot><tr class="total-row"><td colspan="5">Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
         </table>
       </div>`;
   };
