@@ -201,6 +201,7 @@ body {
     <div class="nav-tab" onclick="showPage('payables')">Payables</div>
     <div class="nav-tab" onclick="showPage('cashflow')">Cash Flow</div>
     <div class="nav-tab" onclick="showPage('monthlysnapshot')">Monthly Snapshot</div>
+    <div class="nav-tab" onclick="showPage('payroll')">Payroll</div>
   </div>
 
   <div class="content">
@@ -574,6 +575,20 @@ body {
     </div>
 
   </div>
+</div>
+
+<div class="page" id="page-payroll">
+  <div class="fr-page-header">
+    <div>
+      <div class="page-title">Payroll</div>
+      <div class="fr-page-sub" id="pr-subtitle">Restoration next pay date — · Construction/Admin next pay date —</div>
+    </div>
+    <button id="pr-toggle-rates" onclick="window.togglePayRates()" style="font-size:12px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);cursor:pointer;">Show Pay Rates</button>
+  </div>
+
+  <div id="pr-restoration-section"></div>
+  <div id="pr-admin-section"></div>
+  <div id="pr-construction-section"></div>
 </div>
 
 <style>
@@ -1825,11 +1840,157 @@ function frLoadSummary() {
   }
 }
 
+// ── PAYROLL TAB ──────────────────────────────────────────────────────────────
+// Team roster and rates are config, not Supabase data — same pattern as
+// PAYROLL_SCHEDULES and BUSINESS_EXPENSES above. Only hours/approval per pay
+// period are stored in Supabase (table: payroll_hours).
+const PAYROLL_TEAM = {
+  restoration: [
+    { name: 'Jacob Mercer',       rate: 38.46, type: 'hourly' },
+    { name: 'Jamie Walker',       rate: 30.00, type: 'hourly' },
+    { name: 'Derrek Thibodeux',   rate: 26.00, type: 'hourly' },
+    { name: 'Gabor Sztuska',      rate: 13.50, type: 'hourly' },
+    { name: 'John Smyth',         rate: 38.46, type: 'hourly' },
+    { name: 'Damen Nunez',        rate: 18.00, type: 'hourly' },
+  ],
+  admin: [
+    { name: 'Quena Valenzuela',   rate: 16.00, type: 'hourly' },
+    { name: 'Oziel Molina',       rate: 11.00, type: 'hourly' },
+    { name: 'Brizeida Portillo',  rate: 11.00, type: 'hourly' },
+  ],
+  construction: [
+    { name: 'Gabor Sztuska',      rate: 10.93,   type: 'hourly' },
+    { name: 'John Smyth',         rate: 1923.08, type: 'monthly' },
+  ],
+};
+// Restoration pays on its own biweekly cycle; Admin shares Construction's cycle.
+// Same anchor dates as PAYROLL_SCHEDULES above — kept separate here so changes
+// to the debt-paydown card's schedule never silently affect this tab or vice versa.
+const PAYROLL_TAB_ANCHORS = { restoration: '2026-05-22', construction: '2026-05-29' };
+// Restoration and Admin hours need Jacob's approval before submission;
+// Construction is approved by the CFO directly, no separate approval step.
+const PAYROLL_NEEDS_APPROVAL = { restoration: true, admin: true, construction: false };
+
+function payrollNextDate(anchorKey) {
+  const anchor = PAYROLL_TAB_ANCHORS[anchorKey];
+  const today = new Date(); today.setHours(0,0,0,0);
+  let next = new Date(anchor+'T00:00:00');
+  while (next < today) next.setDate(next.getDate()+14);
+  return next.toISOString().slice(0,10);
+}
+
+let payRatesVisible = false;
+window.togglePayRates = function() {
+  payRatesVisible = !payRatesVisible;
+  document.getElementById('pr-toggle-rates').textContent = payRatesVisible ? 'Hide Pay Rates' : 'Show Pay Rates';
+  document.querySelectorAll('.pr-rate-col').forEach(el => el.style.display = payRatesVisible ? '' : 'none');
+};
+
+async function loadPayroll() {
+  const restPeriod = payrollNextDate('restoration');
+  const consPeriod = payrollNextDate('construction'); // shared by construction + admin
+  document.getElementById('pr-subtitle').textContent =
+    `Restoration next pay date ${fmtDate(restPeriod)} · Construction/Admin next pay date ${fmtDate(consPeriod)}`;
+
+  let hoursData = {};
+  try {
+    const { data } = await db.from('payroll_hours').select('*')
+      .in('pay_period_end', [restPeriod, consPeriod]);
+    (data||[]).forEach(r => { hoursData[r.division+'_'+r.employee_name+'_'+r.pay_period_end] = r; });
+  } catch(e) { console.error('Payroll load error:', e); }
+
+  window._savePayrollHours = async (division, employee, period, hours) => {
+    const h = parseFloat(hours);
+    try {
+      await db.from('payroll_hours').delete().eq('division',division).eq('employee_name',employee).eq('pay_period_end',period);
+      if (!isNaN(h)) {
+        const existing = hoursData[division+'_'+employee+'_'+period] || {};
+        await db.from('payroll_hours').insert({
+          division, employee_name: employee, pay_period_end: period,
+          hours: h, status: existing.status||'', comment: existing.comment||'',
+          updated_at: new Date().toISOString()
+        });
+      }
+      await loadPayroll();
+    } catch(e) { console.error('Payroll hours save error:', e); }
+  };
+
+  window._savePayrollApproval = async (division, employee, period, status) => {
+    const existing = hoursData[division+'_'+employee+'_'+period] || {};
+    try {
+      await db.from('payroll_hours').delete().eq('division',division).eq('employee_name',employee).eq('pay_period_end',period);
+      await db.from('payroll_hours').insert({
+        division, employee_name: employee, pay_period_end: period,
+        hours: existing.hours ?? null, status, comment: existing.comment||'',
+        updated_at: new Date().toISOString()
+      });
+      await loadPayroll();
+    } catch(e) { console.error('Payroll approval save error:', e); }
+  };
+
+  const renderDivision = (divKey, label, icon, period) => {
+    const team = PAYROLL_TEAM[divKey];
+    const needsApproval = PAYROLL_NEEDS_APPROVAL[divKey];
+    let divTotal = 0;
+    const rows = team.map(emp => {
+      const rec = hoursData[divKey+'_'+emp.name+'_'+period] || {};
+      const hours = rec.hours ?? '';
+      const gross = emp.type === 'monthly' ? emp.rate : (hours !== '' ? emp.rate * parseFloat(hours) : 0);
+      divTotal += gross || 0;
+      const rateDisplay = emp.type === 'monthly' ? `${fmt(emp.rate)}/mo` : `${fmt(emp.rate)}/hr`;
+      const hoursCell = emp.type === 'monthly'
+        ? '<span style="color:var(--text-3);">—</span>'
+        : `<input type="number" step="0.25" value="${hours}" placeholder="0"
+             onblur="window._savePayrollHours('${divKey}','${emp.name}','${period}',this.value)"
+             style="width:70px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
+      let apprCell = '<span style="color:var(--text-3);font-size:11px;">Self-approved</span>';
+      if (needsApproval) {
+        const st = rec.status || '';
+        const bc = st==='Approved' ? 'var(--green)' : st==='Hold' ? 'var(--red)' : 'var(--text-3)';
+        const bt = st==='Approved' ? '✓ Approved' : st==='Hold' ? '✗ Hold' : '— Pending';
+        apprCell = `<span style="font-size:11px;font-weight:600;color:${bc};">${bt}</span>
+          <div style="display:flex;gap:4px;margin-top:4px;">
+            <button onclick="window._savePayrollApproval('${divKey}','${emp.name}','${period}','Approved')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;font-weight:600;">✅</button>
+            <button onclick="window._savePayrollApproval('${divKey}','${emp.name}','${period}','Hold')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--red);color:var(--red);background:none;cursor:pointer;font-weight:600;">❌</button>
+            <button onclick="window._savePayrollApproval('${divKey}','${emp.name}','${period}','')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
+          </div>`;
+      }
+      return `<tr>
+        <td>${emp.name}</td>
+        <td class="mono right pr-rate-col" style="display:${payRatesVisible?'':'none'};color:var(--text-3);">${rateDisplay}</td>
+        <td class="right">${hoursCell}</td>
+        <td class="mono right" style="font-weight:600;">${fmt(gross)}</td>
+        <td>${apprCell}</td>
+      </tr>`;
+    }).join('');
+    return `
+      <div class="fr-section-label">${icon} ${label} — ${fmtDate(period)}</div>
+      <div class="card fr-table-card">
+        <table class="data-table">
+          <thead><tr>
+            <th>Employee</th>
+            <th style="text-align:right;display:${payRatesVisible?'':'none'};" class="pr-rate-col">Rate</th>
+            <th style="text-align:right">Hours</th>
+            <th style="text-align:right">Gross Pay</th>
+            <th>${needsApproval ? 'Approval (Jacob)' : 'Approval'}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr class="total-row"><td colspan="3">Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
+        </table>
+      </div>`;
+  };
+
+  document.getElementById('pr-restoration-section').innerHTML = renderDivision('restoration', 'Restoration Payroll', '🏠', restPeriod);
+  document.getElementById('pr-admin-section').innerHTML      = renderDivision('admin', 'Admin Payroll', '📋', consPeriod);
+  document.getElementById('pr-construction-section').innerHTML = renderDivision('construction', 'Construction Payroll', '🔧', consPeriod);
+}
+
 // Hook into showPage to lazy-load on first visit
 const _origShowPage = showPage;
 window.showPage = function(name) {
   _origShowPage(name);
   if (name === 'monthlysnapshot' && !frData.construction) loadMonthlySnapshot();
+  if (name === 'payroll') loadPayroll();
 };
 
 </script>
