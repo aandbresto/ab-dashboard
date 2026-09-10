@@ -661,7 +661,7 @@
         "job_total": 2800.0,
         "due_date": "2026-09-13",
         "comments": null,
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "improvement"
       },
       {
@@ -831,7 +831,7 @@
         "job_total": 8244.72,
         "due_date": "2026-08-23",
         "comments": "Client processed claim with insurance, we are working on payment",
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -845,7 +845,7 @@
         "job_total": 5788.21,
         "due_date": "2026-09-13",
         "comments": null,
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -873,7 +873,7 @@
         "job_total": 4529.8,
         "due_date": "2026-09-11",
         "comments": null,
-        "pay_friday": "No",
+        "pay_friday": "Yes",
         "division": "restoration"
       },
       {
@@ -1030,18 +1030,13 @@
   "brief": [
     {
       "icon": "\u2705",
-      "category": "DEBT PAYDOWN RECOMMENDATION \u2014 BOTH POSITIVE",
-      "message": "Improvement: no payroll due this window (next 9/18). $28,417.67 cash vs. $21,388.14 obligations (Friday AP $9,460.14 with Kingdom cap applied, biz expenses $1,928.00 [IFPS, due 9/13], $10K reserve) = $7,029.53 available. Restoration: 9/11 payroll is 1 day out, firm. $62,637.51 cash vs. $32,759.00 obligations (payroll $15,500, Friday AP $5,020.00, biz expenses $239.00, $12K reserve) = $29,878.51 available. Both recommended: Cap One Construction ($15,186.80) and Cap One Restoration ($27,762.10) remain the priority targets."
+      "category": "AP \u2014 FRIDAY FLAGS UPDATED",
+      "message": "Four invoices newly marked Friday-Yes: DE Home Solutions #261 ($1,750, Improvement), ECO Mold Testing #10914 ($625), Amir Shoufany #95 ($150), and DE Home Solutions #262 ($452, all Restoration). Improvement Friday queue up to $34,348.14 (Kingdom-capped: $11,210.14). Restoration Friday queue up to $6,247.00."
     },
     {
-      "icon": "\ud83d\udd27",
-      "category": "AR",
-      "message": "Improvement AR down to $7,136.75 (-$1,099.34, two Taylor Morrison invoices collected). Restoration AR unchanged in total."
-    },
-    {
-      "icon": "\u26a0\ufe0f",
-      "category": "CREDIT",
-      "message": "Cap One Construction up to 33.7% ($15,186.80 / $45K) and Cap One Restoration up to 73.1% ($27,762.10 / $38K) \u2014 both driven by a $3,182.70 tax return preparation charge (REA) split across the two cards, $3,182.70 each. Total credit debt $89,660.20."
+      "icon": "\u2705",
+      "category": "DEBT PAYDOWN RECOMMENDATION \u2014 UPDATED, BOTH STILL POSITIVE",
+      "message": "Improvement: $28,417.67 cash vs. $23,138.14 obligations (Friday AP $11,210.14 with Kingdom cap applied, biz expenses $1,928.00 [IFPS, due 9/13], $10K reserve) = $5,279.53 available. Restoration: 9/11 payroll firm. $62,637.51 cash vs. $33,986.00 obligations (payroll $15,500, Friday AP $6,247.00, biz expenses $239.00, $12K reserve) = $28,651.51 available. Both still recommended, though the additional Friday-marked items narrowed the room compared to this morning's report."
     }
   ]
 }
