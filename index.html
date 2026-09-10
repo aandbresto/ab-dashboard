@@ -1973,9 +1973,23 @@ async function loadPayroll() {
       onblur="${onblurExpr}"
       style="width:78px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
 
+  // ── STANDING INSTRUCTION ──────────────────────────────────────────────
+  // Any tax rate, burden %, or other calculated/estimated figure below must
+  // be validated against a real source document (PEO invoice, wage register,
+  // WC report) before being used -- not assumed from general knowledge. The
+  // 8% employer tax rate below was corrected once already after being wrongly
+  // set to include the employee's own federal withholding (16.65%), which is
+  // never an employer cost. The user will not be supplying documents to verify
+  // future changes to these figures, so any new or adjusted rate must be
+  // clearly labeled as an approximation in the UI (e.g. "Approximate...")
+  // rather than presented as precise.
   const RESTORATION_FICA_RATE = 0.0765; // 6.2% Social Security + 1.45% Medicare, fixed
-  const RESTORATION_FED_WITHHOLDING_ESTIMATE = 0.09; // rough blended estimate; actual varies by each employee's W-4
-  const RESTORATION_TAX_RATE = RESTORATION_FICA_RATE + RESTORATION_FED_WITHHOLDING_ESTIMATE;
+  // Employer's actual additional tax cost is FICA match (7.65%) plus a small amount
+  // of FUTA/SUTA -- validated against the 08/28/2026 PEO invoice, which showed
+  // $909.19 employer tax on $11,407.88 gross wages (7.97%). Federal income tax
+  // withholding is NOT included here: it's withheld from the employee's own gross
+  // pay, not an additional cost to the company.
+  const RESTORATION_EMPLOYER_TAX_RATE = 0.08; // FICA match + estimated FUTA/SUTA
   const RESTORATION_HEALTH_BENEFITS = 425.04; // flat employer cost per pay period
 
   const renderDivision = (divKey, label, icon, period) => {
@@ -2036,10 +2050,10 @@ async function loadPayroll() {
         <td>${apprCell}</td>
       </tr>`;
     }).join('');
-    const divTaxes = showExtras ? divTotal * RESTORATION_TAX_RATE : 0;
+    const divTaxes = showExtras ? divTotal * RESTORATION_EMPLOYER_TAX_RATE : 0;
     const footerRows = showExtras
       ? `<tr class="total-row"><td colspan="8">Gross Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr>
-         <tr class="total-row"><td colspan="8">+ Approximate Tax Amount (FICA + est. federal withholding)</td><td class="mono right">${fmt(divTaxes)}</td><td></td></tr>
+         <tr class="total-row"><td colspan="8">+ Approximate Employer Tax Cost (FICA match + FUTA/SUTA)</td><td class="mono right">${fmt(divTaxes)}</td><td></td></tr>
          <tr class="total-row"><td colspan="8">+ Health Benefits (employer cost)</td><td class="mono right">${fmt(RESTORATION_HEALTH_BENEFITS)}</td><td></td></tr>
          <tr class="total-row" style="font-weight:700;"><td colspan="8">= Total Payroll Cost</td><td class="mono right">${fmt(divTotal + divTaxes + RESTORATION_HEALTH_BENEFITS)}</td><td></td></tr>`
       : `<tr class="total-row"><td colspan="8">${divKey === 'admin' ? 'Total' : 'Gross Total'} — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr>`;
