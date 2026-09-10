@@ -1,257 +1,203 @@
-# REV / A&B Dashboard — Claude Context File
-> Paste the raw URL of this file at the start of every new chat to restore full project context instantly.
-
----
+# CLAUDE_CONTEXT.md — Above & Beyond CFO Dashboard
 
 ## Project Overview
-Daily financial dashboard for **REV Construction & Restoration** (two divisions: Improvement and Restoration).
-Every morning a CFO master workbook is uploaded, parsed into `daily_data.json`, pushed to Supabase, and displayed on a GitHub Pages dashboard.
+Daily financial dashboard for Above & Beyond, two divisions:
+- **Restoration (ABPR)** — Above & Beyond Property Restoration
+- **Improvement/Construction (ABPI)** — Above & Beyond Property Improvement
 
----
-
-## URLs
 - **Dashboard**: https://aandbresto.github.io/ab-dashboard/
-- **GitHub Repo**: https://github.com/aandbresto/ab-dashboard
-- **Supabase Project**: https://svbmgueornewnasixpnh.supabase.co
-- **Supabase Publishable Key**: `sb_publishable_kdp8f09n4MJKzoQS6amd0A_rVJPnXxf`
+- **Repo**: https://github.com/aandbresto/ab-dashboard
+- **Supabase**: https://svbmgueornewnasixpnh.supabase.co
+
+## Pipeline
+`CFO_Master_Workbook.xlsx` → Claude parses → `data/daily_data.json` → GitHub commit →
+Action runs `scripts/push_to_supabase.py` → Supabase → live dashboard.
+
+To trigger a re-push without new data, make any small edit to `data/daily_data.json`
+(e.g. add/remove a blank line at the end) and commit — the workflow fires on any
+change to that file.
 
 ---
 
-## Repo Structure
-```
-ab-dashboard/
-├── index.html                  # Full dashboard frontend (single file)
-├── data/
-│   └── daily_data.json         # Generated daily from workbook, triggers Action
-├── scripts/
-│   └── push_to_supabase.py     # Parses daily_data.json → inserts into Supabase
-└── .github/workflows/
-    └── upload.yml              # Triggers on data/daily_data.json push
-```
+## Critical Parser Rules (Always Apply)
+- **AR totals**: ALWAYS sum from individual invoice rows, never trust the workbook's
+  own formula cell for the total (it has been wrong/stale before).
+- **AP totals**: same — sum from individual rows. The workbook's own AP summary cell
+  has previously gone stale after a new row was added outside its SUM range; if the
+  parsed sum doesn't match the workbook's displayed cell, flag it, don't silently trust
+  either one blindly.
+- **Net availability formula**: Cash + AR − AP − Credit Debt, then apply the standing
+  exclusion below.
+
+## Standing Exclusions — apply the math, but NEVER name them in the daily brief
+The user has explicitly asked that these adjustments not be called out by name or
+description in the brief — just show the resulting numbers plainly. If asked directly
+"where did this number come from," explain fully; otherwise stay silent about it.
+
+1. **Yvonne Badger, invoice #4120** (~$4,764.45, Restoration AR, in collections,
+   attorneys reviewing bankruptcy claim): ALWAYS included in AR totals and the AR
+   items list. ALWAYS excluded from net_cash_availability. Formula:
+   `adjusted_net = standard_net − 4764.45`.
+2. **Kingdom Restoration, invoice #299-1** (~$25,138, Improvement AP): on a
+   confirmed **$2,000/month payment plan**. Stays in the AP tracker and Total AP
+   at full balance. In the Debt Paydown Recommendation's Friday-AP obligation
+   calculation only, this invoice is capped at $2,000 (or its remaining balance if
+   under $2,000) instead of its full amount — implemented in `index.html` as
+   `obligationAmount()` inside the debt paydown script block.
+
+**General rule going forward**: don't mention *any* cap, adjustment, or exclusion
+mechanism in the brief — not even in generic/unnamed form (e.g. don't say "one
+invoice is capped"). Just show the final numbers. If the user asks where a number
+came from, show the full math on request.
 
 ---
 
-## Daily Workflow
-1. User uploads `CFO_Master_Workbook.xlsx` to Claude
-2. Claude runs the parser (Python) → generates `data/daily_data.json`
-3. User commits `daily_data.json` to GitHub repo under `data/`
-4. GitHub Action triggers automatically → runs `scripts/push_to_supabase.py`
-5. Dashboard at GitHub Pages reads from Supabase and displays data
+## Debt Paydown Recommendation Logic
+- **Lookahead window**: 7 days (reverted from an earlier 14-day version — the
+  14-day window held cash in reserve for obligations more than a week out even when
+  there was real room to pay down debt sooner; reverted per explicit decision).
+  Only payroll and business expenses due within 7 days count as obligations —
+  something 8-14 days out is invisible to this calculation, so glance at what's
+  coming up manually before recommending a large paydown right before a payroll date.
+- **AP obligation**: Friday-marked (`pay_friday='Yes'`) invoices, with the Kingdom
+  cap applied as above.
+- Reserves: Construction $10,000 · Restoration $12,000.
+- Priority for recommended paydowns: Cap One credit cards first (~24.49% APR),
+  then LOCs (~8.75% APR).
 
-**To trigger the Action manually**: Edit `data/daily_data.json` → change `generated_at` timestamp by 1 second → commit
+## Payroll Schedule Anchors (biweekly)
+- **Restoration**: anchor `2026-05-22`
+- **Admin + Construction** (shared cycle): anchor `2026-05-29`
+- Confirmed by the user: Restoration pays on its own date; Admin shares
+  Construction's date, not Restoration's.
 
----
-
-## Parser — Critical Rules
-
-### AR Totals — ALWAYS sum from individual rows
-⚠️ **NEVER trust the workbook formula cell for AR totals.** The workbook formula has a hardcoded range that misses new rows. Always calculate:
-```python
-rest_ar_total = sum(r.get('balance', 0) or 0 for r in rest_ar)
-impr_ar_total = sum(r.get('balance', 0) or 0 for r in impr_ar)
-total_ar = rest_ar_total + impr_ar_total
-```
-Then override the cash_position totals:
-```python
-cash_position['combined']['total_ar'] = total_ar
-cash_position['restoration']['accounts_receivable'] = rest_ar_total
-cash_position['improvement']['accounts_receivable'] = impr_ar_total
-```
-
-### Net Availability — Recalculate always
-```python
-net = total_cash + total_ar - total_ap - credit_debt
-cash_position['combined']['net_cash_availability'] = net
-```
-Formula: **Cash + AR - AP - Credit Debt** (credit debt = CC balances + LOC balances)
-
-### Overdue Days — Calculate from due_date vs today
-```python
-def calc_overdue(due_date_str):
-    due = datetime.strptime(due_date_str, '%Y-%m-%d')
-    return (today_dt - due).days  # positive = overdue, negative = current
-```
-Positive = overdue, negative = days until due.
+## AP Workbook Column Mapping
+- Improvement AP: `col_offset=1` — inv_date, vendor, invoice_num, amount, billed,
+  profit_pct, approval_status, job_total, due_date, comments (col 10), pay_friday (col 11)
+- Restoration AP: `col_offset=13` (shifted from 12 after Comments column was added)
+- Same field order both divisions.
 
 ---
 
-## Workbook Parser — Column Mappings
+## Dashboard Tabs
+Overview, Cash Position, Transactions, Receivables, Payables, Cash Flow, Monthly
+Snapshot, Payroll. **Profit Share tab was built then removed** (see below) — do not
+re-add unless asked.
 
-### Sheet: `💳 Daily Transactions`
-| Section Row | Account Name | Division |
-|-------------|-------------|----------|
-| 8  | Capital One – Construction (2897) | improvement |
-| 32 | Construction Checking – 2657 | improvement |
-| 56 | Construction MM – 2690 | improvement |
-| 81 | Capital One – Restoration | restoration |
-| 105 | Restoration Checking – 7363 | restoration |
-| 129 | Restoration MM – 2798 | restoration |
+### Payroll Tab
+- Team roster and pay rates are hardcoded config (`PAYROLL_TEAM` in `index.html`),
+  not Supabase data. Only hours/pay entries per pay period are stored, in table
+  `payroll_hours` (columns: `pay_period_end, division, employee_name, hours,
+  ot_hours, sick_hours, holiday_hours, profit_share, bonus, reimbursement, status,
+  comment`).
+- **Restoration team**: Jacob Mercer ($38.46/hr), Jamie Walker ($30/hr), Derrek
+  Thibodeaux ($26/hr), Gabor Sztuska ($13.50/hr), John Smyth ($38.46/hr), Damen
+  Nunez ($18/hr).
+- **Admin team**: Quena Valenzuela ($16/hr), Oziel Molina ($11/hr), Brizeida
+  Portillo ($11/hr).
+- **Construction team**: Gabor Sztuska ($10.93/hr), John Smyth ($1,923.08/month,
+  flat — not hourly).
+- **Pay rates are never displayed anywhere in this tab** — no toggle exists to
+  reveal them; only computed pay amounts show. This was an explicit request.
+- **Approval workflow**: same ✅❌↺ button pattern as the Friday AP approvals.
+  Restoration and Admin are approved by **Jacob**. Construction is self-approved
+  by the CFO (label just says "Approval", no name).
+- **Profit Share column**: only editable on specific whitelisted pay dates
+  (`PROFIT_SHARE_DATES` — currently `2026-09-25` for Restoration's cycle and
+  `2026-09-18` for the Construction/Admin cycle), since biweekly periods don't
+  align to calendar quarters. Every other period shows "Not this period." New
+  quarterly dates must be added manually as they're confirmed — no formula
+  auto-generates them.
+- **Fields**: Hours, OT (1.5x), Sick, Holiday, Profit Share, Bonus, Reimbursement,
+  Gross Pay (Admin still says "Total Pay" — the only division where taxes aren't
+  broken out).
+- **Restoration-only footer additions** (validated against real PEO invoices —
+  see Validation section below):
+  - **+ Approximate Employer Tax Cost**: 8% of gross (FICA match ~7.65% + small
+    FUTA/SUTA cushion). This is the employer's own tax cost — explicitly NOT the
+    employee's federal income tax withholding, which comes out of the employee's
+    own gross pay and is never an added company cost. (This was corrected once
+    already after being wrongly built to include employee withholding.)
+  - **+ Approximate Administrative Fee**: 3.14% of gross (PEO service fee)
+  - **+ Approximate Workers' Compensation**: 3.5% of gross
+  - **+ Health Benefits**: flat $425.04 per pay period (covers 3 enrolled people
+    at $141.68 each: Jacob Mercer, Derrek Thibodeaux, Jamie Walker)
+  - **= Total Payroll Cost**: sum of all the above
+  - All of these are per-period, computed off that period's gross total — NOT
+    per-employee columns. Admin and Construction tables are untouched by any of
+    this (no tax/fee/WC/health rows there).
+- No number input spinner arrows anywhere in this tab (`.pr-num-input` CSS removes
+  them) — user finds them distracting, types values directly.
 
-Header rows (skipped): 9, 33, 57, 82, 106, 130
-Columns (0-indexed): `col[1]=trans_date, col[2]=posted_date, col[3]=card_desc, col[4]=vendor, col[5]=amount, col[6]=explanation, col[7]=approved_by, col[8]=txn_type`
+### Removed: Profit Share Tab
+Was built as a standalone tab (reclassified P&L, pool calculation, per-employee
+allocation table) but **removed from the live dashboard** — the user decided it was
+too much detail to expose to the team directly on a shared dashboard. Instead, a
+one-off PDF report is generated per period and shared manually (see below). The nav
+tab, page div, and all associated JS (`loadProfitShare`, `PROFIT_SHARE_ALLOCATION`,
+`PROFIT_SHARE_POOL_PCTS`, `PROFIT_SHARE_POOL_RATE`, `PROFIT_SHARE_SHOW_AMOUNTS`) were
+deleted from `index.html`. **`PROFIT_SHARE_DATES` was kept** — it's shared with the
+Payroll tab's profit-share column feature and must not be removed.
 
-### Sheet: `📥 AR Tracker`
-- **Improvement AR**: offset col 1 → `invoice_num, client_job, balance, invoice_date, due_date, days_out, expected_payment, last_update`
-- **Restoration AR**: offset col 10 → same fields
-- Data rows: 8 to end. Skip null/`'Invoice #'`/`'TOTAL'`
-
-### Sheet: `📤 AP Tracker`
-- **Improvement AP**: offset col 1 → `inv_date, vendor, invoice_num, amount, billed, profit_pct, approval_status, job_total, due_date, pay_friday`
-- **Restoration AP**: offset col 12 → same fields
-
-### Sheet: `💰 Cash Position`
-Column index 2, rows 0-indexed:
-```
-row[6]=impr QB bank, row[7]=impr bank 2657, row[8]=impr MM 2690, row[9]=impr total cash
-row[10]=impr AR (DO NOT USE — sum from rows instead)
-row[11]=impr Cap One CC, row[12]=impr LOC 3705, row[13]=impr AP, row[15]=impr net total
-row[18]=rest QB bank, row[19]=rest bank 7363, row[20]=rest MM 2798, row[21]=rest total cash
-row[22]=rest AR (DO NOT USE — sum from rows instead)
-row[23]=rest LOC 5064, row[24]=rest Cap One CC, row[25]=rest AP, row[27]=rest net total
-row[30]=combined total cash, row[31]=combined total AR (override with summed value)
-row[32]=combined total AP, row[33]=combined credit debt, row[34]=combined net availability (override)
-```
-
----
-
-## Supabase Tables & Exact Column Names
-
-### `daily_snapshots`
-```
-report_date, impr_qb_bank, impr_bank_2657, impr_mm_2690, impr_cash,
-impr_ar, impr_ap, impr_net, rest_qb_bank, rest_bank_7363, rest_mm_2798,
-rest_cash, rest_ar, rest_ap, rest_net, cap_one_construction, loc_3705,
-loc_5064, cap_one_restoration, total_cash, total_ar, total_ap,
-credit_debt, net_availability, created_at
-```
-
-### `ar_items`
-```
-report_date, client, balance, invoice_date, due_date,
-days_outstanding (INTEGER — cast float to int),
-expected_payment_date, notes, invoice_number, division, created_at
-```
-
-### `ap_items`
-```
-report_date, invoice_date, vendor, invoice_number, amount,
-billed_to_client, profit_pct, notes, job_total, due_date,
-pay_friday, division, created_at
-```
-
-### `transactions`
-```
-report_date, account_type, division, card_no, vendor, amount,
-explanation, approved_by, txn_type, account, created_at
-```
-- `account_type`: `"credit_card"` or `"bank"`
-- `card_no` maps from JSON field `card_desc`
-
-### `daily_briefs`
-```
-report_date, brief (JSON array of {icon, category, message})
-```
-
-### `monthly_reports`
-```
-report_month, division, revenue, gross_profit, net_profit,
-payroll, total_expenses, monthly_actual, target,
-services (jsonb array), metrics (jsonb array), prior_year (jsonb), summary
-```
-- `services`: `[{"name":"Water Damage","val":107509.22}, ...]`
-- `metrics`: `[{"label":"Gross Profit %","v26":"85.14%","dir":"up_good"}, ...]`
-- `prior_year`: `{"revenue":340908,"gross_profit":286908,...,"services":[...],"metrics":[...]}`
+The Supabase table `profit_share_periods` still exists with historical data but
+nothing on the live dashboard reads from it anymore.
 
 ---
 
-## Debt Paydown Recommendation Card
-Built into `index.html` Overview tab. Calculates per division:
-
-**Inputs used:**
-- Cash in bank (per division)
-- Payroll due within 7 days (from `PAYROLL_SCHEDULES`)
-- Friday AP only — invoices marked `pay_friday = 'Yes'` in AP tracker (NOT weekly AP due dates)
-- Business expenses due within 7 days (from `BUSINESS_EXPENSES` in index.html)
-- Reserve: Construction $10,000 / Restoration $12,000
-
-**Priority:** Credit cards first (24.49% APR), then LOCs (8.75% APR)
-
-**Important:** Only Friday-marked AP is included. Unmarked AP invoices are excluded even if due date falls within the week — the user controls what gets paid each week by marking Friday.
-
----
-
-## Payroll Schedule (in index.html `PAYROLL_SCHEDULES`)
-Current as of June 2026:
-- **Improvement Payroll**: lastPaid `2026-05-29`, estAmount `$3,500`, division `improvement`
-- **Admin Payroll**: lastPaid `2026-05-29`, estAmount `$3,500`, division `admin`
-- **Restoration Payroll**: lastPaid `2026-06-05`, estAmount `$15,500`, division `restoration`
-
-Admin payroll goes entirely to Construction (not split). Payroll is biweekly (every 14 days).
+## Profit Share Program (for manual report generation, not on dashboard)
+- **Pool**: 12% of reclassified Net Income for the period.
+- **Reclassification concept**: field labor + field payroll taxes + workers' comp +
+  field health benefits move from OpEx into COGS (they're direct cost of doing the
+  work, not overhead) — Net Income is unchanged either way, only the margin
+  presentation changes.
+- **Field team** (for COGS reclassification, confirmed by the user): Derrek
+  Thibodeaux, Jamie Walker, Damen Nunes. Validated by matching their combined
+  employer-side FICA tax exactly against the P&L's "Employer Taxes - Field" line.
+- **Allocation** (individual % is of the TOTAL pool, not of the sub-pool):
+  - **Leadership (70%)**: Jacob Mercer 50%, Quena Valenzuela 20%
+  - **Operations (15%)**: Briz Portillo 7.5%, Oziel Molina 7.5%
+  - **Production (15%)**: Jaime Walker 9%, Derrek Thibodeaux 6%
+- **Most recently validated period** (June 1 – August 31, 2026): Revenue
+  $287,128.02, reclassified labor burden $43,193.86, reclassified Gross Profit
+  $189,486.23 (66.0% margin vs. 81.0% unreclassified), Net Income $67,106.88, Pool
+  $8,052.83.
+- **Report style**: two-page PDF, no em dashes anywhere, title format "[Month
+  range] Profit Report" (never "Q3" or quarter abbreviations), navy/green color
+  scheme, team-facing appreciative tone. Generated fresh each period on request —
+  this is a separate deliverable from the dashboard, not built into it.
 
 ---
 
-## Interest Rates
-- **Capital One CC (both divisions)**: 24.49% APR
-- **LOC 3705 (Construction)**: 8.75% APR
-- **LOC 5064 (Restoration)**: 8.75% APR
+## Data Validation Standards (explicit standing instruction)
+Any tax rate, burden %, or other calculated/estimated figure added to the dashboard
+must be validated against real source documents (PEO invoices, wage registers, WC
+reports) before use — cross-check against at least two independent periods where
+possible, not a single data point. The user will not always be supplying fresh
+documents for every future change, so:
+- If validating documents are available, use them and show the math.
+- If not, still label the figure clearly as "Approximate" in the UI — never present
+  an unvalidated estimate with the same confidence as a validated one.
+- This rule was added after a real error: employer payroll tax was initially
+  overstated by including the employee's own federal income tax withholding, which
+  is never an actual employer cost.
 
----
+## Daily Report Process
+- Parse AR/AP/transactions/cash position from the uploaded workbook, cross-check
+  every subtotal against the workbook's own cells.
+- Diff against the previous day's saved `daily_data.json` to identify what
+  actually changed (new/removed AR & AP items, Friday-flag changes, notes-only
+  refreshes) — don't just restate the whole tracker every day.
+- Where possible, confirm AR collections and AP payments against the
+  Transactions tab entries for that day.
+- Keep the brief concise — don't narrate things that don't need mentioning
+  (routine confirmations, unchanged totals) and don't repeat the standing
+  exclusions (see above).
+- Yvonne Badger and Kingdom mentions: never in the brief (see Standing Exclusions).
 
-## Monthly Financial Report Workflow
-1. Download QB P&L for both divisions (Jan 1 through last day of month, YTD with prior year comparison)
-2. Upload PDFs to Claude — ask to build the monthly snapshot
-3. Provide monthly actuals (single-month revenue for Construction and Restoration)
-4. Claude generates SQL — paste directly into Supabase SQL Editor
-5. Dashboard Monthly Snapshot tab updates automatically
-
-**Monthly actuals loaded (as of June 2026):**
-| Month | Division | Monthly Actual |
-|-------|----------|----------------|
-| Jan 2026 | construction | $8,525.20 |
-| Jan 2026 | restoration | $100,278.08 |
-| Feb 2026 | construction | $35,085.75 |
-| Feb 2026 | restoration | $50,105.28 |
-| Mar 2026 | construction | $33,044.48 |
-| Mar 2026 | restoration | $54,257.37 |
-| Apr 2026 | construction | $72,502.84 |
-| Apr 2026 | restoration | $69,983.30 |
-| May 2026 | construction | $28,608.93 |
-| May 2026 | restoration | $92,248.15 |
-
----
-
-## Known Bugs Fixed (do not reintroduce)
-1. `payload["report_date"]` → must be `payload["date"]`
-2. `card_desc` → maps to `card_no` in Supabase
-3. `days_outstanding` float → cast to int
-4. Em dash in account names → use substring number matching
-5. `.execute()` calls → not needed in Supabase JS v2
-6. `window._saveAppr` alias needed
-7. Comment `if (status)` → must be `if (status || comment)`
-8. Monthly report date matching → use `_month = (r.report_month||'').slice(0,10)`
-9. services/metrics stored as JSONB arrays not objects
-10. Sales Discounts excluded from service charts
-11. txn_type null handling: `txn_type_raw.capitalize() if txn_type_raw else None`
-12. AR totals → ALWAYS sum from individual rows, never trust workbook formula cell
-13. Net availability → always recalculate: Cash + AR - AP - Credit Debt
-14. Debt rec card must be inside `page-overview` div or it shows on all tabs
-
----
-
-## index.html — Current State
-The dashboard has these tabs: Overview, Cash Position, Transactions, Receivables, Payables, Cash Flow, Monthly Snapshot.
-
-**Overview tab extras:**
-- CFO Daily Brief card
-- 💳 Debt Paydown Recommendation card (inside page-overview div)
-
-**Do NOT modify index.html unless fixing bugs.** Always start from the current GitHub version when making changes.
-
----
-
-## How to Start a New Chat
-1. Open a new Claude chat
-2. Paste: `https://raw.githubusercontent.com/aandbresto/ab-dashboard/refs/heads/main/CLAUDE_CONTEXT.md`
-3. Upload workbook for daily JSON, or P&L PDFs for monthly report
-4. Claude always uses today's actual date as report_date
-5. Claude always sums AR from individual rows — never trusts workbook formula cell
+## Known Historical Fixes (context only, already resolved)
+- A backfilled AP invoice (ECO Mold Testing #9700, $625, Restoration) was missing
+  from the tracker from 07/29/2026 onward and was backfilled into every historical
+  `daily_snapshots`/`ap_items` row in that range once discovered.
+- A duplicate daily report existed briefly under the wrong date (2026-09-05 instead
+  of 2026-09-08) due to a mislabeling error — the duplicate row was deleted, correct
+  data preserved under 09-08.
