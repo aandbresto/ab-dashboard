@@ -1973,13 +1973,19 @@ async function loadPayroll() {
       onblur="${onblurExpr}"
       style="width:78px;font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);text-align:right;">`;
 
+  const RESTORATION_FICA_RATE = 0.0765; // 6.2% Social Security + 1.45% Medicare
+  const RESTORATION_HEALTH_BENEFITS = 425.04; // flat employer cost per pay period
+
   const renderDivision = (divKey, label, icon, period) => {
     const team = PAYROLL_TEAM[divKey];
     const needsApproval = PAYROLL_NEEDS_APPROVAL[divKey];
     const profitShareCycle = divKey === 'restoration' ? 'restoration' : 'construction';
     const profitShareEligible = PROFIT_SHARE_DATES[profitShareCycle].includes(period);
     const payLabel = divKey === 'admin' ? 'Total Pay' : 'Gross Pay';
+    const showTaxes = divKey === 'restoration';
     let divTotal = 0;
+    let divTaxes = 0;
+    let divNet = 0;
     const rows = team.map(emp => {
       const rec = hoursData[divKey+'_'+emp.name+'_'+period] || {};
       const hours = rec.hours ?? '';
@@ -1995,6 +2001,10 @@ async function loadPayroll() {
       const holidayPay  = emp.type === 'monthly' ? 0 : (holidayHours !== '' ? emp.rate * parseFloat(holidayHours) : 0);
       const totalPay = basePay + otPay + sickPay + holidayPay + (parseFloat(profitShare)||0) + (parseFloat(bonus)||0) + (parseFloat(reimbursement)||0);
       divTotal += totalPay || 0;
+      const taxes = showTaxes ? totalPay * RESTORATION_FICA_RATE : 0;
+      const netPay = totalPay - taxes;
+      divTaxes += taxes;
+      divNet += netPay;
       const hourlyOnly = (val, field) => emp.type === 'monthly'
         ? '<span style="color:var(--text-3);">—</span>'
         : numInput(val, `window._savePayrollField('${divKey}','${emp.name}','${period}','${field}',this.value)`);
@@ -2017,6 +2027,9 @@ async function loadPayroll() {
             <button onclick="window._savePayrollApproval('${divKey}','${emp.name}','${period}','')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
           </div>`;
       }
+      const taxCells = showTaxes
+        ? `<td class="mono right" style="color:var(--text-3);">${fmt(taxes)}</td><td class="mono right" style="font-weight:600;">${fmt(netPay)}</td>`
+        : '';
       return `<tr>
         <td>${emp.name}</td>
         <td class="right">${hoursCell}</td>
@@ -2027,9 +2040,19 @@ async function loadPayroll() {
         <td class="right">${numInput(bonus, `window._savePayrollField('${divKey}','${emp.name}','${period}','bonus',this.value)`)}</td>
         <td class="right">${numInput(reimbursement, `window._savePayrollField('${divKey}','${emp.name}','${period}','reimbursement',this.value)`)}</td>
         <td class="mono right" style="font-weight:600;">${fmt(totalPay)}</td>
+        ${taxCells}
         <td>${apprCell}</td>
       </tr>`;
     }).join('');
+    const taxHeaderCells = showTaxes
+      ? `<th style="text-align:right">Taxes (7.65%)</th><th style="text-align:right">Net Pay</th>`
+      : '';
+    const colspanBase = showTaxes ? 10 : 8;
+    const footerRows = showTaxes
+      ? `<tr class="total-row"><td colspan="${colspanBase}">Gross Total — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td class="mono right">${fmt(divTaxes)}</td><td class="mono right">${fmt(divNet)}</td><td></td></tr>
+         <tr class="total-row"><td colspan="${colspanBase+2}">+ Health Benefits (employer cost)</td><td class="mono right">${fmt(RESTORATION_HEALTH_BENEFITS)}</td><td></td></tr>
+         <tr class="total-row" style="font-weight:700;"><td colspan="${colspanBase+2}">= Total Payroll Cost</td><td class="mono right">${fmt(divTotal + RESTORATION_HEALTH_BENEFITS)}</td><td></td></tr>`
+      : `<tr class="total-row"><td colspan="${colspanBase}">${divKey === 'admin' ? 'Total' : 'Gross Total'} — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr>`;
     return `
       <div class="fr-section-label">${icon} ${label} — ${fmtDate(period)}${profitShareEligible ? ' · Profit share period' : ''}</div>
       <div class="card fr-table-card">
@@ -2044,10 +2067,11 @@ async function loadPayroll() {
             <th style="text-align:right">Bonus</th>
             <th style="text-align:right">Reimbursement</th>
             <th style="text-align:right">${payLabel}</th>
+            ${taxHeaderCells}
             <th>${PAYROLL_APPROVER[divKey] ? 'Approval (' + PAYROLL_APPROVER[divKey] + ')' : 'Approval'}</th>
           </tr></thead>
           <tbody>${rows}</tbody>
-          <tfoot><tr class="total-row"><td colspan="8">${divKey === 'admin' ? 'Total' : 'Gross Total'} — ${label}</td><td class="mono right">${fmt(divTotal)}</td><td></td></tr></tfoot>
+          <tfoot>${footerRows}</tfoot>
         </table>
       </div>`;
   };
