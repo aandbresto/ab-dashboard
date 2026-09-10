@@ -52,7 +52,7 @@
         "due_date": "2026-09-16",
         "days_out": 24,
         "expected_payment": "2026-09-16",
-        "last_update": "09/02 - RT Moore is requesting an exclusion removed from our General Liability, Quena working with Adam to have carrier remove it.",
+        "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "improvement"
       },
       {
@@ -119,8 +119,8 @@
         "invoice_date": "2025-12-16",
         "due_date": "2026-01-15",
         "days_out": 268,
-        "expected_payment": null,
-        "last_update": "08/27 - Breakdown sent to Gia per her request",
+        "expected_payment": "2026-09-27",
+        "last_update": "08/27 - Invoices submitted for payment",
         "division": "restoration"
       },
       {
@@ -130,7 +130,7 @@
         "invoice_date": "2026-03-31",
         "due_date": "2026-04-30",
         "days_out": 163,
-        "expected_payment": null,
+        "expected_payment": "2026-09-27",
         "last_update": "08/27 - Breakdown sent to Gia per her request",
         "division": "restoration"
       },
@@ -141,7 +141,7 @@
         "invoice_date": "2026-04-30",
         "due_date": "2026-05-30",
         "days_out": 133,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-20",
         "last_update": "09/01 - Cabinets installation scheduled for 09/09",
         "division": "restoration"
       },
@@ -152,7 +152,7 @@
         "invoice_date": "2026-06-05",
         "due_date": "2026-06-05",
         "days_out": 97,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-20",
         "last_update": "09/01 - Cabinets installation scheduled for 09/09",
         "division": "restoration"
       },
@@ -174,7 +174,7 @@
         "invoice_date": "2026-07-14",
         "due_date": "2026-08-13",
         "days_out": 58,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-20",
         "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "restoration"
       },
@@ -185,7 +185,7 @@
         "invoice_date": "2026-07-17",
         "due_date": "2026-08-16",
         "days_out": 55,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-20",
         "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "restoration"
       },
@@ -196,7 +196,7 @@
         "invoice_date": "2026-07-20",
         "due_date": "2026-07-20",
         "days_out": 52,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-11",
         "last_update": "09/04 - Received a call from Custom air, they said the invice had been submitted until 08/19 so it ws still on time to be paid, I explained we had sent the invoce to John McDonald per his instruction and he had confirmed to be sent to AP on 07/23, I was told check had been issued and we should receive it next week",
         "division": "restoration"
       },
@@ -207,7 +207,7 @@
         "invoice_date": "2026-07-23",
         "due_date": "2026-08-22",
         "days_out": 49,
-        "expected_payment": "2026-08-28",
+        "expected_payment": "2026-09-20",
         "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "restoration"
       },
@@ -218,7 +218,7 @@
         "invoice_date": "2026-07-23",
         "due_date": "2026-08-22",
         "days_out": 49,
-        "expected_payment": "2026-09-04",
+        "expected_payment": "2026-09-11",
         "last_update": "08/31 - EPO fully approved",
         "division": "restoration"
       },
@@ -229,7 +229,7 @@
         "invoice_date": "2026-07-31",
         "due_date": "2026-08-30",
         "days_out": 41,
-        "expected_payment": "2026-08-30",
+        "expected_payment": "2026-09-20",
         "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "restoration"
       },
@@ -240,7 +240,7 @@
         "invoice_date": "2026-08-05",
         "due_date": "2026-09-04",
         "days_out": 36,
-        "expected_payment": "2026-09-04",
+        "expected_payment": "2026-09-20",
         "last_update": "09/08 - Carrier is removing exclusion, Ben Brown working on certificats to send to RT Moore",
         "division": "restoration"
       },
@@ -251,7 +251,7 @@
         "invoice_date": "2026-08-13",
         "due_date": "2026-09-12",
         "days_out": 28,
-        "expected_payment": "2026-09-12",
+        "expected_payment": "2026-09-20",
         "last_update": "09/09 - EPO still in future orders.\nCalled and left VM for Tony, follow up email also sent.",
         "division": "restoration"
       },
@@ -1037,6 +1037,11 @@
       "icon": "\u2705",
       "category": "DEBT PAYDOWN RECOMMENDATION \u2014 UPDATED, BOTH STILL POSITIVE",
       "message": "Improvement: $28,417.67 cash vs. $23,138.14 obligations (Friday AP $11,210.14 with Kingdom cap applied, biz expenses $1,928.00 [IFPS, due 9/13], $10K reserve) = $5,279.53 available. Restoration: 9/11 payroll firm. $62,637.51 cash vs. $33,986.00 obligations (payroll $15,500, Friday AP $6,247.00, biz expenses $239.00, $12K reserve) = $28,651.51 available. Both still recommended, though the additional Friday-marked items narrowed the room compared to this morning's report."
+    },
+    {
+      "icon": "\u2705",
+      "category": "AR \u2014 NOTES UPDATED",
+      "message": "One follow-up note refreshed on each division's AR tracker; no balance changes."
     }
   ]
 }
