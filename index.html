@@ -95,7 +95,7 @@ body {
 }
 .last-updated { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
 
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; }
 .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .card-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
 .card-body { padding: 20px; }
@@ -706,6 +706,10 @@ body {
 @media (max-width: 640px) {
   .fr-charts-grid { grid-template-columns: 1fr; }
   .fr-kpi-grid    { grid-template-columns: repeat(2, 1fr); }
+  .data-table { font-size: 11px; }
+  .data-table th, .data-table td { padding: 6px 8px; white-space: nowrap; }
+  .data-table td[style*="max-width"] { white-space: normal; min-width: 140px; }
+  .data-table input[type="text"] { min-width: 110px; font-size: 11px; }
 }
 </style>
 
