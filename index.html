@@ -356,14 +356,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Invoices</div>
         <table class="data-table" id="ar-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:160px;">Comment</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Invoices</div>
         <table class="data-table" id="ar-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:160px;">Comment</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1084,14 +1084,39 @@ async function loadAR() {
   const { data } = await db.from('ar_items').select('*')
     .eq('report_date', date).order('division').order('balance', { ascending: false });
 
+  // Persistent instructions/notes per invoice, separate from the workbook-sourced
+  // "notes" field above -- this is where the boss (or anyone) can leave comments
+  // directly on the dashboard for a pending receivable.
+  let arComments = {};
+  try {
+    const { data: cData } = await db.from('ar_comments').select('*').eq('report_date', date);
+    (cData||[]).forEach(c => { arComments[c.client+'_'+(c.invoice_number||'')] = c; });
+  } catch(e) {}
+
+  window._saveARComment = async (client, invoiceNum, division, comment, rdate) => {
+    try {
+      await db.from('ar_comments').delete().eq('report_date',rdate).eq('client',client).eq('invoice_number',invoiceNum||'');
+      if (comment) {
+        await db.from('ar_comments').insert({
+          report_date: rdate, client, invoice_number: invoiceNum||'',
+          division, comment, updated_at: new Date().toISOString()
+        });
+      }
+      await loadAR();
+    } catch(e) { console.error('AR comment save error:', e); }
+  };
+
   const impr = (data||[]).filter(r => r.division === 'improvement');
   const rest = (data||[]).filter(r => r.division === 'restoration');
 
   const renderAR = (rows) => {
-    if (!rows.length) return `<tr><td colspan="8" class="empty-state">No data.</td></tr>`;
+    if (!rows.length) return `<tr><td colspan="9" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const days  = r.days_outstanding;
       const cls   = days==null?'':days>45?'days-late':days>30?'days-warn':'days-ok';
+      const key   = (r.client||'')+'_'+(r.invoice_number||'');
+      const cm    = (arComments[key]||{}).comment || '';
+      const cl = (r.client||'').replace(/'/g,"\\'"); const inv = (r.invoice_number||'').replace(/'/g,"\\'");
       return `<tr>
         <td class="mono muted">${fmtDate(r.invoice_date)||'—'}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
@@ -1101,10 +1126,15 @@ async function loadAR() {
         <td><span class="days-badge ${cls}">${days!=null?days+'d':'—'}</span></td>
         <td class="mono muted">${fmtDate(r.expected_payment_date)||'—'}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
+        <td style="min-width:160px;">
+          <input type="text" placeholder="Add comment..." value="${cm}"
+            onblur="window._saveARComment('${cl}','${inv}','${r.division}',this.value,'${date}')"
+            style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
+        </td>
       </tr>`;
     }).join('');
     const total = rows.reduce((s,r)=>s+(r.balance||0),0);
-    return body + `<tr class="total-row"><td>Total</td><td></td><td></td><td class="mono right">${fmt(total)}</td><td colspan="4"></td></tr>`;
+    return body + `<tr class="total-row"><td>Total</td><td></td><td></td><td class="mono right">${fmt(total)}</td><td colspan="5"></td></tr>`;
   };
 
   const sortByDate = rows => [...rows].sort((a,b)=>(a.invoice_date||'')<(b.invoice_date||'')?-1:1);
