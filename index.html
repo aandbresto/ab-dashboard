@@ -395,14 +395,14 @@ body {
           <div style="margin-bottom:20px;">
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 6px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:200px;">Team Comment (editable)</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 6px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:180px;">Comment</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:200px;">Team Comment (editable)</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -411,14 +411,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Payables</div>
         <table class="data-table" id="ap-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:180px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Payables</div>
         <table class="data-table" id="ap-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:180px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1076,6 +1076,11 @@ function renderTransactions() {
 }
 
 // ── AR ────────────────────────────────────────────────────────────────────
+// Escapes user-entered / workbook text before it goes into HTML (values, attributes, cells).
+function escHtml(s) {
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 async function loadAR() {
   const date = document.getElementById('ar-date').value;
   const snap = allSnapshots.find(s => s.report_date === date);
@@ -1091,24 +1096,34 @@ async function loadAR() {
   // Persistent instructions/notes per invoice, separate from the workbook-sourced
   // "notes" field above -- this is where the boss (or anyone) can leave comments
   // directly on the dashboard for a pending receivable.
+  // Comments carry forward from the date they were written until someone changes
+  // them, so a note left today is still there on tomorrow's report.
   let arComments = {};
   try {
-    const { data: cData } = await db.from('ar_comments').select('*').eq('report_date', date);
-    (cData||[]).forEach(c => { arComments[c.client+'_'+(c.invoice_number||'')] = c; });
+    const { data: cData } = await db.from('ar_comments').select('*')
+      .lte('report_date', date)
+      .order('report_date', { ascending:false }).order('updated_at', { ascending:false }).limit(5000);
+    (cData||[]).forEach(c => {
+      const k = (c.client||'').trim()+'_'+(c.invoice_number||'');
+      if (!(k in arComments)) arComments[k] = c;
+    });
   } catch(e) {}
 
   window._saveARComment = async (client, invoiceNum, division, comment, rdate) => {
     try {
       await db.from('ar_comments').delete().eq('report_date',rdate).eq('client',client).eq('invoice_number',invoiceNum||'');
-      if (comment) {
-        await db.from('ar_comments').insert({
-          report_date: rdate, client, invoice_number: invoiceNum||'',
-          division, comment, updated_at: new Date().toISOString()
-        });
-      }
+      // Always write the row, even when empty, so clearing a comment overrides an older one.
+      await db.from('ar_comments').insert({
+        report_date: rdate, client, invoice_number: invoiceNum||'',
+        division, comment: comment||'', updated_at: new Date().toISOString()
+      });
       await loadAR();
     } catch(e) { console.error('AR comment save error:', e); }
   };
+  // Reads client/invoice from the input's own attributes, so names with quotes or
+  // line breaks can't break the handler.
+  window._arCommentFromEl = (el, rdate) =>
+    window._saveARComment(el.dataset.client, el.dataset.inv, el.dataset.div, el.value, rdate);
 
   const impr = (data||[]).filter(r => r.division === 'improvement');
   const rest = (data||[]).filter(r => r.division === 'restoration');
@@ -1118,9 +1133,9 @@ async function loadAR() {
     const body = rows.map(r => {
       const days  = r.days_outstanding;
       const cls   = days==null?'':days>45?'days-late':days>30?'days-warn':'days-ok';
-      const key   = (r.client||'')+'_'+(r.invoice_number||'');
+      const clientKey = (r.client||'').trim();
+      const key   = clientKey+'_'+(r.invoice_number||'');
       const cm    = (arComments[key]||{}).comment || '';
-      const cl = (r.client||'').replace(/'/g,"\\'"); const inv = (r.invoice_number||'').replace(/'/g,"\\'");
       return `<tr>
         <td class="mono muted">${fmtDate(r.invoice_date)||'—'}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
@@ -1131,8 +1146,9 @@ async function loadAR() {
         <td class="mono muted">${fmtDate(r.expected_payment_date)||'—'}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
         <td style="min-width:160px;">
-          <input type="text" placeholder="Add comment..." value="${cm}"
-            onblur="window._saveARComment('${cl}','${inv}','${r.division}',this.value,'${date}')"
+          <input type="text" placeholder="Add comment..." value="${escHtml(cm)}"
+            data-client="${escHtml(clientKey)}" data-inv="${escHtml(r.invoice_number||'')}" data-div="${r.division}"
+            onblur="window._arCommentFromEl(this,'${date}')"
             style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
         </td>
       </tr>`;
@@ -1162,11 +1178,33 @@ async function loadAP() {
   const impr = (data||[]).filter(r => r.division === 'improvement');
   const rest = (data||[]).filter(r => r.division === 'restoration');
 
+  // Team comments written on the dashboard carry forward from the date they were
+  // entered until someone changes them, so they don't vanish on the next day's
+  // report. Approval status, by contrast, stays tied to the report date it was set on.
+  let fridayApprovals = {};
+  let carriedComments = {};
+  try {
+    const { data: aData } = await db.from('payment_approvals').select('*')
+      .lte('report_date', date)
+      .order('report_date', { ascending:false }).order('updated_at', { ascending:false }).limit(5000);
+    (aData||[]).forEach(a => {
+      const k = (a.vendor||'')+'_'+(a.invoice_number||'');
+      if (!(k in carriedComments)) carriedComments[k] = a.comment || '';
+      if (a.report_date === date && !(k in fridayApprovals)) fridayApprovals[k] = a;
+    });
+  } catch(e) {}
+
   const renderAP = (rows) => {
-    if (!rows.length) return `<tr><td colspan="9" class="empty-state">No data.</td></tr>`;
+    if (!rows.length) return `<tr><td colspan="10" class="empty-state">No data.</td></tr>`;
     const body = rows.map(r => {
       const pct   = r.profit_pct!=null?(r.profit_pct*100).toFixed(1)+'%':'—';
       const color = r.profit_pct==null?'':r.profit_pct>=0.3?'color:var(--green)':r.profit_pct>=0.1?'color:var(--amber)':'color:var(--red)';
+      const cKey  = (r.vendor||'')+'_'+(r.invoice_number||'');
+      const wbCm  = (r.comments||'').trim();
+      const tmCm  = (carriedComments[cKey]||'').trim();
+      const commentHtml = (wbCm || tmCm)
+        ? (wbCm ? `<div>${escHtml(wbCm)}</div>` : '') + (tmCm ? `<div style="margin-top:${wbCm?4:0}px;color:var(--accent);">💬 ${escHtml(tmCm)}</div>` : '')
+        : '—';
       return `<tr>
         <td class="mono muted">${fmtDate(r.invoice_date)}</td>
         <td>${r.vendor||'—'}</td>
@@ -1174,13 +1212,14 @@ async function loadAP() {
         <td class="mono right">${fmt(r.amount)}</td>
         <td class="mono right">${r.billed_to_client?fmt(r.billed_to_client):'—'}</td>
         <td class="mono right" style="${color}">${pct}</td>
-        <td style="font-size:12px;color:var(--text-muted);">${r.notes||'—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${commentHtml}</td>
         <td class="mono right">${r.job_total?fmt(r.job_total):'—'}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
       </tr>`;
     }).join('');
     const total = rows.reduce((s,r)=>s+(r.amount||0),0);
-    return body + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(total)}</td><td colspan="5"></td></tr>`;
+    return body + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(total)}</td><td colspan="6"></td></tr>`;
   };
 
   const sortByDate = rows => [...rows].sort((a,b)=>(a.invoice_date||'')<(b.invoice_date||'')?-1:1);
@@ -1195,7 +1234,7 @@ async function loadAP() {
   document.getElementById('ap-friday-date').textContent =
     friday.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
 
-  const fridayItems = (data||[]).filter(r => r.pay_friday === 'Yes');
+  const fridayItems = (data||[]).filter(r => (r.pay_friday||'').toString().trim().toLowerCase() === 'yes');
   const fridayImpr  = fridayItems.filter(r => r.division === 'improvement');
   const fridayRest  = fridayItems.filter(r => r.division === 'restoration');
 
@@ -1208,28 +1247,31 @@ async function loadAP() {
   };
   updateFridayTotals();
 
-  let fridayApprovals = {};
-  try {
-    const { data: aData } = await db.from('payment_approvals').select('*').eq('report_date', date);
-    (aData||[]).forEach(a => { fridayApprovals[a.vendor+'_'+(a.invoice_number||'')] = a; });
-  } catch(e) {}
-
   window._saveAppr = async (vendor, invoiceNum, division, status, comment, rdate) => {
     await window.saveFridayApproval(vendor, invoiceNum, division, status, comment, rdate);
   };
   window.saveFridayApproval = async (vendor, invoiceNum, division, status, comment, rdate) => {
     try {
       await db.from('payment_approvals').delete().eq('report_date',rdate).eq('vendor',vendor).eq('invoice_number',invoiceNum||'');
-      if (status || comment) {
-        await db.from('payment_approvals').insert({ 
-          report_date:rdate, vendor, invoice_number:invoiceNum||'', 
-          division, status, comment:comment||'', 
-          updated_at:new Date().toISOString() 
-        });
-      }
+      // Always write the row, even if empty: an empty comment must be able to
+      // override an older carried-forward one, otherwise "cleared" would undo itself.
+      await db.from('payment_approvals').insert({
+        report_date:rdate, vendor, invoice_number:invoiceNum||'',
+        division, status:status||'', comment:comment||'',
+        updated_at:new Date().toISOString()
+      });
       // Update UI
       await loadAP();
     } catch(e) { console.error('Approval error:', e); }
+  };
+  // Row-based handler: reads vendor/invoice from the row itself (safe for names with
+  // quotes or odd characters) and always sends the comment currently in the box, so
+  // clicking Approve/Hold never wipes a comment.
+  window._apAct = (el, status) => {
+    const tr = el.closest('tr');
+    const cm = tr.querySelector('.ap-team-comment').value;
+    const st = status === 'KEEP' ? (tr.dataset.status||'') : status;
+    return window.saveFridayApproval(tr.dataset.vendor, tr.dataset.inv, tr.dataset.div, st, cm, tr.dataset.date);
   };
 
   const renderFriday = (rows, tableId) => {
@@ -1237,15 +1279,14 @@ async function loadAP() {
     return rows.map(r => {
       const pct   = r.profit_pct!=null?(r.profit_pct*100).toFixed(1)+'%':'—';
       const color = r.profit_pct==null?'':r.profit_pct>=0.3?'color:var(--green);font-weight:600':r.profit_pct>=0.1?'color:var(--amber);font-weight:600':'color:var(--red);font-weight:600';
-      const key   = r.vendor+'_'+(r.invoice_number||'');
+      const key   = (r.vendor||'')+'_'+(r.invoice_number||'');
       const appr  = fridayApprovals[key]||{};
       const st    = appr.status||'';
-      const cm    = appr.comment||'';
+      const cm    = carriedComments[key]||'';
       const bc    = st==='Approved'?'var(--green)':st==='Hold'?'var(--red)':'var(--text-muted)';
       const bt    = st==='Approved'?'✅ Approved':st==='Hold'?'❌ Hold':'— Pending';
       const rowBg = st==='Approved'?'background:rgba(34,197,94,0.04);':st==='Hold'?'background:rgba(239,68,68,0.04);':'';
-      const v = r.vendor.replace(/'/g,"\\'"); const inv = (r.invoice_number||'').replace(/'/g,"\\'");
-      return `<tr style="${rowBg}">
+      return `<tr style="${rowBg}" data-vendor="${escHtml(r.vendor||'')}" data-inv="${escHtml(r.invoice_number||'')}" data-div="${r.division}" data-status="${st}" data-date="${date}">
         <td class="mono muted">${fmtDate(r.invoice_date)||'—'}</td>
         <td>${r.vendor}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
@@ -1253,20 +1294,20 @@ async function loadAP() {
         <td class="mono right">${r.billed_to_client?fmt(r.billed_to_client):'—'}</td>
         <td class="mono right" style="${color}">${pct}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
-        <td style="font-size:12px;color:var(--text-muted);">${r.notes||'—'}</td>
-        <td style="font-size:12px;color:var(--text-muted);">${r.comments||'—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.comments ? escHtml(r.comments) : '—'}</td>
         <td style="min-width:120px;">
           <span style="font-size:12px;font-weight:600;color:${bc};">${bt}</span>
           <div style="display:flex;gap:4px;margin-top:4px;">
-            <button onclick="window._saveAppr('${v}','${inv}','${r.division}','Approved','','${date}')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;font-weight:600;">✅</button>
-            <button onclick="window._saveAppr('${v}','${inv}','${r.division}','Hold','','${date}')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--red);color:var(--red);background:none;cursor:pointer;font-weight:600;">❌</button>
-            <button onclick="window._saveAppr('${v}','${inv}','${r.division}','','','${date}')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
+            <button onclick="window._apAct(this,'Approved')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;font-weight:600;">✅</button>
+            <button onclick="window._apAct(this,'Hold')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--red);color:var(--red);background:none;cursor:pointer;font-weight:600;">❌</button>
+            <button onclick="window._apAct(this,'')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
           </div>
         </td>
-        <td style="min-width:140px;">
-          <input type="text" placeholder="Add comment..." value="${cm}"
-            onblur="window._saveAppr('${v}','${inv}','${r.division}','${st}',this.value,'${date}')"
-            style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
+        <td style="min-width:200px;">
+          <input type="text" class="ap-team-comment" placeholder="Add comment..." value="${escHtml(cm)}"
+            onblur="window._apAct(this,'KEEP')"
+            style="font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
         </td>
       </tr>`;
     }).join('') + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td><td colspan="7"></td></tr>`;
