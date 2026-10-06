@@ -411,14 +411,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Payables</div>
         <table class="data-table" id="ap-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:180px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:230px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Payables</div>
         <table class="data-table" id="ap-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:180px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:230px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1183,13 +1183,14 @@ async function loadAP() {
   // report. Approval status, by contrast, stays tied to the report date it was set on.
   let fridayApprovals = {};
   let carriedComments = {};
+  let carriedMeta = {};   // report date each carried comment was written on
   try {
     const { data: aData } = await db.from('payment_approvals').select('*')
       .lte('report_date', date)
       .order('report_date', { ascending:false }).order('updated_at', { ascending:false }).limit(5000);
     (aData||[]).forEach(a => {
       const k = (a.vendor||'')+'_'+(a.invoice_number||'');
-      if (!(k in carriedComments)) carriedComments[k] = a.comment || '';
+      if (!(k in carriedComments)) { carriedComments[k] = a.comment || ''; carriedMeta[k] = a.report_date; }
       if (a.report_date === date && !(k in fridayApprovals)) fridayApprovals[k] = a;
     });
   } catch(e) {}
@@ -1201,11 +1202,18 @@ async function loadAP() {
       const color = r.profit_pct==null?'':r.profit_pct>=0.3?'color:var(--green)':r.profit_pct>=0.1?'color:var(--amber)':'color:var(--red)';
       const cKey  = (r.vendor||'')+'_'+(r.invoice_number||'');
       const wbCm  = (r.comments||'').trim();
-      const tmCm  = (carriedComments[cKey]||'').trim();
-      const commentHtml = (wbCm || tmCm)
-        ? (wbCm ? `<div>${escHtml(wbCm)}</div>` : '') + (tmCm ? `<div style="margin-top:${wbCm?4:0}px;color:var(--accent);">💬 ${escHtml(tmCm)}</div>` : '')
-        : '—';
-      return `<tr>
+      const tmCm  = (carriedComments[cKey]||'');
+      const apprNow = fridayApprovals[cKey] || {};
+      const stamp = (tmCm.trim() && carriedMeta[cKey])
+        ? `<div style="font-size:10px;color:var(--text-3);margin-top:2px;">Added ${fmtDate(carriedMeta[cKey])}</div>` : '';
+      // Workbook note stays read-only; the box below it is the editable team comment
+      // (the same comment shown in the Friday table, so there is only ever one).
+      const commentHtml =
+        (wbCm ? `<div style="margin-bottom:6px;">${escHtml(wbCm)}</div>` : '') +
+        `<input type="text" class="ap-team-comment" placeholder="Add comment..." value="${escHtml(tmCm)}"
+           onblur="window._apAct(this,'KEEP')"
+           style="font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">` + stamp;
+      return `<tr data-vendor="${escHtml(r.vendor||'')}" data-inv="${escHtml(r.invoice_number||'')}" data-div="${r.division}" data-status="${apprNow.status||''}" data-date="${date}">
         <td class="mono muted">${fmtDate(r.invoice_date)}</td>
         <td>${r.vendor||'—'}</td>
         <td class="mono muted">${r.invoice_number||'—'}</td>
@@ -1213,7 +1221,7 @@ async function loadAP() {
         <td class="mono right">${r.billed_to_client?fmt(r.billed_to_client):'—'}</td>
         <td class="mono right" style="${color}">${pct}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
-        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${commentHtml}</td>
+        <td style="font-size:12px;color:var(--text-muted);max-width:260px;min-width:230px;">${commentHtml}</td>
         <td class="mono right">${r.job_total?fmt(r.job_total):'—'}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
       </tr>`;
@@ -1308,6 +1316,7 @@ async function loadAP() {
           <input type="text" class="ap-team-comment" placeholder="Add comment..." value="${escHtml(cm)}"
             onblur="window._apAct(this,'KEEP')"
             style="font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
+          ${(cm.trim() && carriedMeta[key]) ? `<div style="font-size:10px;color:var(--text-3);margin-top:2px;">Added ${fmtDate(carriedMeta[key])}</div>` : ''}
         </td>
       </tr>`;
     }).join('') + `<tr class="total-row"><td colspan="3">Total</td><td class="mono right">${fmt(rows.reduce((s,r)=>s+(r.amount||0),0))}</td><td colspan="7"></td></tr>`;
