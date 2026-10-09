@@ -95,6 +95,7 @@ body {
 }
 .last-updated { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
 
+textarea.cm-box { font: inherit; font-size: 12px; line-height: 1.35; width: 100%; min-height: 34px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: inherit; resize: vertical; overflow: hidden; white-space: pre-wrap; word-wrap: break-word; box-sizing: border-box; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; }
 .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .card-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
@@ -370,14 +371,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Invoices</div>
         <table class="data-table" id="ar-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:160px;">Comment</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:280px;">Comment</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Invoices</div>
         <table class="data-table" id="ar-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:160px;">Comment</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Invoice #</th><th>Client</th><th style="text-align:right">Balance</th><th>Due Date</th><th>Days Out</th><th>Expected</th><th>Last Update</th><th style="min-width:280px;">Comment</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -409,14 +410,14 @@ body {
           <div style="margin-bottom:20px;">
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);font-weight:500;padding:8px 0 6px;">🔧 Improvement</div>
             <table class="data-table" id="ap-friday-impr-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:200px;">Team Comment (editable)</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:260px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:300px;">Team Comment (editable)</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
           <div>
             <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--green);font-weight:500;padding:8px 0 6px;">🏠 Restoration</div>
             <table class="data-table" id="ap-friday-rest-table">
-              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:160px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:200px;">Team Comment (editable)</th></tr></thead>
+              <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Due Date</th><th style="min-width:160px;">Approval Status</th><th style="min-width:260px;">Invoice Comments</th><th style="min-width:130px;">Approval</th><th style="min-width:300px;">Team Comment (editable)</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -425,14 +426,14 @@ body {
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Payables</div>
         <table class="data-table" id="ap-impr-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:230px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:340px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="card">
         <div class="division-header rest">Restoration — Open Payables</div>
         <table class="data-table" id="ap-rest-table">
-          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:230px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
+          <thead><tr><th>Invoice Date</th><th>Vendor</th><th>Invoice #</th><th style="text-align:right">Amount</th><th style="text-align:right">Billed to Client</th><th style="text-align:right">Profit %</th><th>Approval Status</th><th style="min-width:340px;">Comments</th><th style="text-align:right">Job Total</th><th>Due Date</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1213,11 +1214,10 @@ async function loadAR() {
         <td><span class="days-badge ${cls}">${days!=null?days+'d':'—'}</span></td>
         <td class="mono muted">${fmtDate(r.expected_payment_date)||'—'}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
-        <td style="min-width:160px;">
-          <input type="text" placeholder="Add comment..." value="${escHtml(cm)}"
+        <td style="min-width:280px;width:280px;">
+          <textarea class="cm-box" rows="2" placeholder="Add comment..."
             data-client="${escHtml(clientKey)}" data-inv="${escHtml(r.invoice_number||'')}" data-div="${r.division}"
-            onblur="window._arCommentFromEl(this,'${date}')"
-            style="font-size:11px;width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
+            onblur="window._arCommentFromEl(this,'${date}')">${escHtml(cm)}</textarea>
         </td>
       </tr>`;
     }).join('');
@@ -1278,9 +1278,8 @@ async function loadAP() {
       // (the same comment shown in the Friday table, so there is only ever one).
       const commentHtml =
         (wbCm ? `<div style="margin-bottom:6px;">${escHtml(wbCm)}</div>` : '') +
-        `<input type="text" class="ap-team-comment" placeholder="Add comment..." value="${escHtml(tmCm)}"
-           onblur="window._apAct(this,'KEEP')"
-           style="font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">` + stamp;
+        `<textarea class="ap-team-comment cm-box" rows="2" placeholder="Add comment..."
+           onblur="window._apAct(this,'KEEP')">${escHtml(tmCm)}</textarea>` + stamp;
       return `<tr data-vendor="${escHtml(r.vendor||'')}" data-inv="${escHtml(r.invoice_number||'')}" data-div="${r.division}" data-status="${apprNow.status||''}" data-date="${date}">
         <td class="mono muted">${fmtDate(r.invoice_date)}</td>
         <td>${r.vendor||'—'}</td>
@@ -1289,7 +1288,7 @@ async function loadAP() {
         <td class="mono right">${r.billed_to_client?fmt(r.billed_to_client):'—'}</td>
         <td class="mono right" style="${color}">${pct}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
-        <td style="font-size:12px;color:var(--text-muted);max-width:260px;min-width:230px;">${commentHtml}</td>
+        <td style="font-size:12px;color:var(--text-muted);min-width:340px;width:340px;white-space:normal;word-break:break-word;">${commentHtml}</td>
         <td class="mono right">${r.job_total?fmt(r.job_total):'—'}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
       </tr>`;
@@ -1371,7 +1370,7 @@ async function loadAP() {
         <td class="mono right" style="${color}">${pct}</td>
         <td class="mono muted">${fmtDate(r.due_date)}</td>
         <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.notes||'—'}</td>
-        <td style="font-size:12px;color:var(--text-muted);max-width:260px;">${r.comments ? escHtml(r.comments) : '—'}</td>
+        <td style="font-size:12px;color:var(--text-muted);min-width:260px;white-space:normal;word-break:break-word;">${r.comments ? escHtml(r.comments) : '—'}</td>
         <td style="min-width:120px;">
           <span style="font-size:12px;font-weight:600;color:${bc};">${bt}</span>
           <div style="display:flex;gap:4px;margin-top:4px;">
@@ -1380,10 +1379,9 @@ async function loadAP() {
             <button onclick="window._apAct(this,'')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);background:none;cursor:pointer;">↺</button>
           </div>
         </td>
-        <td style="min-width:200px;">
-          <input type="text" class="ap-team-comment" placeholder="Add comment..." value="${escHtml(cm)}"
-            onblur="window._apAct(this,'KEEP')"
-            style="font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--surface);">
+        <td style="min-width:300px;">
+          <textarea class="ap-team-comment cm-box" rows="2" placeholder="Add comment..."
+            onblur="window._apAct(this,'KEEP')">${escHtml(cm)}</textarea>
           ${(cm.trim() && carriedMeta[key]) ? `<div style="font-size:10px;color:var(--text-3);margin-top:2px;">Added ${fmtDate(carriedMeta[key])}</div>` : ''}
         </td>
       </tr>`;
@@ -2255,6 +2253,16 @@ window.showPage = function(name) {
   if (name === 'payroll') loadPayroll();
 };
 
+
+// Comment boxes grow to show the whole comment, so nobody has to scroll sideways or inside the box.
+(function(){
+  const grow = el => { el.style.height='auto'; el.style.height=Math.max(34, el.scrollHeight+2)+'px'; };
+  const scan = root => (root.querySelectorAll ? root.querySelectorAll('textarea.cm-box') : []).forEach(grow);
+  document.addEventListener('input', e => { if (e.target.matches && e.target.matches('textarea.cm-box')) grow(e.target); });
+  new MutationObserver(ms => { ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType===1) { if (n.matches && n.matches('textarea.cm-box')) grow(n); scan(n); } })); }).observe(document.body,{childList:true,subtree:true});
+  window.addEventListener('resize', () => scan(document));
+  document.addEventListener('click', () => setTimeout(()=>scan(document),50));
+})();
 </script>
 </body>
 </html>
