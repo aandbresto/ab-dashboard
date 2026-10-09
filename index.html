@@ -363,7 +363,7 @@ body {
             style="font-size:13px;width:100%;max-width:320px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);">
         </div>
         <table class="data-table" id="ar-client-table">
-          <thead><tr><th>Client</th><th style="text-align:right">Invoices</th><th style="text-align:right">Total Owed</th><th style="text-align:right">Past Due</th><th style="text-align:right">Oldest</th><th style="text-align:right">Improvement</th><th style="text-align:right">Restoration</th></tr></thead>
+          <thead><tr><th>Client</th><th style="text-align:right">Invoices</th><th style="text-align:right">Total Owed</th><th style="text-align:right">Improvement</th><th style="text-align:right">Restoration</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -1173,7 +1173,7 @@ async function loadAR() {
     let list = Object.values(groups).sort((a,b)=>b.total-a.total);
     if (q) list = list.filter(g => g.name.toLowerCase().includes(q));
     const tb = document.querySelector('#ar-client-table tbody');
-    if (!list.length) { tb.innerHTML = '<tr><td colspan="7" class="empty-state">No matching clients.</td></tr>'; return; }
+    if (!list.length) { tb.innerHTML = '<tr><td colspan="5" class="empty-state">No matching clients.</td></tr>'; return; }
     const cur = keyOf(window._arClientFilter);
     tb.innerHTML = list.map(g => {
       const cls = g.oldest==null?'':g.oldest>45?'days-late':g.oldest>30?'days-warn':'days-ok';
@@ -1182,12 +1182,10 @@ async function loadAR() {
         <td><strong>${escHtml(g.name)}</strong></td>
         <td class="mono right">${g.count}</td>
         <td class="mono right"><strong>${fmt(g.total)}</strong></td>
-        <td class="mono right">${g.past>0?fmt(g.past):'—'}</td>
-        <td class="right"><span class="days-badge ${cls}">${g.oldest!=null?g.oldest+'d':'—'}</span></td>
         <td class="mono right">${g.impr?fmt(g.impr):'—'}</td>
         <td class="mono right">${g.rest?fmt(g.rest):'—'}</td>
       </tr>`;
-    }).join('') + `<tr class="total-row"><td>Total (${list.length} clients)</td><td class="mono right">${list.reduce((s,g)=>s+g.count,0)}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.total,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.past,0))}</td><td></td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.impr,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.rest,0))}</td></tr>`;
+    }).join('') + `<tr class="total-row"><td>Total (${list.length} clients)</td><td class="mono right">${list.reduce((s,g)=>s+g.count,0)}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.total,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.impr,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.rest,0))}</td></tr>`;
   };
   const noteEl = document.getElementById('ar-client-filter-note');
   noteEl.innerHTML = window._arClientFilter
