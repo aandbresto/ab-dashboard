@@ -106,6 +106,7 @@ for row in payload["ar"]["improvement"] + payload["ar"]["restoration"]:
         "report_date":           report_date,
         "invoice_number":        row.get("invoice_num"),
         "client":                row.get("client_job"),
+        "client_name":           row.get("client_name"),
         "balance":               row.get("balance"),
         "invoice_date":          row.get("invoice_date"),
         "due_date":              row.get("due_date"),
