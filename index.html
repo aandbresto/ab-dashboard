@@ -353,6 +353,20 @@ body {
         <div class="kpi-card blue"><div class="kpi-label">Improvement AR</div><div class="kpi-value" id="ar-impr">—</div></div>
         <div class="kpi-card neutral"><div class="kpi-label">Restoration AR</div><div class="kpi-value" id="ar-rest">—</div></div>
       </div>
+      <div class="card mb-24" id="ar-client-card">
+        <div class="division-header" style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span>Balance by Client</span>
+          <span id="ar-client-filter-note" style="font-size:12px;font-weight:500;"></span>
+        </div>
+        <div style="padding:8px 12px;">
+          <input type="text" id="ar-client-search" placeholder="Search client..." oninput="window._arRenderClients && window._arRenderClients()"
+            style="font-size:13px;width:100%;max-width:320px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);">
+        </div>
+        <table class="data-table" id="ar-client-table">
+          <thead><tr><th>Client</th><th style="text-align:right">Invoices</th><th style="text-align:right">Total Owed</th><th style="text-align:right">Past Due</th><th style="text-align:right">Oldest</th><th style="text-align:right">Improvement</th><th style="text-align:right">Restoration</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div class="card mb-24">
         <div class="division-header impr">Improvement — Open Invoices</div>
         <table class="data-table" id="ar-impr-table">
@@ -1125,8 +1139,64 @@ async function loadAR() {
   window._arCommentFromEl = (el, rdate) =>
     window._saveARComment(el.dataset.client, el.dataset.inv, el.dataset.div, el.value, rdate);
 
-  const impr = (data||[]).filter(r => r.division === 'improvement');
-  const rest = (data||[]).filter(r => r.division === 'restoration');
+  // Client grouping: uses the workbook's Client column (client_name); older reports
+  // without it fall back to the name in front of the first ":" in the job text.
+  const clientOf = (r) => {
+    const n = (r.client_name||'').trim();
+    if (n) return n;
+    let c = String(r.client||'').split(':')[0].trim();
+    c = c.replace(/\s*-\s*(Warranty|Construction)$/i,'').replace(/\s+of FL$/i,'').replace(/\s+Florida$/i,'').replace(/\s+Corporation$/i,'').trim();
+    return c || 'Unassigned';
+  };
+  const allRows = data||[];
+  // Case-insensitive key that ignores a trailing "s", so "Dream Finders Home" and "Dream Finders Homes" count as one client.
+  const keyOf = (n) => String(n||'').trim().toLowerCase().replace(/s$/,'');
+  const flt = keyOf(window._arClientFilter);
+  const matches = (r) => !flt || keyOf(clientOf(r)) === flt;
+
+  window._arSetClient = (name) => {
+    const cur = keyOf(window._arClientFilter);
+    window._arClientFilter = (name && keyOf(name) !== cur) ? name : '';
+    loadAR();
+  };
+  window._arRenderClients = () => {
+    const q = (document.getElementById('ar-client-search').value||'').trim().toLowerCase();
+    const groups = {};
+    allRows.forEach(r => {
+      const name = clientOf(r), k = keyOf(name);
+      const g = groups[k] || (groups[k] = { name, count:0, total:0, past:0, oldest:null, impr:0, rest:0 });
+      g.count++; g.total += (r.balance||0);
+      if (r.due_date && r.due_date < date) g.past += (r.balance||0);
+      if (r.days_outstanding!=null && (g.oldest==null || r.days_outstanding > g.oldest)) g.oldest = r.days_outstanding;
+      if (r.division === 'improvement') g.impr += (r.balance||0); else g.rest += (r.balance||0);
+    });
+    let list = Object.values(groups).sort((a,b)=>b.total-a.total);
+    if (q) list = list.filter(g => g.name.toLowerCase().includes(q));
+    const tb = document.querySelector('#ar-client-table tbody');
+    if (!list.length) { tb.innerHTML = '<tr><td colspan="7" class="empty-state">No matching clients.</td></tr>'; return; }
+    const cur = keyOf(window._arClientFilter);
+    tb.innerHTML = list.map(g => {
+      const cls = g.oldest==null?'':g.oldest>45?'days-late':g.oldest>30?'days-warn':'days-ok';
+      const sel = keyOf(g.name)===cur ? 'background:var(--surface-2, rgba(120,120,120,.12));' : '';
+      return `<tr data-client="${escHtml(g.name)}" onclick="window._arSetClient(this.dataset.client)" style="cursor:pointer;${sel}">
+        <td><strong>${escHtml(g.name)}</strong></td>
+        <td class="mono right">${g.count}</td>
+        <td class="mono right"><strong>${fmt(g.total)}</strong></td>
+        <td class="mono right">${g.past>0?fmt(g.past):'—'}</td>
+        <td class="right"><span class="days-badge ${cls}">${g.oldest!=null?g.oldest+'d':'—'}</span></td>
+        <td class="mono right">${g.impr?fmt(g.impr):'—'}</td>
+        <td class="mono right">${g.rest?fmt(g.rest):'—'}</td>
+      </tr>`;
+    }).join('') + `<tr class="total-row"><td>Total (${list.length} clients)</td><td class="mono right">${list.reduce((s,g)=>s+g.count,0)}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.total,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.past,0))}</td><td></td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.impr,0))}</td><td class="mono right">${fmt(list.reduce((s,g)=>s+g.rest,0))}</td></tr>`;
+  };
+  const noteEl = document.getElementById('ar-client-filter-note');
+  noteEl.innerHTML = window._arClientFilter
+    ? `Showing invoices for <strong>${escHtml(window._arClientFilter)}</strong> <a href="#" onclick="window._arSetClient('');return false;" style="margin-left:6px;">Show all</a>`
+    : '<span class="muted">Click a client to filter the invoices below</span>';
+  window._arRenderClients();
+
+  const impr = allRows.filter(r => r.division === 'improvement' && matches(r));
+  const rest = allRows.filter(r => r.division === 'restoration' && matches(r));
 
   const renderAR = (rows) => {
     if (!rows.length) return `<tr><td colspan="9" class="empty-state">No data.</td></tr>`;
@@ -1332,12 +1402,13 @@ const BUSINESS_EXPENSES = [
   { description:'Travelers',                      amount:525,     dayOfMonth:24, division:'improvement', category:'Car Insurance' },
   { description:'IFPS',                           amount:1928,    dayOfMonth:13, division:'improvement', category:'General Liability' },
   { description:'AllState',                       amount:98.79,   dayOfMonth:16, division:'improvement', category:'Health Insurance' },
-  { description:"America's Choice Health",        amount:949,     dayOfMonth:23, division:'improvement', category:'Health Insurance' },
+  { description:"America's Choice Health",        amount:1163.62, dayOfMonth:4,  division:'improvement', category:'Health Insurance' },
   { description:'Red IT',                         amount:430.75,  dayOfMonth:1,  division:'improvement', category:'IT Payment' },
   { description:'Intuit',                         amount:275,     dayOfMonth:3,  division:'improvement', category:'Quickbooks' },
   { description:'Adobe',                          amount:19.99,   dayOfMonth:5,  division:'improvement', category:'Subscription' },
   { description:'Verizon',                        amount:575.13,  dayOfMonth:23, division:'improvement', category:'Cellphone' },
   { description:'Shared Expenses to Restoration', amount:2186.24, dayOfMonth:1,  division:'improvement', category:'Shared Expenses' },
+  { description:'Claude',                         amount:100,     dayOfMonth:23, division:'improvement', category:'Subscription' },
   { description:'Audible',                        amount:14.95,   dayOfMonth:23, division:'restoration', category:'Subscription' },
   { description:'Albi',                           amount:937,     dayOfMonth:1,  division:'restoration', category:'Subscription' },
   { description:'Auto Owners',                    amount:3410.04, dayOfMonth:3,  division:'restoration', category:'Car Insurance' },
@@ -1359,6 +1430,7 @@ const BUSINESS_EXPENSES = [
   { description:'Shared Expenses to Improvement', amount:4349.06, dayOfMonth:1,  division:'restoration', category:'Shared Expenses' },
   { description:'Tesla Payment',                  amount:920.58,  dayOfMonth:15, division:'restoration', category:'Tesla Payment' },
   { description:'Company Cam',                    amount:99,      dayOfMonth:5,  division:'restoration', category:'Subscription' },
+  { description:'Shell',                          amount:2500,    dayOfMonth:13, division:'restoration', category:'Gas' },
 ];
 
 function getUpcomingExpenses(withinDays, division) {
@@ -1381,7 +1453,7 @@ function getUpcomingExpenses(withinDays, division) {
 // ── PAYROLL ───────────────────────────────────────────────────────────────
 const PAYROLL_SCHEDULES = [
   { label:'Improvement Payroll', lastPaid:'2026-05-29', division:'improvement', estAmount:3500.00 },
-  { label:'Admin Payroll',       lastPaid:'2026-05-29', division:'admin',        estAmount:3500.00 },
+  { label:'Admin Payroll',       lastPaid:'2026-05-29', division:'admin',        estAmount:3119.00 },
   { label:'Restoration Payroll', lastPaid:'2026-05-22', division:'restoration',  estAmount:15500.00 },
 ];
 
