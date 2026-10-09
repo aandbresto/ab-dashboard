@@ -95,6 +95,36 @@ body {
 }
 .last-updated { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
 
+/* Payables tables fit the screen on desktop (no sideways scrolling), like Receivables. Phones keep their own scroll. */
+@media (min-width: 768px) {
+  #ap-impr-table, #ap-rest-table, #ap-friday-impr-table, #ap-friday-rest-table { table-layout: fixed; width: 100%; }
+  #ap-impr-table th, #ap-rest-table th, #ap-friday-impr-table th, #ap-friday-rest-table th,
+  #ap-impr-table td, #ap-rest-table td, #ap-friday-impr-table td, #ap-friday-rest-table td {
+    min-width: 0 !important; max-width: none !important; white-space: normal; overflow-wrap: break-word; word-break: normal;
+  }
+  #ap-impr-table td.mono.right, #ap-rest-table td.mono.right, #ap-friday-impr-table td.mono.right, #ap-friday-rest-table td.mono.right { white-space: nowrap; }
+  #ap-impr-table th:nth-child(1), #ap-rest-table th:nth-child(1) { width: 7%; }
+  #ap-impr-table th:nth-child(2), #ap-rest-table th:nth-child(2) { width: 9%; }
+  #ap-impr-table th:nth-child(3), #ap-rest-table th:nth-child(3) { width: 6%; }
+  #ap-impr-table th:nth-child(4), #ap-rest-table th:nth-child(4) { width: 9%; }
+  #ap-impr-table th:nth-child(5), #ap-rest-table th:nth-child(5) { width: 9%; }
+  #ap-impr-table th:nth-child(6), #ap-rest-table th:nth-child(6) { width: 6%; }
+  #ap-impr-table th:nth-child(7), #ap-rest-table th:nth-child(7) { width: 13%; }
+  #ap-impr-table th:nth-child(8), #ap-rest-table th:nth-child(8) { width: 24%; }
+  #ap-impr-table th:nth-child(9), #ap-rest-table th:nth-child(9) { width: 9%; }
+  #ap-impr-table th:nth-child(10), #ap-rest-table th:nth-child(10) { width: 8%; }
+  #ap-friday-impr-table th:nth-child(1), #ap-friday-rest-table th:nth-child(1) { width: 7%; }
+  #ap-friday-impr-table th:nth-child(2), #ap-friday-rest-table th:nth-child(2) { width: 9%; }
+  #ap-friday-impr-table th:nth-child(3), #ap-friday-rest-table th:nth-child(3) { width: 6%; }
+  #ap-friday-impr-table th:nth-child(4), #ap-friday-rest-table th:nth-child(4) { width: 8.5%; }
+  #ap-friday-impr-table th:nth-child(5), #ap-friday-rest-table th:nth-child(5) { width: 8.5%; }
+  #ap-friday-impr-table th:nth-child(6), #ap-friday-rest-table th:nth-child(6) { width: 5%; }
+  #ap-friday-impr-table th:nth-child(7), #ap-friday-rest-table th:nth-child(7) { width: 7%; }
+  #ap-friday-impr-table th:nth-child(8), #ap-friday-rest-table th:nth-child(8) { width: 12%; }
+  #ap-friday-impr-table th:nth-child(9), #ap-friday-rest-table th:nth-child(9) { width: 13%; }
+  #ap-friday-impr-table th:nth-child(10), #ap-friday-rest-table th:nth-child(10) { width: 9%; }
+  #ap-friday-impr-table th:nth-child(11), #ap-friday-rest-table th:nth-child(11) { width: 15%; }
+}
 textarea.cm-box { font: inherit; font-size: 12px; line-height: 1.35; width: 100%; min-height: 34px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); color: inherit; resize: vertical; overflow: hidden; white-space: pre-wrap; word-wrap: break-word; box-sizing: border-box; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; }
 .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
