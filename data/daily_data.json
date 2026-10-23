@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "cash_position": {
     "improvement": {
       "qb_bank_balance": 12832.15,
@@ -19,16 +19,16 @@
       "total_cash_in_bank": 99437.69,
       "accounts_receivable": 84882.43000000001,
       "loc_5064": 32086.21,
-      "cap_one_cc": 25863.82,
+      "cap_one_cc": 26961.25,
       "accounts_payable": 21154.499999999996,
-      "net_total": 103075.59
+      "net_total": 101978.16
     },
     "combined": {
       "total_cash_in_bank": 133388.09,
       "total_ar": 112123.88,
       "total_ap": 59358.09,
-      "credit_debt": 80777.42,
-      "net_cash_availability": 105376.46
+      "credit_debt": 81874.85,
+      "net_cash_availability": 104279.03
     }
   },
   "ar": {
@@ -930,98 +930,98 @@
   "transactions": [
     {
       "trans_date": "2026-10-21",
-      "posted_date": "2026-10-21",
-      "card_desc": "PAYMENTS VERIZON WIRELESS 102126",
-      "vendor": null,
-      "amount": 535.15,
-      "explanation": "Verizon",
+      "posted_date": "2026-10-22",
+      "card_desc": 6585,
+      "vendor": "Lowes",
+      "amount": 672.84,
+      "explanation": "Supplies",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Construction Checking – 2657",
-      "division": "improvement",
+      "account": "Capital One – Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
+    },
+    {
+      "trans_date": "2026-10-21",
+      "posted_date": "2026-10-22",
+      "card_desc": 4365,
+      "vendor": "Claude",
+      "amount": 100,
+      "explanation": "Subscription",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One – Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
+    },
+    {
+      "trans_date": "2026-10-21",
+      "posted_date": "2026-10-22",
+      "card_desc": 2897,
+      "vendor": "Publix",
+      "amount": 235.98,
+      "explanation": "GiftCards",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Capital One – Restoration",
+      "division": "restoration",
+      "account_type": "credit_card"
+    },
+    {
+      "trans_date": "2026-10-22",
+      "posted_date": "2026-10-22",
+      "card_desc": "INVOICE CERTIPAY PEO 102226",
+      "vendor": null,
+      "amount": 16032.4,
+      "explanation": "Payroll",
+      "approved_by": null,
+      "txn_type": "Debit",
+      "account": "Restoration Checking – 7363",
+      "division": "restoration",
       "account_type": "bank"
     },
     {
-      "trans_date": "2026-10-20",
-      "posted_date": "2026-10-21",
-      "card_desc": 1326,
-      "vendor": "Lowes",
-      "amount": 235.47,
-      "explanation": "Supplies",
+      "trans_date": "2026-10-22",
+      "posted_date": "2026-10-22",
+      "card_desc": "DDA CHECK  0000001364",
+      "vendor": null,
+      "amount": 2500,
+      "explanation": "Distribution",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Capital One – Restoration",
+      "account": "Restoration Checking – 7363",
       "division": "restoration",
-      "account_type": "credit_card"
+      "account_type": "bank"
     },
     {
-      "trans_date": "2026-10-19",
-      "posted_date": "2026-10-21",
-      "card_desc": 1326,
-      "vendor": "HomeDepot",
-      "amount": 160.4,
-      "explanation": "Supplies",
+      "trans_date": "2026-10-22",
+      "posted_date": "2026-10-22",
+      "card_desc": "DDA CHECK  0000001365",
+      "vendor": null,
+      "amount": 2500,
+      "explanation": "Distribution",
       "approved_by": null,
       "txn_type": "Debit",
-      "account": "Capital One – Restoration",
+      "account": "Restoration Checking – 7363",
       "division": "restoration",
-      "account_type": "credit_card"
-    },
-    {
-      "trans_date": "2026-10-20",
-      "posted_date": "2026-10-21",
-      "card_desc": 2897,
-      "vendor": "Amazon",
-      "amount": 100,
-      "explanation": "GiftCard",
-      "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One – Restoration",
-      "division": "restoration",
-      "account_type": "credit_card"
-    },
-    {
-      "trans_date": "2026-10-19",
-      "posted_date": "2026-10-21",
-      "card_desc": 2897,
-      "vendor": "Home Depot",
-      "amount": 161.14,
-      "explanation": "Supplies",
-      "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One – Restoration",
-      "division": "restoration",
-      "account_type": "credit_card"
-    },
-    {
-      "trans_date": "2026-10-20",
-      "posted_date": "2026-10-21",
-      "card_desc": 1326,
-      "vendor": "Racetrack",
-      "amount": 14.95,
-      "explanation": "Supplies",
-      "approved_by": null,
-      "txn_type": "Debit",
-      "account": "Capital One – Restoration",
-      "division": "restoration",
-      "account_type": "credit_card"
+      "account_type": "bank"
     }
   ],
   "brief": [
     {
       "icon": "💰",
       "category": "OVERALL STANDING",
-      "message": "Combined cash $133,388.09, AR $112,123.88, AP $59,358.09. Net availability $105,376.46, up $3,426.80 from the last report. The increase comes from $4,033.37 of newly billed AR (five new invoices, mostly Taylor Morrison), partly offset by $606.57 of higher credit debt. Cash and AP are unchanged. Restoration holds $99,437.69 in cash and Improvement $33,950.40."
+      "message": "Combined cash $133,388.09, AR $112,123.88, AP $59,358.09. Net availability $104,279.03, down $1,097.43 from yesterday, entirely from higher Restoration card balances. Cash, AR and AP are unchanged. Restoration holds $99,437.69 in cash and Improvement $33,950.40."
     },
     {
       "icon": "🔧",
       "category": "AR — IMPROVEMENT",
-      "message": "Improvement AR up to $27,241.45 (+$1,712.33) across 12 invoices, from new Taylor Morrison #33190 ($1,712.33, expected 11/19). Past their expected dates and still open: Neal Communities #33170 ($3,900.00) and North Port OMV #33180 ($772.80) from 10/21, and North Port OMV #33189 ($760.00) from 10/20. Next, AR Homes #33183 and #33184 ($5,315.31) on 10/24. Largest open item is Neal Communities #33173 ($7,200.00, expected 10/25)."
+      "message": "Improvement AR unchanged at $27,241.45 across 12 invoices. Past their expected dates and still open: Neal Communities #33170 ($3,900.00) and North Port OMV #33180 ($772.80) from 10/21, and North Port OMV #33189 ($760.00) from 10/20. Next, AR Homes #33183 and #33184 ($5,315.31) on 10/24, then Neal Communities #33173 ($7,200.00) on 10/25."
     },
     {
       "icon": "🏠",
       "category": "AR — RESTORATION",
-      "message": "Restoration AR up to $84,882.43 (+$2,321.04) across 29 invoices, from four new invoices: Taylor Morrison #4532 ($293.02), #4533 ($293.02) and #4534 ($735.00), and Pulte Homes #4535 ($1,000.00). Still open from the 10/16 expected date: Taylor Morrison #4495 ($1,907.00), Pulte Homes #4493 ($1,450.00) and Kyle Grimes #4529 ($1,190.05), together $4,547.05. Neal Communities Warranty #4457 ($15,681.00, expected 10/9) is still outstanding at 52 days, and the two Today Modern Dentistry invoices ($12,250.00) remain the oldest balances at 139 and 175 days."
+      "message": "Restoration AR unchanged at $84,882.43 across 29 invoices. Still open from the 10/16 expected date: Taylor Morrison #4495 ($1,907.00), Pulte Homes #4493 ($1,450.00) and Kyle Grimes #4529 ($1,190.05), together $4,547.05. Neal Communities Warranty #4457 ($15,681.00, expected 10/9) is still outstanding at 53 days, and the two Today Modern Dentistry invoices ($12,250.00) remain the oldest balances at 140 and 176 days."
     },
     {
       "icon": "✅",
@@ -1031,17 +1031,17 @@
     {
       "icon": "📋",
       "category": "NOTABLE PAYMENTS & TRANSFERS",
-      "message": "Construction checking paid Verizon $535.15 on 10/21. Restoration's Capital One card posted five charges totaling $671.96, mostly supplies, including a $100.00 gift card."
+      "message": "Restoration checking posted payroll of $16,032.40 and two $2,500.00 distribution checks on 10/22. Restoration's Capital One card posted three charges totaling $1,008.82: supplies $672.84, gift cards $235.98 and a $100.00 subscription."
     },
     {
       "icon": "⚠️",
       "category": "CREDIT",
-      "message": "Cap One Restoration at 68.1% ($25,863.82 / $38K, +$583.35) and Cap One Construction at 18.7% ($8,403.53 / $45K, flat). LOC 5064 at $32,086.21 (42.8% of $75K) and LOC 3705 at $14,423.86 (14.4% of $100K), up $23.22 combined from interest. Total credit debt $80,777.42, up $606.57."
+      "message": "Cap One Restoration at 71.0% ($26,961.25 / $38K, up $1,097.43) and Cap One Construction at 18.7% ($8,403.53 / $45K, flat). LOC 5064 at $32,086.21 (42.8% of $75K) and LOC 3705 at $14,423.86 (14.4% of $100K), both flat. Total credit debt $81,874.85, up $1,097.43."
     },
     {
       "icon": "✅",
       "category": "DEBT PAYDOWN RECOMMENDATION",
-      "message": "Improvement: no payroll in this window (next 10/30). $33,950.40 cash vs. $12,893.75 obligations (Friday AP $2,268.75, biz expenses $625.00 [Claude 10/23, Travelers 10/24], $10K reserve) = $21,056.65 available. Recommended: pay Cap One Construction in full ($8,403.53), the highest-rate debt (24.49% APR), and apply the remaining $12,653.12 toward LOC 3705 (8.75%). Restoration: payroll of about $15,500 falls on 10/23, inside the window. $99,437.69 cash vs. $30,743.04 obligations (payroll $15,500.00, Friday AP $2,550.00, biz expenses $693.04, $12K reserve) = $68,694.65 available. Recommended: pay Cap One Restoration in full ($25,863.82), then pay LOC 5064 in full ($32,086.21, 8.75%), leaving about $10,744.62 to spare."
+      "message": "Improvement: 10/30 payroll is in the window, with its 25% share of admin payroll. $33,950.40 cash vs. $17,173.50 obligations (payroll $4,279.75, Friday AP $2,268.75, biz expenses $625.00 [Claude 10/23, Travelers 10/24], $10K reserve) = $16,776.90 available. Recommended: pay Cap One Construction in full ($8,403.53), the highest-rate debt (24.49% APR), and apply the remaining $8,373.37 toward LOC 3705 (8.75%). Restoration: payroll of $16,032.40 and two $2,500.00 distribution checks posted 10/22 and are reserved against cash until the checking balance updates; its 75% share of the 10/30 admin payroll is also in the window. $99,437.69 cash vs. $38,216.65 obligations (posted payroll and distributions $21,032.40, admin payroll share $2,339.25, Friday AP $2,550.00, biz expenses $295.00, $12K reserve) = $61,221.04 available. Recommended: pay Cap One Restoration in full ($26,961.25), then pay LOC 5064 in full ($32,086.21, 8.75%), leaving about $2,173.58 to spare."
     }
   ]
 }
