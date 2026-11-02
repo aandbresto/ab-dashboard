@@ -2,7 +2,7 @@
   "date": "2026-11-02",
   "cash_position": {
     "improvement": {
-      "qb_bank_balance": 16508.41,
+      "qb_bank_balance": 9186.61,
       "bank_balance_2657": 14854.11,
       "money_market_2690": 20218.25,
       "total_cash_in_bank": 35072.36,
@@ -10,7 +10,7 @@
       "cap_one_cc": 8914.11,
       "loc_3705": 14459.86,
       "accounts_payable": 32605.96,
-      "net_total": 3638.29
+      "net_total": -3683.51
     },
     "restoration": {
       "qb_bank_balance": 35269.83,
